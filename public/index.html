@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+(function(){
+  if(sessionStorage.getItem('sivaCustomerLoggedIn') !== 'true'){
+    window.location.replace('customer-login.html');
+  }
+})();
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siva Dairy | Fresh Dairy Products</title>
+  <meta name="description" content="Siva Dairy - Fresh dairy products delivered in and around Annavaram, Kakinada District, Andhra Pradesh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-wrap">
+    <a class="brand" href="#home">
+      <div class="brand-mark"><img src="siva-dairy-logo.png" alt="Siva Dairy Logo"></div>
+      <div>
+        <div class="brand-name">Siva Dairy</div>
+        <div class="brand-tag">Fresh • Quality • Trusted</div>
+      </div>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+        <div class="nav-links" id="mobileMenu">
+      <a class="active" href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="daily-milk.html">Daily Milk</a>
+      <a href="#about">About</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="account-btn" id="accountButton" type="button">👤 <span id="accountButtonText">Login / Register</span></button>
+      
+      <div class="location">📍 <span>Annavaram, Kakinada District,<br>Andhra Pradesh</span></div>
+      <a class="top-whatsapp" href="https://wa.me/919652310956" target="_blank" rel="noopener">◉ +91 9652310956</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">Fresh • Pure • Local</div>
+    <h1>Fresh Dairy Products<br><span>for Your Family</span></h1>
+    <p>Pure, fresh and quality dairy products delivered in and around Annavaram.</p>
+
+    <div class="hero-points">
+      <div><span>🍃</span><strong>100% Fresh</strong><small>Quality dairy products</small></div>
+      <div><span>🛡️</span><strong>Hygienic</strong><small>Carefully prepared</small></div>
+      <div><span>🚚</span><strong>Local Delivery</strong><small>Fresh to your door</small></div>
+    </div>
+
+    <a href="#products" class="hero-btn">Explore Products <span>→</span></a>
+    <a href="daily-milk.html" class="hero-btn" style="margin-left:8px;background:#fff;color:var(--green);border:1px solid var(--green);">🥛 Daily Milk Subscription</a>
+  </div>
+
+  <div class="hero-visual">
+    <div class="milk-can">🥛</div>
+    <div class="bottle bottle-1">🥛</div>
+    <div class="bowl bowl-curd">🥣</div>
+    <div class="bowl bowl-ghee">🫙</div>
+    <div class="butter">🧈</div>
+    <div class="paneer">▦</div>
+    <div class="splash splash-1"></div>
+    <div class="splash splash-2"></div>
+  </div>
+</section>
+
+<section id="products" class="products-section section">
+  <div class="section-heading">
+    <div class="section-title-line"><span>✦</span><h2>Our Products</h2><span>✦</span></div>
+    <p>Choose your favourite dairy products and place your order.</p>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<div style="text-align:center;margin:-25px 0 25px;"><a href="cart-checkout.html" class="checkout-quick" style="display:inline-block;background:var(--green);color:#fff;padding:12px 20px;border-radius:9px;font-weight:800;text-decoration:none;">🛒 View Cart & Checkout</a></div>
+
+
+
+<section id="reviews" class="reviews section">
+  <div class="section-heading review-heading">
+    <div>
+      <div class="eyebrow">CUSTOMER FEEDBACK</div>
+      <h2>What our customers say.</h2>
+      <p>Your feedback helps other customers choose Siva Dairy with confidence.</p>
+    </div>
+    <div class="review-summary"><strong>⭐</strong><span>Share your experience</span></div>
+  </div>
+
+  <div class="review-grid" id="reviewList">
+    <article class="review-card empty-review">
+      <div class="stars">★★★★★</div>
+      <p>Be one of the first customers to share your experience with Siva Dairy.</p>
+      <strong>Your review can help others.</strong>
+    </article>
+  </div>
+
+  <div class="review-form-card">
+    <div>
+      <div class="eyebrow">LEAVE A REVIEW</div>
+      <h3>Tell us about your experience</h3>
+      <p>Send your feedback to Siva Dairy. Approved reviews can be added to this section for future customers.</p>
+    </div>
+    <div class="review-form">
+      <input id="reviewName" type="text" placeholder="Your Name">
+      <select id="reviewRating" aria-label="Rating">
+        <option value="5">★★★★★ — Excellent</option>
+        <option value="4">★★★★☆ — Very Good</option>
+        <option value="3">★★★☆☆ — Good</option>
+        <option value="2">★★☆☆☆ — Fair</option>
+        <option value="1">★☆☆☆☆ — Poor</option>
+      </select>
+      <textarea id="reviewText" placeholder="Write your feedback..."></textarea>
+      <button class="review-submit" onclick="sendReview()">💬 Send Feedback on WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about section">
+  <div>
+    <div class="eyebrow">WHY SIVA DAIRY</div>
+    <h2>Freshness you can trust.</h2>
+    <p>We bring fresh dairy products to families in Annavaram and surrounding areas, with a focus on quality, freshness and dependable local delivery.</p>
+  </div>
+  <div class="about-cards">
+    <div><span>🌿</span><strong>Pure & Natural</strong><small>Fresh dairy products</small></div>
+    <div><span>✧</span><strong>No Preservatives</strong><small>Quality you can trust</small></div>
+    <div><span>🥛</span><strong>Fresh Every Day</strong><small>Made with care</small></div>
+    <div><span>🚚</span><strong>Timely Delivery</strong><small>Local doorstep service</small></div>
+  </div>
+</section>
+
+<section id="contact" class="contact section">
+  <div>
+    <div class="eyebrow">CONTACT US</div>
+    <h2>Order fresh dairy today.</h2>
+    <p>📍 Annavaram, Kakinada District, Andhra Pradesh</p>
+    <p>📱 +91 9652310956</p>
+  </div>
+  <a href="https://wa.me/919652310956" target="_blank" rel="noopener" class="contact-btn">Chat on WhatsApp →</a>
+</section>
+</main>
+
+<!-- Customer Account Modal -->
+<div class="account-modal" id="accountModal" aria-hidden="true">
+  <div class="account-backdrop" data-close-account></div>
+  <div class="account-dialog" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+    <button class="account-close" type="button" aria-label="Close" data-close-account>×</button>
+    <div id="authView">
+      <div class="account-tabs">
+        <button type="button" class="auth-tab active" data-auth-tab="login">Login</button>
+        <button type="button" class="auth-tab" data-auth-tab="register">New Customer</button>
+      </div>
+
+      <div class="auth-panel" id="loginPanel">
+        <div class="eyebrow">WELCOME BACK</div>
+        <h2 id="accountTitle">Login with Mobile OTP</h2>
+        <p class="account-subtitle">No password to remember. Enter your mobile number and verify the OTP.</p>
+        <form id="loginForm">
+          <label>Mobile Number
+            <input id="loginPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" required placeholder="10-digit mobile number">
+          </label>
+          <button class="account-submit" id="sendOtpButton" type="submit">📱 Send OTP</button>
+        </form>
+        <div class="otp-step hidden" id="loginOtpStep">
+          <div class="otp-demo" id="loginDemoOtp"></div>
+          <label>Enter 6-digit OTP
+            <input id="loginOtp" class="otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+          </label>
+          <button class="account-submit" id="verifyLoginOtpButton" type="button">✅ Verify OTP</button>
+          <button class="otp-link" id="resendLoginOtp" type="button">Resend OTP</button>
+        </div>
+        <p class="auth-note">Prototype mode: the OTP is displayed here for testing. A real SMS OTP service will be connected before launch.</p>
+      </div>
+
+      <div class="auth-panel hidden" id="registerPanel">
+        <div class="eyebrow">JOIN SIVA DAIRY</div>
+        <h2>Create your customer profile</h2>
+        <p class="account-subtitle">Verify your mobile number first. You can then add your name and delivery details.</p>
+        <form id="registerForm">
+          <label>Mobile Number
+            <input id="registerPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" required placeholder="10-digit mobile number">
+          </label>
+          <button class="account-submit" id="sendRegisterOtpButton" type="submit">📱 Send OTP</button>
+        </form>
+        <div class="otp-step hidden" id="registerOtpStep">
+          <div class="otp-demo" id="registerDemoOtp"></div>
+          <label>Enter 6-digit OTP
+            <input id="registerOtp" class="otp-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+          </label>
+          <button class="account-submit" id="verifyRegisterOtpButton" type="button">✅ Verify Mobile</button>
+          <button class="otp-link" id="resendRegisterOtp" type="button">Resend OTP</button>
+        </div>
+
+        <form id="profileSetupForm" class="hidden profile-setup-form">
+          <div class="verified-mobile">✓ Mobile number verified: <strong id="verifiedRegisterPhone"></strong></div>
+          <div class="auth-two-col">
+            <label>Full Name<input id="registerName" type="text" autocomplete="name" required placeholder="Your name"></label>
+            <label>Email Address <span class="optional-label">(optional)</span><input id="registerEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+          </div>
+          <label>Delivery Address<textarea id="registerAddress" autocomplete="street-address" required placeholder="House / Street / Area / City"></textarea></label>
+          <button class="account-submit" type="submit">✨ Create Profile</button>
+        </form>
+        <p class="auth-note">Your mobile number is used for OTP login. No password is required.</p>
+      </div>
+    </div>
+
+    <div class="profile-view hidden" id="profileView">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">S</div>
+        <div><div class="eyebrow">MY ACCOUNT</div><h2 id="profileTitle">Customer Profile</h2><p class="account-subtitle">Your Siva Dairy customer details</p></div>
+      </div>
+      <div class="profile-card">
+        <div><span>Full Name</span><strong id="profileName">—</strong></div>
+        <div><span>Mobile Number</span><strong id="profilePhone">—</strong></div>
+        <div><span>Email</span><strong id="profileEmail">Not added</strong></div>
+        <div class="profile-address"><span>Delivery Address</span><strong id="profileAddress">—</strong></div>
+      </div>
+      <div class="profile-actions">
+        <button type="button" class="secondary-account-btn" id="editProfileButton">✏️ Edit Profile</button>
+        <button type="button" class="logout-btn" id="logoutButton">🚪 Logout</button>
+      </div>
+    </div>
+
+    <div class="profile-edit hidden" id="profileEditView">
+      <div class="eyebrow">EDIT PROFILE</div>
+      <h2>Update your details</h2>
+      <form id="profileForm">
+        <label>Full Name<input id="editName" type="text" required></label>
+        <label>Mobile Number<input id="editPhone" type="tel" inputmode="numeric" readonly></label>
+        <label>Email Address <span class="optional-label">(optional)</span><input id="editEmail" type="email"></label>
+        <label>Delivery Address<textarea id="editAddress" required></textarea></label>
+        <div class="profile-actions"><button type="submit" class="account-submit">💾 Save Changes</button><button type="button" class="secondary-account-btn" id="cancelEditButton">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div class="admin-modal" id="adminModal" aria-hidden="true">
+  <div class="admin-backdrop" data-close-admin></div>
+  <div class="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <button class="account-close" type="button" aria-label="Close" data-close-admin>×</button>
+    <div id="adminLoginView">
+      <div class="eyebrow">SIVA DAIRY ADMIN</div>
+      <h2 id="adminTitle">Admin Login</h2>
+      <p class="account-subtitle">Manage products, prices and stock availability.</p>
+      <form id="adminLoginForm">
+        <label>Admin Username<input id="adminUsername" type="text" autocomplete="username" required placeholder="admin"></label>
+        <label>Admin PIN<input id="adminPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" required placeholder="4-digit PIN"></label>
+        <button class="account-submit" type="submit">🔐 Login to Dashboard</button>
+      </form>
+      <p class="auth-note">Prototype admin access: username <strong>admin</strong>, PIN <strong>1234</strong>. Replace this with secure backend authentication before launch.</p>
+    </div>
+
+    <div class="admin-dashboard hidden" id="adminDashboard">
+      <div class="admin-topbar">
+        <div><div class="eyebrow">ADMIN DASHBOARD</div><h2>Product Management</h2></div>
+        <button class="logout-btn" id="adminLogoutButton" type="button">🚪 Admin Logout</button>
+      </div>
+      <div class="admin-stats">
+        <div><span>Total Products</span><strong id="adminTotalProducts">0</strong></div>
+        <div><span>Available</span><strong id="adminAvailableProducts">0</strong></div>
+        <div><span>Out of Stock</span><strong id="adminOutProducts">0</strong></div>
+      </div>
+
+      <div class="admin-section-head">
+        <div><h3>Products</h3><p>Add new products or control availability.</p></div>
+        <button class="account-submit admin-add-btn" id="showAddProductButton" type="button">➕ Add Product</button>
+      </div>
+
+      <form id="addProductForm" class="add-product-form hidden">
+        <div class="auth-two-col">
+          <label>Product Name<input id="newProductName" type="text" required placeholder="Example: Paneer"></label>
+          <label>Price (₹)<input id="newProductPrice" type="number" min="0" step="0.01" required placeholder="120"></label>
+        </div>
+        <div class="auth-two-col">
+          <label>Unit<input id="newProductUnit" type="text" required placeholder="Kg / Litre / Pack"></label>
+          <label>Icon / Emoji<input id="newProductIcon" type="text" maxlength="4" placeholder="🧀"></label>
+        </div>
+        <label class="stock-toggle"><input id="newProductAvailable" type="checkbox" checked> Available for customers</label>
+        <div class="profile-actions"><button class="account-submit" type="submit">💾 Save Product</button><button class="secondary-account-btn" id="cancelAddProductButton" type="button">Cancel</button></div>
+      </form>
+
+      <div class="admin-product-list" id="adminProductList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-cart-bar">
+  <div><strong id="mobileCartCount">0 items</strong><span id="mobileCartTotal">₹0.00</span></div>
+  <a href="#cartItems">View Cart →</a>
+</div>
+
+<footer>
+  <div class="footer-brand"><div class="brand-mark"><img src="siva-dairy-logo.png" alt="Siva Dairy Logo"></div><div><b>Siva Dairy</b><small>Fresh • Quality • Trusted</small></div></div>
+  <div><b>Quick Links</b><a href="#home">Home</a><a href="#products">Products</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+  <div><b>Contact Us</b><span>📱 +91 9652310956</span><span>📍 Annavaram, Kakinada District</span></div>
+  <div><b>WhatsApp</b><a href="https://wa.me/919652310956" target="_blank">◉ Chat with us</a></div>
+  <div class="copyright">© 2026 Siva Dairy. All Rights Reserved.</div>
+</footer>
+
+<script src="script.js?v=7" defer></script>
+
+<footer class="site-footer">
+  <div class="admin-footer-link">
+    <a href="admin-login.html" class="admin-login-footer">Admin Login</a>
+  </div>
+</footer>
+<a href="cart-checkout.html" style="position:fixed;right:18px;bottom:18px;z-index:999;background:var(--green);color:#fff;padding:12px 16px;border-radius:999px;text-decoration:none;font-weight:800;box-shadow:0 5px 18px #0003">🛒 Cart</a>
+<a href="my-orders.html" style="position:fixed;right:18px;bottom:72px;z-index:998;background:#fff;color:var(--green);padding:9px 13px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid var(--green)">📦 My Orders</a>
+<a href="customer-profile.html" style="position:fixed;right:18px;bottom:126px;z-index:997;background:#fff;color:var(--green);padding:9px 13px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid var(--green)">👤 My Profile</a>
+</body>
+</html>

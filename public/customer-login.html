@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siva Dairy - Customer Login</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* Customer login uses the same Siva Dairy brand styling */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--background-color, #f7f7f7);
+  font-family: inherit;
+}
+.login-card {
+  width: min(430px, 100%);
+  background: var(--card-background, #fff);
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.12);
+  border-top: 5px solid #087a3f;
+}
+.login-logo {
+  display:block;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin: 0 auto 10px;
+}
+.login-title {
+  text-align:center;
+  margin:0;
+  color:#222222;
+}
+.login-subtitle {
+  text-align:center;
+  opacity:.7;
+  margin:8px 0 24px;
+}
+.login-label {
+  display:block;
+  font-weight:600;
+  margin:14px 0 7px;
+}
+.login-input {
+  width:100%;
+  box-sizing:border-box;
+  padding:13px 14px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font:inherit;
+  background:#fff;
+}
+.login-btn {
+  width:100%;
+  margin-top:18px;
+  padding:13px;
+  border:0;
+  border-radius:9px;
+  background:#087a3f;
+  color:#fff;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+}
+.login-btn:hover { filter:brightness(.94); }
+.login-btn.secondary {
+  background: transparent;
+  color:#087a3f;
+  border:1px solid #087a3f;
+}
+.login-msg { text-align:center; margin-top:12px; font-size:14px; }
+.login-demo { text-align:center; font-size:12px; opacity:.65; margin-top:10px; }
+.login-footer { text-align:center; margin-top:20px; font-size:13px; }
+.login-footer a { color:#087a3f; text-decoration:none; }
+.hidden { display:none; }
+
+.logo-wrap{
+  width:110px;
+  height:110px;
+  margin:0 auto 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.logo-wrap .login-logo{
+  width:110px;
+  height:110px;
+  object-fit:contain;
+  display:block;
+}
+.logo-fallback{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+}
+
+</style>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-card">
+    <div class="logo-wrap">
+      <img src="./siva-dairy-logo.png" class="login-logo" alt="Siva Dairy Logo"
+           onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block';">
+      <div id="logoFallback" class="logo-fallback" style="display:none;">🥛</div>
+    </div>
+    <h1 class="login-title">Welcome to Siva Dairy</h1>
+    <p class="login-subtitle">Login with your mobile number</p>
+
+    <div id="phoneStep">
+      <label class="login-label" for="phone">Mobile Number</label>
+      <input class="login-input" id="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="Enter 10-digit mobile number">
+      <button class="login-btn" onclick="sendOtp()">Send OTP</button>
+    </div>
+
+    <div id="otpStep" class="hidden">
+      <label class="login-label" for="otp">Enter 6-digit OTP</label>
+      <input class="login-input" id="otp" type="text" inputmode="numeric" maxlength="6" placeholder="Enter OTP">
+      <button class="login-btn" onclick="verifyOtp()">Verify OTP</button>
+      <button class="login-btn secondary" onclick="backToPhone()">Change Number</button>
+    </div>
+
+    <div id="profileStep" class="hidden">
+      <label class="login-label" for="name">Name</label>
+      <input class="login-input" id="name" type="text" placeholder="Your name">
+
+      <label class="login-label" for="email">Email (optional)</label>
+      <input class="login-input" id="email" type="email" placeholder="you@example.com">
+
+      <label class="login-label" for="address">Delivery Address</label>
+      <input class="login-input" id="address" type="text" placeholder="Your delivery address">
+
+      <button class="login-btn" onclick="createProfile()">Continue to Siva Dairy</button>
+    </div>
+
+    <div id="msg" class="login-msg"></div>
+    <div id="demo" class="login-demo"></div>
+
+  </div>
+</div>
+
+<script>
+const ACCOUNT_KEY = "sivaDairyOtpAccountsV1";
+const CURRENT_KEY = "sivaDairyCurrentPhoneV1";
+let currentPhone = "";
+let generatedOtp = "";
+
+function getAccounts(){
+  try {
+    const a = JSON.parse(localStorage.getItem(ACCOUNT_KEY) || "[]");
+    if(Array.isArray(a) && a.length) return a;
+    const legacy = JSON.parse(localStorage.getItem("sivaCustomers") || "{}");
+    if(legacy && typeof legacy==="object" && !Array.isArray(legacy)){
+      const migrated = Object.values(legacy).filter(x=>x && x.phone).map(x=>({
+        name:x.name||"Customer", phone:normalizePhone(x.phone),
+        email:x.email||"", address:x.address||"", landmark:x.landmark||"",
+        createdAt:x.createdAt||new Date().toISOString()
+      }));
+      if(migrated.length) localStorage.setItem(ACCOUNT_KEY,JSON.stringify(migrated));
+      return migrated;
+    }
+    return Array.isArray(a) ? a : [];
+  } catch(e) { return []; }
+}
+function saveAccounts(a){ localStorage.setItem(ACCOUNT_KEY, JSON.stringify(a)); }
+function normalizePhone(v){ return String(v||"").replace(/\D/g,"").slice(-10); }
+function validPhone(v){ return /^[6-9]\d{9}$/.test(normalizePhone(v)); }
+
+
+function markCustomerOnline(phone,name){
+  let active={}; try{active=JSON.parse(localStorage.getItem("sivaDairyActiveCustomersV1")||"{}")}catch(e){}
+  active[phone]={name:name||"Customer",lastSeen:Date.now()};
+  localStorage.setItem("sivaDairyActiveCustomersV1",JSON.stringify(active));
+}
+function startCustomerHeartbeat(){markCustomerOnline(currentPhone); window.__customerHeartbeat=setInterval(()=>markCustomerOnline(currentPhone),20000);}
+
+function sendOtp(){
+  currentPhone = normalizePhone(document.getElementById("phone").value);
+  const msg = document.getElementById("msg");
+  if(!validPhone(currentPhone)){ msg.textContent="Please enter a valid 10-digit mobile number."; return; }
+  generatedOtp = String(Math.floor(100000 + Math.random()*900000));
+  document.getElementById("otp").value="";
+  document.getElementById("otpStep").classList.remove("hidden");
+  document.getElementById("demo").textContent="Demo OTP: "+generatedOtp;
+  msg.textContent="OTP sent successfully.";
+  document.getElementById("otp").focus();
+} 
+async function verifyOtp(){
+  const entered = document.getElementById("otp").value.trim();
+  const msg = document.getElementById("msg");
+
+  if(entered !== generatedOtp){
+    msg.textContent = "Invalid OTP. Please try again.";
+    return;
+  }
+
+  try {
+    msg.textContent = "Checking customer details...";
+
+    const response = await fetch(`/api/customers/${currentPhone}`);
+
+    if(response.ok){
+      const customer = await response.json();
+
+      const customers = getAccounts();
+
+      const existingIndex = customers.findIndex(
+        c => c.phone === currentPhone
+      );
+
+      const customerData = {
+        name: customer.name || "Customer",
+        phone: customer.phone,
+        email: customer.email || "",
+        address: customer.address || "",
+        landmark: customer.landmark || "",
+        createdAt: customer.createdAt || new Date().toISOString()
+      };
+
+      if(existingIndex >= 0){
+        customers[existingIndex] = customerData;
+      } else {
+        customers.push(customerData);
+      }
+
+      saveAccounts(customers);
+
+      localStorage.setItem(CURRENT_KEY, currentPhone);
+      sessionStorage.setItem("sivaCustomerLoggedIn", "true");
+      sessionStorage.setItem("sivaCustomerPhone", currentPhone);
+
+      markCustomerOnline(currentPhone, customer.name);
+      startCustomerHeartbeat();
+
+      msg.textContent = "Login successful!";
+
+      setTimeout(() => {
+        window.location.replace("index.html");
+      }, 500);
+
+      return;
+    }
+
+    if(response.status === 404){
+      document.getElementById("otpStep").classList.add("hidden");
+      document.getElementById("profileStep").classList.remove("hidden");
+
+      msg.textContent = "OTP verified. Please complete your profile.";
+      return;
+    }
+
+    msg.textContent = "Unable to check customer details.";
+
+  } catch(error) {
+    console.error("Login error:", error);
+    msg.textContent =
+      "Could not connect to the server. Make sure server.js is running.";
+  }
+}
+async function createProfile(){
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const address = document.getElementById("address").value.trim();
+  const msg = document.getElementById("msg");
+
+  if(!name || !address){
+    msg.textContent = "Please enter your name and delivery address.";
+    return;
+  }
+
+  if(!validPhone(currentPhone)){
+    msg.textContent = "Invalid phone number.";
+    return;
+  }
+
+  try {
+    msg.textContent = "Saving your details...";
+
+    const response = await fetch("/api/customers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: currentPhone,
+        address: address,
+        landmark: "",
+        email: email
+      })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok){
+      msg.textContent = data.message || "Registration failed.";
+      return;
+    }
+
+    const customers = getAccounts();
+
+    customers.push({
+      name: data.customer.name,
+      email: data.customer.email || "",
+      phone: data.customer.phone,
+      address: data.customer.address,
+      landmark: data.customer.landmark || "",
+      createdAt: data.customer.createdAt
+    });
+
+    saveAccounts(customers);
+
+    localStorage.setItem(CURRENT_KEY, data.customer.phone);
+    sessionStorage.setItem("sivaCustomerLoggedIn", "true");
+    sessionStorage.setItem("sivaCustomerPhone", data.customer.phone);
+
+    markCustomerOnline(data.customer.phone, data.customer.name);
+    startCustomerHeartbeat();
+
+    msg.textContent = "Registration successful!";
+
+    setTimeout(() => {
+      window.location.replace("index.html");
+    }, 500);
+
+  } catch(error) {
+    console.error("Registration error:", error);
+
+    msg.textContent =
+      "Could not connect to the server. Make sure server.js is running.";
+  }
+}
+ function backToPhone(){
+  document.getElementById("otpStep").classList.add("hidden");
+  document.getElementById("profileStep").classList.add("hidden");
+  document.getElementById("phoneStep").classList.remove("hidden");
+
+  document.getElementById("msg").textContent = "";
+  document.getElementById("demo").textContent = "";
+  document.getElementById("otp").value = "";
+
+  generatedOtp = "";
+}
+</script>
+</body>
+</html>

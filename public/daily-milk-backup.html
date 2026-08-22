@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Siva Dairy | Daily Milk Subscription</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
+    rel="stylesheet"
+>
+
+<style>
+
+:root{
+    --green:#08783f;
+    --green-dark:#075d31;
+    --light:#eef8f1;
+    --dark:#173522;
+    --muted:#68756d;
+    --line:#dce8df;
+    --white:#ffffff;
+    --danger:#c62828;
+    --warning:#a56b00;
+    --warning-bg:#fff7df;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:"DM Sans",Arial,sans-serif;
+    background:#f7fbf8;
+    color:#203127;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    padding:14px 20px;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--green);
+    font-size:21px;
+    font-weight:800;
+}
+
+.logo img{
+    width:55px;
+    height:55px;
+    object-fit:contain;
+}
+
+.back-btn{
+    text-decoration:none;
+    color:var(--green);
+    font-weight:700;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:30px 20px 60px;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+    background:linear-gradient(110deg,#eff9f2,#ffffff);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:22px;
+}
+
+.eyebrow{
+    color:var(--green);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:40px;
+    color:var(--dark);
+    margin:8px 0;
+}
+
+.hero p{
+    max-width:750px;
+    color:var(--muted);
+    line-height:1.7;
+    margin:0;
+}
+
+.notice{
+    margin-top:18px;
+    padding:13px;
+    border-radius:10px;
+    background:#fff6d9;
+    color:#735700;
+    font-size:14px;
+}
+
+.notice a{
+    color:var(--green);
+    font-weight:800;
+}
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:17px;
+    padding:23px;
+    box-shadow:0 5px 20px rgba(17,59,32,.06);
+}
+
+.card h2{
+    font-family:"Playfair Display",serif;
+    color:var(--dark);
+    margin:0 0 5px;
+}
+
+.help{
+    color:var(--muted);
+    font-size:13px;
+    margin:0 0 20px;
+}
+
+/* =====================================================
+   CUSTOMER
+===================================================== */
+
+.customer-box{
+    background:#f7fbf8;
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:14px;
+    margin-bottom:18px;
+}
+
+.customer-box strong{
+    color:var(--green);
+}
+
+.customer-row{
+    margin-top:5px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* =====================================================
+   FIELD
+===================================================== */
+
+.field{
+    margin-bottom:17px;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    padding:12px;
+    border:1px solid #d5e0d8;
+    border-radius:9px;
+    outline:none;
+    background:white;
+    font-size:14px;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--green);
+}
+
+/* =====================================================
+   MILK
+===================================================== */
+
+.milk-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.milk-option{
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.milk-option:hover{
+    border-color:var(--green);
+}
+
+.milk-option.selected{
+    border:2px solid var(--green);
+    background:var(--light);
+}
+
+.milk-option.disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
+.milk-option input{
+    margin-right:7px;
+}
+
+.milk-name{
+    font-weight:800;
+}
+
+.milk-price{
+    display:block;
+    margin-top:7px;
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* =====================================================
+   DAYS
+===================================================== */
+
+.days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+}
+
+.day{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 4px;
+    text-align:center;
+    font-size:11px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.day input{
+    display:none;
+}
+
+.day.selected{
+    background:var(--light);
+    border-color:var(--green);
+    color:var(--green);
+    font-weight:800;
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+.primary-btn{
+    width:100%;
+    border:0;
+    border-radius:10px;
+    padding:14px;
+    background:var(--green);
+    color:white;
+    font-weight:800;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.primary-btn:hover{
+    background:var(--green-dark);
+}
+
+.primary-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary{
+    margin-top:15px;
+    padding:16px;
+    background:var(--light);
+    border-radius:11px;
+    line-height:1.8;
+}
+
+.summary strong{
+    color:var(--green);
+    font-size:18px;
+}
+
+/* =====================================================
+   SUBSCRIPTIONS
+===================================================== */
+
+.subscription-list{
+    margin-top:10px;
+}
+
+.empty{
+    text-align:center;
+    padding:30px 15px;
+    color:var(--muted);
+}
+
+.sub-card{
+    border:1px solid var(--line);
+    border-radius:13px;
+    padding:16px;
+    margin-bottom:12px;
+    background:#fff;
+}
+
+.sub-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.sub-title{
+    font-weight:800;
+    color:var(--dark);
+}
+
+.status{
+    font-size:11px;
+    font-weight:800;
+    padding:5px 8px;
+    border-radius:20px;
+}
+
+.status-active{
+    color:#16783b;
+    background:#e8f7ed;
+}
+
+.status-paused{
+    color:#996500;
+    background:#fff3d5;
+}
+
+.status-cancelled{
+    color:#b42121;
+    background:#ffe9e9;
+}
+
+.status-completed{
+    color:#555;
+    background:#eee;
+}
+
+.sub-info{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+.sub-price{
+    margin-top:9px;
+    font-weight:800;
+    color:var(--green);
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:13px;
+}
+
+.action-btn{
+    border:1px solid var(--green);
+    color:var(--green);
+    background:#fff;
+    padding:8px 11px;
+    border-radius:8px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.action-btn:hover{
+    background:var(--light);
+}
+
+.action-danger{
+    border-color:var(--danger);
+    color:var(--danger);
+}
+
+.action-skip{
+    border-color:#b47a00;
+    color:#8b5f00;
+}
+
+.action-skip:hover{
+    background:var(--warning-bg);
+}
+
+/* =====================================================
+   SKIP DELIVERY BOX
+===================================================== */
+
+.skip-box{
+    margin-top:14px;
+    padding:13px;
+    border-radius:10px;
+    background:var(--warning-bg);
+    border:1px solid #ead69b;
+}
+
+.skip-title{
+    font-size:13px;
+    font-weight:800;
+    color:#735700;
+    margin-bottom:8px;
+}
+
+.skip-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.skip-date{
+    flex:1;
+    padding:9px 10px;
+    border:1px solid #d8c88e;
+    border-radius:8px;
+    background:#fff;
+    font-size:13px;
+}
+
+.skip-confirm{
+    border:0;
+    border-radius:8px;
+    padding:9px 12px;
+    background:#a56b00;
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.skip-confirm:hover{
+    background:#865600;
+}
+
+.skip-confirm:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.skipped-list{
+    margin-top:10px;
+    font-size:12px;
+    color:#735700;
+    line-height:1.6;
+}
+
+.skipped-date{
+    display:inline-block;
+    margin:3px 4px 3px 0;
+    padding:4px 7px;
+    border-radius:6px;
+    background:#fff;
+    border:1px solid #e3d49d;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+    text-align:center;
+    padding:25px;
+    color:var(--muted);
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#173522;
+    color:white;
+    padding:13px 17px;
+    border-radius:10px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:none;
+    z-index:9999;
+    max-width:330px;
+}
+
+.toast.show{
+    display:block;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:760px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .hero{
+        padding:22px;
+    }
+
+    .milk-options{
+        grid-template-columns:1fr;
+    }
+
+    .days{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .skip-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .skip-confirm{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <a href="index.html" class="logo">
+
+            <img
+                src="siva-dairy-logo.png"
+                alt="Siva Dairy Logo"
+                onerror="this.style.display='none'"
+            >
+
+            <span>🥛 Siva Dairy</span>
+
+        </a>
+
+        <a href="index.html" class="back-btn">
+            ← Back to Siva Dairy
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="eyebrow">
+        DAILY MILK DELIVERY
+    </div>
+
+    <h1>
+        Fresh milk, delivered every day.
+    </h1>
+
+    <p>
+        Choose your milk, quantity and delivery schedule.
+        You can also skip individual delivery dates when needed.
+    </p>
+
+    <div
+        id="loginNotice"
+        class="notice"
+        style="display:none"
+    >
+
+        Please login to create or manage your milk subscription.
+
+        <br><br>
+
+        <a href="customer-login.html">
+            Login to Siva Dairy
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GRID
+===================================================== -->
+
+<div class="grid">
+
+
+<!-- =====================================================
+     CREATE SUBSCRIPTION
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        Create Subscription
+    </h2>
+
+    <p class="help">
+        Set your regular daily milk delivery.
+    </p>
+
+
+    <!-- CUSTOMER -->
+
+    <div
+        id="customerBox"
+        class="customer-box"
+        style="display:none"
+    >
+
+        <strong id="customerName">
+            Customer
+        </strong>
+
+        <div
+            id="customerPhone"
+            class="customer-row"
+        ></div>
+
+        <div
+            id="customerAddress"
+            class="customer-row"
+        ></div>
+
+    </div>
+
+
+    <!-- MILK -->
+
+    <div class="field">
+
+        <label>
+            Choose Milk
+        </label>
+
+        <div
+            id="milkOptions"
+            class="milk-options"
+        >
+
+            <div class="loading">
+                Loading milk products...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUANTITY -->
+
+    <div class="field">
+
+        <label for="quantity">
+            Daily Quantity
+        </label>
+
+        <select id="quantity">
+
+            <option value="0.5">
+                500 ml
+            </option>
+
+            <option value="1">
+                1 Litre
+            </option>
+
+            <option value="2">
+                2 Litres
+            </option>
+
+            <option value="5">
+                5 Litres
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- START DATE -->
+
+    <div class="field">
+
+        <label for="startDate">
+            Start Date
+        </label>
+
+        <input
+            id="startDate"
+            type="date"
+        >
+
+    </div>
+
+
+    <!-- DELIVERY SLOT -->
+
+    <div class="field">
+
+        <label for="deliverySlot">
+            Delivery Slot
+        </label>
+
+        <select id="deliverySlot">
+
+            <option value="Morning">
+                Morning
+            </option>
+
+            <option value="Evening">
+                Evening
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- DELIVERY DAYS -->
+
+    <div class="field">
+
+        <label>
+            Delivery Days
+        </label>
+
+        <div class="days">
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Monday"
+                    checked
+                >
+
+                Mon
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Tuesday"
+                    checked
+                >
+
+                Tue
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Wednesday"
+                    checked
+                >
+
+                Wed
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Thursday"
+                    checked
+                >
+
+                Thu
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Friday"
+                    checked
+                >
+
+                Fri
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Saturday"
+                    checked
+                >
+
+                Sat
+
+            </label>
+
+            <label class="day selected">
+
+                <input
+                    type="checkbox"
+                    value="Sunday"
+                    checked
+                >
+
+                Sun
+
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="field">
+
+        <label for="paymentMethod">
+            Payment Method
+        </label>
+
+        <select id="paymentMethod">
+
+            <option value="COD">
+                Cash on Delivery
+            </option>
+
+            <option value="UPI">
+                UPI
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- NOTES -->
+
+    <div class="field">
+
+        <label for="notes">
+            Notes (Optional)
+        </label>
+
+        <input
+            id="notes"
+            type="text"
+            placeholder="Example: Leave milk at the gate"
+        >
+
+    </div>
+
+
+    <!-- CREATE -->
+
+    <button
+        id="createBtn"
+        class="primary-btn"
+        onclick="createSubscription()"
+    >
+
+        🥛 Start Daily Milk Subscription
+
+    </button>
+
+
+    <!-- ESTIMATE -->
+
+    <div
+        id="estimate"
+        class="summary"
+    >
+
+        Estimated monthly bill:
+
+        <strong>₹0.00</strong>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MY SUBSCRIPTIONS
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        My Milk Schedule
+    </h2>
+
+    <p class="help">
+        Manage your active and previous subscriptions.
+    </p>
+
+    <div
+        id="subscriptionList"
+        class="subscription-list"
+    >
+
+        <div class="loading">
+            Loading subscriptions...
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* ======================================================
+   API
+====================================================== */
+
+const API = "/api";
+
+
+/* ======================================================
+   CURRENT CUSTOMER
+====================================================== */
+
+function getPhone(){
+
+    return (
+        localStorage.getItem("sivaDairyCurrentPhoneV1")
+        ||
+        sessionStorage.getItem("sivaCustomerPhone")
+        ||
+        localStorage.getItem("sivaCustomerPhone")
+        ||
+        ""
+    );
+
+}
+
+
+function isLoggedIn(){
+
+    const phone = getPhone();
+
+    const loginFlag =
+        sessionStorage.getItem("sivaCustomerLoggedIn");
+
+    return !!phone || loginFlag === "true";
+
+}
+
+
+/* ======================================================
+   CUSTOMER DATA
+====================================================== */
+
+let currentCustomer = null;
+
+
+/* ======================================================
+   SELECTED PRODUCT
+====================================================== */
+
+let selectedProduct = null;
+
+
+/* ======================================================
+   HELPERS
+====================================================== */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function money(value){
+
+    return "₹" +
+        Number(value || 0).toFixed(2);
+
+}
+
+
+function formatDate(dateValue){
+
+    if(!dateValue){
+        return "-";
+    }
+
+    const date = new Date(dateValue);
+
+    if(isNaN(date.getTime())){
+        return "-";
+    }
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+function getLocalDateString(date){
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(date.getMonth() + 1)
+        .padStart(2,"0");
+
+    const day =
+        String(date.getDate())
+        .padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },3500);
+
+}
+
+
+/* ======================================================
+   LOAD CUSTOMER
+====================================================== */
+
+async function loadCustomer(){
+
+    const phone = getPhone();
+
+    if(!phone){
+
+        document.getElementById(
+            "loginNotice"
+        ).style.display = "block";
+
+        document.getElementById(
+            "customerBox"
+        ).style.display = "none";
+
+        return false;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/customers/${encodeURIComponent(phone)}`
+            );
+
+        if(response.ok){
+
+            currentCustomer =
+                await response.json();
+
+            document.getElementById(
+                "customerBox"
+            ).style.display = "block";
+
+            document.getElementById(
+                "customerName"
+            ).textContent =
+                currentCustomer.name ||
+                "Customer";
+
+            document.getElementById(
+                "customerPhone"
+            ).textContent =
+                "📱 " +
+                (currentCustomer.phone || phone);
+
+            document.getElementById(
+                "customerAddress"
+            ).textContent =
+                "📍 " +
+                (
+                    currentCustomer.address ||
+                    "Address not available"
+                );
+
+            document.getElementById(
+                "loginNotice"
+            ).style.display = "none";
+
+            return true;
+
+        }
+
+        document.getElementById(
+            "loginNotice"
+        ).style.display = "block";
+
+        return false;
+
+    }catch(error){
+
+        console.error(
+            "Customer loading error:",
+            error
+        );
+
+        showToast(
+            "Could not connect to the server."
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* ======================================================
+   LOAD PRODUCTS
+====================================================== */
+
+async function loadProducts(){
+
+    const box =
+        document.getElementById(
+            "milkOptions"
+        );
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/products`
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "Failed to load products"
+            );
+
+        }
+
+        const products =
+            await response.json();
+
+        const milkProducts =
+            products.filter(product => {
+
+                const name =
+                    String(
+                        product.name || ""
+                    ).toLowerCase();
+
+                const unit =
+                    String(
+                        product.unit || ""
+                    ).toLowerCase();
+
+                return (
+                    name.includes("milk")
+                    &&
+                    (
+                        unit.includes("litre")
+                        ||
+                        unit.includes("liter")
+                        ||
+                        unit === "l"
+                    )
+                );
+
+            });
+
+        if(!milkProducts.length){
+
+            box.innerHTML = `
+                <div class="notice">
+                    No milk products are currently available.
+                    Please ask the admin to add milk products.
+                </div>
+            `;
+
+            selectedProduct = null;
+
+            updateEstimate();
+
+            return;
+
+        }
+
+        box.innerHTML =
+            milkProducts.map(
+                (product,index) => {
+
+                    const available =
+                        product.available !== false;
+
+                    const productId =
+                        product.id ||
+                        product._id;
+
+                    return `
+
+                    <label
+                        class="milk-option
+                        ${
+                            index === 0 && available
+                            ? "selected"
+                            : ""
+                        }
+                        ${
+                            !available
+                            ? "disabled"
+                            : ""
+                        }"
+                    >
+
+                        <input
+                            type="radio"
+                            name="milk"
+                            value="${escapeHTML(productId)}"
+                            ${
+                                index === 0 && available
+                                ? "checked"
+                                : ""
+                            }
+                            ${
+                                !available
+                                ? "disabled"
+                                : ""
+                            }
+                        >
+
+                        <span class="milk-name">
+
+                            ${escapeHTML(
+                                product.icon || "🥛"
+                            )}
+
+                            ${escapeHTML(
+                                product.name
+                            )}
+
+                        </span>
+
+                        <span class="milk-price">
+
+                            ${money(product.price)}
+                            / litre
+
+                            ${
+                                available
+                                ? ""
+                                : " — OUT OF STOCK"
+                            }
+
+                        </span>
+
+                    </label>
+
+                    `;
+
+                }
+            ).join("");
+
+        const firstAvailable =
+            milkProducts.find(
+                product =>
+                    product.available !== false
+            );
+
+        selectedProduct =
+            firstAvailable || null;
+
+        box
+            .querySelectorAll(
+                'input[name="milk"]'
+            )
+            .forEach(radio => {
+
+                radio.addEventListener(
+                    "change",
+                    function(){
+
+                        const id =
+                            this.value;
+
+                        selectedProduct =
+                            milkProducts.find(
+                                product =>
+                                    String(
+                                        product.id ||
+                                        product._id
+                                    ) === String(id)
+                            )
+                            ||
+                            null;
+
+                        box
+                            .querySelectorAll(
+                                ".milk-option"
+                            )
+                            .forEach(
+                                option =>
+                                    option.classList.remove(
+                                        "selected"
+                                    )
+                            );
+
+                        this
+                            .closest(
+                                ".milk-option"
+                            )
+                            .classList.add(
+                                "selected"
+                            );
+
+                        updateEstimate();
+
+                    }
+                );
+
+            });
+
+        updateEstimate();
+
+    }catch(error){
+
+        console.error(
+            "Product loading error:",
+            error
+        );
+
+        box.innerHTML = `
+            <div class="notice">
+                Unable to load milk products.
+                Please make sure the Siva Dairy server is running.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ======================================================
+   DELIVERY DAYS
+====================================================== */
+
+function getDeliveryDays(){
+
+    return [
+        ...document.querySelectorAll(
+            ".day input:checked"
+        )
+    ].map(
+        input => input.value
+    );
+
+}
+
+
+/* ======================================================
+   MONTHLY ESTIMATE
+====================================================== */
+
+function updateEstimate(){
+
+    const estimate =
+        document.getElementById(
+            "estimate"
+        );
+
+    if(!selectedProduct){
+
+        estimate.innerHTML =
+            `
+            Estimated monthly bill:
+            <strong>₹0.00</strong>
+            `;
+
+        return;
+
+    }
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+    const days =
+        getDeliveryDays();
+
+    if(!days.length){
+
+        estimate.innerHTML =
+            `
+            Estimated monthly bill:
+            <strong>₹0.00</strong>
+            <br>
+            <small>
+                Select at least one delivery day.
+            </small>
+            `;
+
+        return;
+
+    }
+
+    const normalPrice =
+        Number(
+            selectedProduct.price || 0
+        );
+
+    const subscriptionPrice =
+        Math.max(
+            0,
+            normalPrice - 5
+        );
+
+    const monthlyDays =
+        Math.round(
+            30 * days.length / 7
+        );
+
+    const monthlyAmount =
+        quantity *
+        subscriptionPrice *
+        monthlyDays;
+
+    estimate.innerHTML = `
+
+        Estimated monthly bill:
+
+        <strong>
+            ${money(monthlyAmount)}
+        </strong>
+
+        <br>
+
+        <small>
+            ${monthlyDays} estimated delivery days
+            • ${money(normalPrice)}/L normal price
+            • ₹5/L subscription discount
+        </small>
+
+    `;
+
+}
+
+
+/* ======================================================
+   CREATE SUBSCRIPTION
+====================================================== */
+
+async function createSubscription(){
+
+    if(!isLoggedIn()){
+
+        alert(
+            "Please login to create a milk subscription."
+        );
+
+        window.location.href =
+            "customer-login.html";
+
+        return;
+
+    }
+
+    const phone =
+        getPhone();
+
+    if(!currentCustomer){
+
+        const loaded =
+            await loadCustomer();
+
+        if(!loaded){
+
+            alert(
+                "Customer profile could not be found. Please login again."
+            );
+
+            return;
+
+        }
+
+    }
+
+    if(!selectedProduct){
+
+        alert(
+            "Please select a milk product."
+        );
+
+        return;
+
+    }
+
+    if(
+        selectedProduct.available === false
+    ){
+
+        alert(
+            "This milk is currently out of stock."
+        );
+
+        return;
+
+    }
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+    const startDate =
+        document.getElementById(
+            "startDate"
+        ).value;
+
+    const deliverySlot =
+        document.getElementById(
+            "deliverySlot"
+        ).value;
+
+    const paymentMethod =
+        document.getElementById(
+            "paymentMethod"
+        ).value;
+
+    const notes =
+        document.getElementById(
+            "notes"
+        ).value.trim();
+
+    const deliveryDays =
+        getDeliveryDays();
+
+    if(!startDate){
+
+        alert(
+            "Please select a start date."
+        );
+
+        return;
+
+    }
+
+    if(!deliveryDays.length){
+
+        alert(
+            "Please select at least one delivery day."
+        );
+
+        return;
+
+    }
+
+    const createBtn =
+        document.getElementById(
+            "createBtn"
+        );
+
+    createBtn.disabled = true;
+
+    createBtn.textContent =
+        "Creating Subscription...";
+
+    const productId =
+        selectedProduct.id ||
+        selectedProduct._id;
+
+    const subscriptionData = {
+
+        customerName:
+            currentCustomer.name ||
+            "Customer",
+
+        phone:
+            currentCustomer.phone ||
+            phone,
+
+        address:
+            currentCustomer.address ||
+            "",
+
+        landmark:
+            currentCustomer.landmark ||
+            "",
+
+        productName:
+            selectedProduct.name,
+
+        productId:
+            productId,
+
+        quantity:
+            quantity,
+
+        unit:
+            selectedProduct.unit ||
+            "Litre",
+
+        pricePerUnit:
+            Number(
+                selectedProduct.price || 0
+            ),
+
+        deliveryDays:
+            deliveryDays,
+
+        startDate:
+            startDate,
+
+        deliverySlot:
+            deliverySlot,
+
+        paymentMethod:
+            paymentMethod,
+
+        notes:
+            notes
+
+    };
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/subscriptions`,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            subscriptionData
+                        )
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to create subscription."
+            );
+
+        }
+
+        alert(
+            "🥛 Daily milk subscription created successfully!"
+        );
+
+        document.getElementById(
+            "notes"
+        ).value = "";
+
+        await loadSubscriptions();
+
+        updateEstimate();
+
+    }catch(error){
+
+        console.error(
+            "Subscription creation error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to create subscription."
+        );
+
+    }finally{
+
+        createBtn.disabled = false;
+
+        createBtn.textContent =
+            "🥛 Start Daily Milk Subscription";
+
+    }
+
+}
+
+
+/* ======================================================
+   LOAD CUSTOMER SUBSCRIPTIONS
+====================================================== */
+
+async function loadSubscriptions(){
+
+    const box =
+        document.getElementById(
+            "subscriptionList"
+        );
+
+    if(!isLoggedIn()){
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                🔐 Please login to view
+                your milk subscriptions.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    const phone =
+        getPhone();
+
+    if(!phone){
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                Customer phone number not found.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    box.innerHTML = `
+
+        <div class="loading">
+            Loading your subscriptions...
+        </div>
+
+    `;
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/subscriptions/customer/${encodeURIComponent(phone)}`
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "Failed to load subscriptions."
+            );
+
+        }
+
+        const subscriptions =
+            await response.json();
+
+        if(
+            !Array.isArray(
+                subscriptions
+            )
+            ||
+            !subscriptions.length
+        ){
+
+            box.innerHTML = `
+
+                <div class="empty">
+
+                    🥛 No milk subscriptions yet.
+
+                    <br><br>
+
+                    Create your first daily milk
+                    subscription.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+        box.innerHTML =
+            subscriptions
+                .map(
+                    renderSubscription
+                )
+                .join("");
+
+        /*
+         * Set minimum skip date after rendering.
+         */
+        document
+            .querySelectorAll(".skip-date")
+            .forEach(input => {
+
+                input.min =
+                    getLocalDateString(
+                        new Date()
+                    );
+
+            });
+
+    }catch(error){
+
+        console.error(
+            "Subscription loading error:",
+            error
+        );
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                Unable to load subscriptions.
+
+                <br><br>
+
+                Please make sure the server is running.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ======================================================
+   RENDER SUBSCRIPTION
+====================================================== */
+
+function renderSubscription(subscription){
+
+    const status =
+        String(
+            subscription.status ||
+            "ACTIVE"
+        ).toUpperCase();
+
+    let statusClass =
+        "status-active";
+
+    if(status === "PAUSED"){
+        statusClass =
+            "status-paused";
+    }
+
+    if(status === "CANCELLED"){
+        statusClass =
+            "status-cancelled";
+    }
+
+    if(status === "COMPLETED"){
+        statusClass =
+            "status-completed";
+    }
+
+    const days =
+        Array.isArray(
+            subscription.deliveryDays
+        )
+        ?
+        subscription.deliveryDays.join(", ")
+        :
+        "Every day";
+
+    const startDate =
+        formatDate(
+            subscription.startDate
+        );
+
+    const monthly =
+        Number(
+            subscription.monthlyAmount ||
+            0
+        );
+
+    const quantity =
+        Number(
+            subscription.quantity ||
+            0
+        );
+
+    const price =
+        Number(
+            subscription.pricePerUnit ||
+            0
+        );
+
+    const discount =
+        Number(
+            subscription.subscriptionDiscount ||
+            0
+        );
+
+    const id =
+        subscription._id;
+
+    /*
+     * Skipped delivery dates
+     */
+    const skippedDates =
+        Array.isArray(
+            subscription.skippedDates
+        )
+        ?
+        subscription.skippedDates
+        :
+        [];
+
+    let skippedHTML = "";
+
+    if(skippedDates.length){
+
+        skippedHTML = `
+
+            <div class="skipped-list">
+
+                <strong>
+                    ⏭️ Skipped deliveries:
+                </strong>
+
+                <br>
+
+                ${
+                    skippedDates
+                        .map(date => `
+                            <span class="skipped-date">
+                                ${escapeHTML(
+                                    formatDate(date)
+                                )}
+                            </span>
+                        `)
+                        .join("")
+                }
+
+            </div>
+
+        `;
+
+    }
+
+    let buttons = "";
+
+    if(status === "ACTIVE"){
+
+        buttons = `
+
+            <button
+                class="action-btn"
+                onclick="changeStatus(
+                    '${escapeHTML(id)}',
+                    'PAUSED'
+                )"
+            >
+                ⏸️ Pause
+            </button>
+
+            <button
+                class="action-btn action-skip"
+                onclick="showSkipBox(
+                    '${escapeHTML(id)}'
+                )"
+            >
+                ⏭️ Skip Delivery
+            </button>
+
+            <button
+                class="action-btn action-danger"
+                onclick="changeStatus(
+                    '${escapeHTML(id)}',
+                    'CANCELLED'
+                )"
+            >
+                ❌ Cancel
+            </button>
+
+        `;
+
+    }
+    else if(status === "PAUSED"){
+
+        buttons = `
+
+            <button
+                class="action-btn"
+                onclick="changeStatus(
+                    '${escapeHTML(id)}',
+                    'ACTIVE'
+                )"
+            >
+                ▶️ Resume
+            </button>
+
+            <button
+                class="action-btn action-danger"
+                onclick="changeStatus(
+                    '${escapeHTML(id)}',
+                    'CANCELLED'
+                )"
+            >
+                ❌ Cancel
+            </button>
+
+        `;
+
+    }
+
+    /*
+     * Skip box is initially hidden.
+     */
+    const skipBox = `
+
+        <div
+            id="skipBox-${escapeHTML(id)}"
+            class="skip-box"
+            style="display:none"
+        >
+
+            <div class="skip-title">
+
+                ⏭️ Skip a delivery
+
+            </div>
+
+            <div style="
+                font-size:12px;
+                color:#735700;
+                margin-bottom:9px;
+            ">
+
+                Select the delivery date you do not
+                want milk delivered.
+
+            </div>
+
+            <div class="skip-row">
+
+                <input
+                    id="skipDate-${escapeHTML(id)}"
+                    class="skip-date"
+                    type="date"
+                >
+
+                <button
+                    id="skipBtn-${escapeHTML(id)}"
+                    class="skip-confirm"
+                    onclick="skipDelivery(
+                        '${escapeHTML(id)}'
+                    )"
+                >
+                    Skip This Date
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    return `
+
+        <div class="sub-card">
+
+            <div class="sub-header">
+
+                <div class="sub-title">
+
+                    🥛
+                    ${escapeHTML(
+                        subscription.productName
+                    )}
+
+                    <br>
+
+                    <small>
+
+                        ${quantity}
+
+                        ${escapeHTML(
+                            subscription.unit ||
+                            "Litre"
+                        )}
+
+                        / day
+
+                    </small>
+
+                </div>
+
+                <span
+                    class="status ${statusClass}"
+                >
+
+                    ${escapeHTML(status)}
+
+                </span>
+
+            </div>
+
+
+            <div class="sub-info">
+
+                📅 Start:
+                ${escapeHTML(startDate)}
+
+                <br>
+
+                📆 Days:
+                ${escapeHTML(days)}
+
+                <br>
+
+                🕐 Delivery:
+                ${escapeHTML(
+                    subscription.deliverySlot ||
+                    "Morning"
+                )}
+
+                <br>
+
+                💳 Payment:
+                ${escapeHTML(
+                    subscription.paymentMethod ||
+                    "COD"
+                )}
+
+            </div>
+
+
+            <div class="sub-price">
+
+                Monthly:
+                ${money(monthly)}
+
+                <br>
+
+                <small
+                    style="
+                        color:#68756d;
+                        font-weight:400
+                    "
+                >
+
+                    ${money(price)}/L
+                    after ₹${discount}/L discount
+
+                </small>
+
+            </div>
+
+
+            ${
+                subscription.notes
+                ?
+                `
+                    <div class="sub-info">
+
+                        📝
+                        ${escapeHTML(
+                            subscription.notes
+                        )}
+
+                    </div>
+                `
+                :
+                ""
+            }
+
+
+            ${skippedHTML}
+
+
+            ${
+                buttons
+                ?
+                `
+                    <div class="actions">
+
+                        ${buttons}
+
+                    </div>
+
+                    ${skipBox}
+                `
+                :
+                ""
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* ======================================================
+   SHOW SKIP BOX
+====================================================== */
+
+function showSkipBox(subscriptionId){
+
+    /*
+     * Hide all other skip boxes first.
+     */
+
+    document
+        .querySelectorAll(".skip-box")
+        .forEach(box => {
+
+            box.style.display = "none";
+
+        });
+
+    const box =
+        document.getElementById(
+            `skipBox-${subscriptionId}`
+        );
+
+    if(!box){
+        return;
+    }
+
+    box.style.display = "block";
+
+    const dateInput =
+        document.getElementById(
+            `skipDate-${subscriptionId}`
+        );
+
+    if(dateInput){
+
+        const today =
+            getLocalDateString(
+                new Date()
+            );
+
+        dateInput.min =
+            today;
+
+        if(!dateInput.value){
+
+            dateInput.value =
+                today;
+
+        }
+
+        dateInput.focus();
+
+    }
+
+}
+
+
+/* ======================================================
+   SKIP DELIVERY
+====================================================== */
+
+async function skipDelivery(
+    subscriptionId
+){
+
+    const dateInput =
+        document.getElementById(
+            `skipDate-${subscriptionId}`
+        );
+
+    if(!dateInput){
+
+        alert(
+            "Please select a delivery date."
+        );
+
+        return;
+
+    }
+
+    const skipDate =
+        dateInput.value;
+
+    if(!skipDate){
+
+        alert(
+            "Please select the delivery date you want to skip."
+        );
+
+        return;
+
+    }
+
+    /*
+     * Prevent skipping an old date.
+     */
+
+    const today =
+        getLocalDateString(
+            new Date()
+        );
+
+    if(skipDate < today){
+
+        alert(
+            "You cannot skip a previous delivery date."
+        );
+
+        return;
+
+    }
+
+    const skipButton =
+        document.getElementById(
+            `skipBtn-${subscriptionId}`
+        );
+
+    if(skipButton){
+
+        skipButton.disabled = true;
+
+        skipButton.textContent =
+            "Saving...";
+
+    }
+
+    try{
+
+        /*
+         * STEP 2 SERVER ROUTE:
+         *
+         * PATCH
+         * /api/subscriptions/:id/skip
+         *
+         * body:
+         * {
+         *     date: "2026-08-20"
+         * }
+         */
+
+        const response =
+            await fetch(
+                `${API}/subscriptions/${encodeURIComponent(subscriptionId)}/skip`,
+                {
+
+                    method:"PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            date:skipDate
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to skip delivery."
+            );
+
+        }
+
+        showToast(
+            `Delivery skipped for ${formatDate(skipDate)}.`
+        );
+
+        await loadSubscriptions();
+
+    }catch(error){
+
+        console.error(
+            "Skip delivery error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to skip delivery."
+        );
+
+    }finally{
+
+        if(skipButton){
+
+            skipButton.disabled = false;
+
+            skipButton.textContent =
+                "Skip This Date";
+
+        }
+
+    }
+
+}
+
+
+/* ======================================================
+   CHANGE SUBSCRIPTION STATUS
+====================================================== */
+
+async function changeStatus(
+    subscriptionId,
+    newStatus
+){
+
+    let message =
+        "Update this subscription?";
+
+    if(newStatus === "PAUSED"){
+
+        message =
+            "Pause this milk subscription?";
+
+    }
+
+    if(newStatus === "ACTIVE"){
+
+        message =
+            "Resume this milk subscription?";
+
+    }
+
+    if(newStatus === "CANCELLED"){
+
+        message =
+            "Cancel this milk subscription?";
+
+    }
+
+    if(!confirm(message)){
+
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/subscriptions/${encodeURIComponent(subscriptionId)}/status`,
+                {
+
+                    method:"PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status:
+                                newStatus
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to update subscription."
+            );
+
+        }
+
+        showToast(
+            "Subscription status updated successfully."
+        );
+
+        await loadSubscriptions();
+
+    }catch(error){
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Failed to update subscription."
+        );
+
+    }
+
+}
+
+
+/* ======================================================
+   DAY SELECTION UI
+====================================================== */
+
+document
+    .querySelectorAll(
+        ".day input"
+    )
+    .forEach(input => {
+
+        input.addEventListener(
+            "change",
+            function(){
+
+                const label =
+                    this.closest(
+                        ".day"
+                    );
+
+                if(this.checked){
+
+                    label.classList.add(
+                        "selected"
+                    );
+
+                }else{
+
+                    label.classList.remove(
+                        "selected"
+                    );
+
+                }
+
+                updateEstimate();
+
+            }
+        );
+
+    });
+
+
+/* ======================================================
+   QUANTITY CHANGE
+====================================================== */
+
+document
+    .getElementById(
+        "quantity"
+    )
+    .addEventListener(
+        "change",
+        updateEstimate
+    );
+
+
+/* ======================================================
+   INITIAL DATE
+====================================================== */
+
+function setMinimumDate(){
+
+    const input =
+        document.getElementById(
+            "startDate"
+        );
+
+    const now =
+        new Date();
+
+    const today =
+        getLocalDateString(
+            now
+        );
+
+    input.min =
+        today;
+
+    input.value =
+        today;
+
+}
+
+
+/* ======================================================
+   PAGE START
+====================================================== */
+
+async function init(){
+
+    setMinimumDate();
+
+    await loadCustomer();
+
+    await loadProducts();
+
+    await loadSubscriptions();
+
+}
+
+
+/* ======================================================
+   START
+====================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    init
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Siva Dairy | Admin Orders</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7f9;
+    color:#20252b;
+}
+
+.top{
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
+    padding:16px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.wrap{
+    max-width:1150px;
+    margin:28px auto;
+    padding:0 18px;
+}
+
+.panel{
+    background:#fff;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 3px 15px #0000000d;
+}
+
+.order{
+    border:1px solid #e5e7eb;
+    border-radius:11px;
+    padding:16px;
+    margin:10px 0;
+}
+
+.head{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+}
+
+.status{
+    font-weight:800;
+}
+
+.confirmed{
+    color:#15803d;
+}
+
+.pending{
+    color:#b7791f;
+}
+
+.items{
+    margin:10px 0;
+    color:#555;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.meta{
+    font-size:13px;
+    color:#6b7280;
+    margin:7px 0;
+}
+
+.btn{
+    border:0;
+    border-radius:7px;
+    padding:8px 11px;
+    background:#1677ff;
+    color:#fff;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.back{
+    background:#eef5fb;
+    color:#1677ff;
+}
+
+select{
+    padding:8px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    margin-left:8px;
+    cursor:pointer;
+}
+
+.message{
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    display:none;
+}
+
+.success{
+    display:block;
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
+    display:block;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.cancel-reason{
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    background:#fff3f2;
+    color:#8b1e18;
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+    <strong>🥛 Siva Dairy — Order Management</strong>
+
+    <button
+        class="btn back"
+        onclick="location.href='admin-dashboard.html'">
+        ← Dashboard
+    </button>
+
+</header>
+
+
+<main class="wrap">
+
+<div class="panel">
+
+    <h2>Customer Orders</h2>
+
+    <div id="message" class="message"></div>
+
+    <div id="list">
+        Loading orders...
+    </div>
+
+</div>
+
+</main>
+
+
+<script>
+
+function esc(value){
+
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        function(m){
+
+            return {
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            }[m];
+
+        }
+    );
+
+}
+
+
+function formatOrderDate(value){
+
+    if(!value){
+        return "Date not available";
+    }
+
+    const d = new Date(value);
+
+    if(Number.isNaN(d.getTime())){
+        return "Date not available";
+    }
+
+    return d.toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            hour12:true
+        }
+    );
+
+}
+
+
+function showMessage(text,type){
+
+    const box=document.getElementById("message");
+
+    box.textContent=text;
+
+    box.className="message "+type;
+
+}
+
+
+async function loadOrders(){
+
+    const list=document.getElementById("list");
+
+    try{
+
+        const response=await fetch("/api/orders");
+
+        if(!response.ok){
+
+            throw new Error(
+                "Failed to load orders from server."
+            );
+
+        }
+
+        const orders=await response.json();
+
+        if(!Array.isArray(orders) || orders.length===0){
+
+            list.innerHTML=
+                "<p style='color:#777'>No customer orders yet.</p>";
+
+            return;
+
+        }
+
+
+        list.innerHTML=orders.map(order=>{
+
+            const items=
+                Array.isArray(order.items)
+                ? order.items
+                : [];
+
+
+            const itemHTML=items.length
+                ? items.map(item=>{
+
+                    const quantity=
+                        Number(
+                            item.quantity ??
+                            item.qty ??
+                            1
+                        );
+
+                    const price=
+                        Number(item.price || 0);
+
+                    return `
+                        ${esc(
+                            item.name ||
+                            item.product ||
+                            "Product"
+                        )}
+                        × ${quantity}
+                        = ₹${(
+                            price * quantity
+                        ).toFixed(2)}
+                    `;
+
+                }).join("<br>")
+                : "No items";
+
+
+            const total=
+                Number(
+                    order.total ??
+                    order.totalAmount ??
+                    0
+                );
+
+
+            const payment=
+                order.payment ||
+                order.paymentMethod ||
+                "Not specified";
+
+
+            return `
+
+            <div class="order">
+
+                <div class="head">
+
+                    <strong>
+                        Order #${esc(order._id)}
+                        —
+                        ${esc(order.customerName)}
+                    </strong>
+
+                    <span class="status">
+
+                        ${esc(
+                            order.status ||
+                            "CONFIRMED"
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                <div class="meta">
+
+                    📅
+                    <strong>Ordered:</strong>
+                    ${formatOrderDate(order.createdAt)}
+
+                </div>
+
+
+                <div class="meta">
+
+                    📱
+                    <strong>Phone:</strong>
+                    ${esc(order.phone)}
+
+                </div>
+
+
+                <div class="meta">
+
+                    🕐
+                    <strong>Delivery Slot:</strong>
+                    ${esc(order.slot || "Not specified")}
+
+                </div>
+
+
+                <div class="meta">
+
+                    💳
+                    <strong>Payment:</strong>
+                    ${esc(payment)}
+
+                </div>
+
+
+                <div class="meta">
+
+                    📍
+                    <strong>Address:</strong>
+                    ${esc(order.address)}
+
+                </div>
+
+
+                <div class="items">
+
+                    <strong>Products:</strong>
+
+                    <br>
+
+                    ${itemHTML}
+
+                </div>
+
+
+                <strong>
+                    Total: ₹${total.toFixed(2)}
+                </strong>
+
+
+                <div style="margin-top:15px">
+
+                    <label>
+                        <strong>
+                            Update Order Status:
+                        </strong>
+                    </label>
+
+
+                    <select
+                        id="status-${esc(order._id)}"
+                        onchange="updateStatus(
+                            '${esc(order._id)}',
+                            this.value
+                        )">
+
+                        <option value="PAYMENT_PENDING"
+                            ${order.status==="PAYMENT_PENDING"?"selected":""}>
+                            PAYMENT PENDING
+                        </option>
+
+                        <option value="CONFIRMED"
+                            ${order.status==="CONFIRMED"?"selected":""}>
+                            CONFIRMED
+                        </option>
+
+                        <option value="PREPARING"
+                            ${order.status==="PREPARING"?"selected":""}>
+                            PREPARING
+                        </option>
+
+                        <option value="OUT_FOR_DELIVERY"
+                            ${order.status==="OUT_FOR_DELIVERY"?"selected":""}>
+                            OUT FOR DELIVERY
+                        </option>
+
+                        <option value="DELIVERED"
+                            ${order.status==="DELIVERED"?"selected":""}>
+                            DELIVERED
+                        </option>
+
+                        <option value="CANCELLED"
+                            ${order.status==="CANCELLED"?"selected":""}>
+                            CANCELLED
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                ${
+                    order.status==="CANCELLED" &&
+                    order.cancellationReason
+                    ?
+                    `
+                    <div class="cancel-reason">
+
+                        <strong>
+                            Cancellation reason:
+                        </strong>
+
+                        ${esc(
+                            order.cancellationReason
+                        )}
+
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+            `;
+
+        }).join("");
+
+
+    }catch(error){
+
+        console.error(error);
+
+        list.innerHTML=
+            "<p style='color:#b91c1c'>" +
+            "❌ Could not load orders from server." +
+            "</p>";
+
+    }
+
+}
+
+
+async function updateStatus(orderId,newStatus){
+
+    try{
+
+        showMessage(
+            "⏳ Updating order status...",
+            "success"
+        );
+
+
+        const response=await fetch(
+            "/api/orders/" +
+            encodeURIComponent(orderId),
+            {
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    status:newStatus,
+
+                    cancelledBy:
+                        "ADMIN"
+
+                })
+
+            }
+        );
+
+
+        const data=await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to update order."
+            );
+
+        }
+
+
+        showMessage(
+            "✅ Order status changed to " +
+            newStatus,
+            "success"
+        );
+
+
+        await loadOrders();
+
+
+    }catch(error){
+
+        console.error(
+            "Status update error:",
+            error
+        );
+
+
+        showMessage(
+            "❌ " + error.message,
+            "error"
+        );
+
+
+        await loadOrders();
+
+    }
+
+}
+
+
+loadOrders();
+
+</script>
+
+</body>
+</html>
+```

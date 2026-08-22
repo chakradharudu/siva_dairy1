@@ -1,0 +1,1075 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Siva Dairy | My Orders</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+    background:#fbfdfb;
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+
+.page{
+    max-width:950px;
+    margin:auto;
+    padding:25px 18px 60px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#087f42;
+    font-size:22px;
+    font-weight:800;
+}
+
+.brand img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+}
+
+.top a:last-child{
+    color:#087f42;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #dce8df;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:16px;
+    box-shadow:0 5px 18px #113b2010;
+}
+
+.order-head{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+}
+
+.order-id{
+    font-weight:800;
+    color:#087f42;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#eef7f0;
+    color:#087f42;
+    font-weight:800;
+    font-size:12px;
+}
+
+.cancelled{
+    color:#b42318;
+    background:#fff3f2;
+}
+
+.meta{
+    color:#666;
+    font-size:13px;
+    margin:8px 0;
+}
+
+.items{
+    border-top:1px solid #edf1ee;
+    border-bottom:1px solid #edf1ee;
+    padding:10px 0;
+    margin:12px 0;
+    line-height:1.8;
+}
+
+.muted{
+    color:#777;
+}
+
+.empty{
+    text-align:center;
+    padding:50px;
+}
+
+.home{
+    color:#087f42;
+    font-weight:700;
+}
+
+.error{
+    background:#fff3f2;
+    color:#b42318;
+    padding:15px;
+    border-radius:9px;
+}
+
+.refresh{
+    border:1px solid #087f42;
+    background:#fff;
+    color:#087f42;
+    border-radius:8px;
+    padding:8px 12px;
+    font-weight:700;
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+.auto-status{
+    display:inline-block;
+    margin-left:10px;
+    font-size:12px;
+    color:#087f42;
+    font-weight:700;
+}
+
+
+/* =================================
+   ORDER TRACKING
+================================= */
+
+.tracking{
+    margin:22px 0 10px;
+    padding:15px 5px;
+}
+
+.track-line{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    position:relative;
+}
+
+.track-line::before{
+    content:"";
+    position:absolute;
+    top:16px;
+    left:8%;
+    right:8%;
+    height:4px;
+    background:#e1e7e3;
+    z-index:0;
+}
+
+.step{
+    position:relative;
+    z-index:1;
+    width:25%;
+    text-align:center;
+}
+
+.circle{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#e1e7e3;
+    color:#777;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-weight:800;
+    border:3px solid #fff;
+    box-shadow:0 0 0 1px #dce5df;
+}
+
+.step.active .circle{
+    background:#087f42;
+    color:#fff;
+}
+
+.step.current .circle{
+    background:#087f42;
+    color:#fff;
+    box-shadow:0 0 0 4px #dff3e7;
+}
+
+.step-name{
+    margin-top:8px;
+    font-size:11px;
+    font-weight:700;
+    color:#777;
+}
+
+.step.active .step-name,
+.step.current .step-name{
+    color:#087f42;
+}
+
+.progress-message{
+    text-align:center;
+    margin-top:15px;
+    font-weight:700;
+    color:#087f42;
+}
+
+.cancelled-box{
+    margin-top:18px;
+    padding:14px;
+    background:#fff3f2;
+    border:1px solid #ffd5d1;
+    border-radius:10px;
+    color:#b42318;
+}
+
+.cancel-btn{
+    border:1px solid #c62828;
+    background:#fff;
+    color:#c62828;
+    border-radius:8px;
+    padding:9px 13px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.cancel-btn:hover{
+    background:#fff3f2;
+}
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .page{
+        padding:18px 12px 50px;
+    }
+
+    .top{
+        align-items:flex-start;
+    }
+
+    .brand{
+        font-size:18px;
+    }
+
+    .brand img{
+        width:45px;
+        height:45px;
+    }
+
+    .track-line::before{
+        left:10%;
+        right:10%;
+    }
+
+    .circle{
+        width:28px;
+        height:28px;
+        font-size:12px;
+    }
+
+    .step-name{
+        font-size:9px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="page">
+
+<div class="top">
+
+<a class="brand" href="index.html">
+
+<img
+src="siva-dairy-logo.png"
+alt="Siva Dairy Logo">
+
+Siva Dairy
+
+</a>
+
+<a href="index.html">
+← Continue Shopping
+</a>
+
+</div>
+
+<h1>My Orders</h1>
+
+<p class="muted">
+Track your orders and see the latest delivery status.
+</p>
+
+<button
+class="refresh"
+onclick="loadOrders()">
+
+↻ Refresh Orders
+
+</button>
+
+<span class="auto-status">
+🟢 Live status checking
+</span>
+
+<div id="message"></div>
+
+<div id="list"></div>
+
+</main>
+
+<script>
+
+
+const CURRENT_KEY =
+"sivaDairyCurrentPhoneV1";
+
+
+function esc(value){
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g,m=>({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[m]));
+
+}
+
+
+function getPhone(){
+
+    return localStorage.getItem(
+        CURRENT_KEY
+    ) || "";
+
+}
+
+
+function requireLogin(){
+
+    const phone=getPhone();
+
+    if(!/^[6-9]\d{9}$/.test(phone)){
+
+        window.location.replace(
+            "customer-login.html"
+        );
+
+        return null;
+    }
+
+    return phone;
+
+}
+
+
+function formatDate(value){
+
+    if(!value){
+        return "Date not available";
+    }
+
+    const d=new Date(value);
+
+    if(Number.isNaN(d.getTime())){
+        return "Date not available";
+    }
+
+    return d.toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            hour12:true
+        }
+    );
+
+}
+
+
+/* =================================
+   TRACKING
+================================= */
+
+function trackingHTML(status){
+
+    const steps=[
+        "CONFIRMED",
+        "PREPARING",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED"
+    ];
+
+    const names=[
+        "Confirmed",
+        "Preparing",
+        "Out for Delivery",
+        "Delivered"
+    ];
+
+    const currentIndex=
+        steps.indexOf(status);
+
+
+    if(status==="CANCELLED"){
+
+        return `
+
+            <div class="cancelled-box">
+
+                ❌
+                <strong>Order Cancelled</strong>
+
+            </div>
+
+        `;
+
+    }
+
+
+    let html=`
+
+        <div class="tracking">
+
+            <div class="track-line">
+
+    `;
+
+
+    steps.forEach((step,index)=>{
+
+        const active=
+            currentIndex>=index;
+
+        const current=
+            currentIndex===index;
+
+
+        html+=`
+
+            <div class="step
+                ${active ? "active" : ""}
+                ${current ? "current" : ""}">
+
+                <div class="circle">
+
+                    ${active ? "✓" : index+1}
+
+                </div>
+
+                <div class="step-name">
+
+                    ${names[index]}
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    html+=`
+
+            </div>
+
+            <div class="progress-message">
+
+                ${statusMessage(status)}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    return html;
+
+}
+
+
+function statusMessage(status){
+
+    switch(status){
+
+        case "PAYMENT_PENDING":
+            return "⏳ Payment is pending";
+
+        case "CONFIRMED":
+            return "✅ Your order has been confirmed";
+
+        case "PREPARING":
+            return "👨‍🍳 Your order is being prepared";
+
+        case "OUT_FOR_DELIVERY":
+            return "🚚 Your order is out for delivery";
+
+        case "DELIVERED":
+            return "🎉 Your order has been delivered";
+
+        default:
+            return "📦 Order received";
+
+    }
+
+}
+
+
+/* =================================
+   CANCEL ORDER
+================================= */
+
+async function cancelOrder(orderId){
+
+    const reason=prompt(
+        "Please enter the reason for cancelling this order:"
+    );
+
+
+    if(!reason || !reason.trim()){
+
+        alert(
+            "Please enter a cancellation reason."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed=confirm(
+        "Are you sure you want to cancel this order?"
+    );
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+    try{
+
+        const response=await fetch(
+
+            "/api/orders/" +
+            encodeURIComponent(orderId),
+
+            {
+
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    status:"CANCELLED",
+
+                    cancelledBy:"CUSTOMER",
+
+                    cancellationReason:
+                        reason.trim()
+
+                })
+
+            }
+
+        );
+
+
+        const data=
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.message ||
+                "Failed to cancel order."
+
+            );
+
+        }
+
+
+        alert(
+            "✅ Your order has been cancelled successfully."
+        );
+
+
+        loadOrders();
+
+    }catch(error){
+
+        console.error(
+            "Cancel order error:",
+            error
+        );
+
+
+        alert(
+            "❌ Could not cancel the order: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =================================
+   LOAD ORDERS
+================================= */
+
+async function loadOrders(){
+
+    const phone=requireLogin();
+
+    if(!phone){
+        return;
+    }
+
+
+    const list=
+        document.getElementById("list");
+
+
+    const message=
+        document.getElementById("message");
+
+
+    list.innerHTML=
+        '<div class="empty">⏳ Loading your orders...</div>';
+
+
+    message.innerHTML="";
+
+
+    try{
+
+        const response=
+            await fetch(
+
+                "/api/orders/customer/" +
+                encodeURIComponent(phone)
+
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Could not load orders"
+            );
+
+        }
+
+
+        const orders=
+            await response.json();
+
+
+        if(
+            !Array.isArray(orders) ||
+            orders.length===0
+        ){
+
+            list.innerHTML=`
+
+                <div class="card empty">
+
+                    📦
+
+                    <h3>No orders yet</h3>
+
+                    <p class="muted">
+
+                        Your placed orders
+                        will appear here.
+
+                    </p>
+
+                    <a
+                        class="home"
+                        href="index.html">
+
+                        Start Shopping
+
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        list.innerHTML=
+
+        orders.map(order=>{
+
+            const cancelled=
+                order.status==="CANCELLED";
+
+
+            const items=
+                Array.isArray(order.items)
+                ? order.items
+                : [];
+
+
+            const itemHTML=
+
+                items.length
+
+                ?
+
+                items.map(item=>{
+
+                    const quantity=
+                        Number(
+
+                            item.quantity ??
+                            item.qty ??
+                            1
+
+                        );
+
+
+                    const price=
+                        Number(
+                            item.price || 0
+                        );
+
+
+                    return `
+
+                        ${esc(
+
+                            item.name ||
+                            item.product ||
+                            "Product"
+
+                        )}
+
+                        × ${quantity}
+
+                        = ₹${(
+
+                            price*
+                            quantity
+
+                        ).toFixed(2)}
+
+                    `;
+
+                }).join("<br>")
+
+                :
+
+                "No items";
+
+
+            const total=
+                Number(
+
+                    order.totalAmount ??
+                    order.total ??
+                    0
+
+                );
+
+
+            const payment=
+                order.paymentMethod ||
+                order.payment ||
+                "Not specified";
+
+
+            let cancelButton="";
+
+
+            if(
+
+                !cancelled &&
+
+                [
+
+                    "PAYMENT_PENDING",
+                    "CONFIRMED",
+                    "PREPARING"
+
+                ].includes(order.status)
+
+            ){
+
+                cancelButton=`
+
+                    <div style="margin-top:15px">
+
+                        <button
+                            class="cancel-btn"
+                            onclick="cancelOrder(
+                                '${esc(order._id)}'
+                            )">
+
+                            ✕ Cancel Order
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            return `
+
+            <div class="card">
+
+
+                <div class="order-head">
+
+                    <span class="order-id">
+
+                        Order #${esc(order._id)}
+
+                    </span>
+
+
+                    <span
+                        class="status ${
+                            cancelled
+                            ? "cancelled"
+                            : ""
+                        }">
+
+                        ${esc(
+
+                            order.status ||
+                            "CONFIRMED"
+
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                ${trackingHTML(order.status)}
+
+
+                <div class="meta">
+
+                    📅
+
+                    <strong>Ordered:</strong>
+
+                    ${formatDate(
+                        order.createdAt
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    🕐
+
+                    <strong>
+                        Delivery Slot:
+                    </strong>
+
+                    ${esc(
+
+                        order.slot ||
+                        "Not specified"
+
+                    )}
+
+                </div>
+
+
+                <div class="meta">
+
+                    💳
+
+                    <strong>Payment:</strong>
+
+                    ${esc(payment)}
+
+                </div>
+
+
+                <div class="meta">
+
+                    📍
+
+                    <strong>Address:</strong>
+
+                    ${esc(
+                        order.address
+                    )}
+
+                </div>
+
+
+                <div class="items">
+
+                    <strong>
+                        Products:
+                    </strong>
+
+                    <br>
+
+                    ${itemHTML}
+
+                </div>
+
+
+                <strong>
+
+                    Total:
+                    ₹${total.toFixed(2)}
+
+                </strong>
+
+
+                ${cancelButton}
+
+
+                ${
+                    cancelled
+
+                    ?
+
+                    `
+
+                    <p class="meta">
+
+                        <strong>
+                            Order cancelled
+                        </strong>
+
+                        ${
+                            order.cancellationReason
+
+                            ?
+
+                            `<br>
+                            Cancellation reason:
+                            ${esc(
+                                order.cancellationReason
+                            )}`
+
+                            :
+
+                            ""
+
+                        }
+
+                    </p>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+
+            </div>
+
+            `;
+
+        }).join("");
+
+
+    }catch(error){
+
+        console.error(
+            "My Orders error:",
+            error
+        );
+
+
+        list.innerHTML="";
+
+
+        message.innerHTML=`
+
+            <div class="error">
+
+                ❌
+
+                <strong>
+                    Could not load your orders.
+                </strong>
+
+                <br><br>
+
+                ${esc(error.message)}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =================================
+   AUTOMATIC STATUS CHECK
+================================= */
+
+loadOrders();
+
+
+setInterval(function(){
+
+    loadOrders();
+
+},10000);
+
+
+</script>
+
+</body>
+
+</html>
