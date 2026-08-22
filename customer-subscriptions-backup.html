@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Subscriptions - Siva Dairy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f9;
+            color: #222;
+        }
+
+        /* HEADER */
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            border: none;
+            background: #f1f3f5;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .logo {
+            height: 42px;
+            width: auto;
+        }
+
+        /* MAIN */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 25px 16px 50px;
+        }
+
+        .page-title {
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 22px;
+        }
+
+        /* PHONE */
+        .phone-box {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .phone-label {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .phone-number {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* LOADING */
+        .loading {
+            background: white;
+            border-radius: 15px;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .spinner {
+            width: 38px;
+            height: 38px;
+            border: 4px solid #ddd;
+            border-top: 4px solid #198754;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ERROR */
+        .error-box {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #f0cccc;
+        }
+
+        .error-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .error-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .error-message {
+            color: #666;
+            margin-bottom: 18px;
+        }
+
+        .retry-btn {
+            border: none;
+            background: #198754;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* EMPTY */
+        .empty-box {
+            background: white;
+            border-radius: 15px;
+            padding: 45px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+        }
+
+        .empty-title {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* SUBSCRIPTION CARD */
+        .subscription-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border: 1px solid #e9ecef;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 17px;
+        }
+
+        .product-name {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .product-quantity {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .status {
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-active {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-paused {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .status-completed {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-default {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* DETAILS */
+        .details {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 8px 0;
+        }
+
+        .detail-label {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            text-align: right;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* PRICE */
+        .price-box {
+            margin-top: 15px;
+            background: #f4faf6;
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .monthly {
+            font-size: 18px;
+            font-weight: 700;
+            color: #198754;
+        }
+
+        /* SKIPPED */
+        .skipped-box {
+            margin-top: 15px;
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .skipped-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .skipped-dates {
+            color: #765d00;
+            font-size: 13px;
+        }
+
+        /* REFRESH */
+        .refresh-area {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .refresh-btn {
+            border: 1px solid #198754;
+            background: white;
+            color: #198754;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 12px 14px;
+            }
+
+            .title {
+                font-size: 18px;
+            }
+
+            .logo {
+                height: 36px;
+            }
+
+            .container {
+                padding: 20px 12px 40px;
+            }
+
+            .page-title {
+                font-size: 23px;
+            }
+
+            .card-top {
+                flex-direction: column;
+            }
+
+            .detail-row {
+                align-items: flex-start;
+            }
+
+            .detail-value {
+                max-width: 55%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="header-left">
+
+            <button
+                class="back-btn"
+                onclick="goBack()"
+                aria-label="Go back">
+                ←
+            </button>
+
+            <div class="title">
+                My Subscriptions
+            </div>
+
+        </div>
+
+        <img
+            class="logo"
+            src="/siva-dairy-logo.png"
+            alt="Siva Dairy"
+            onerror="this.style.display='none'">
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <h1 class="page-title">
+            My Milk Subscriptions
+        </h1>
+
+        <p class="page-subtitle">
+            View and manage your daily milk subscriptions.
+        </p>
+
+
+        <!-- PHONE -->
+        <div class="phone-box">
+
+            <div class="phone-label">
+                Customer phone number
+            </div>
+
+            <div
+                id="phoneNumber"
+                class="phone-number">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+        <div id="content">
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                <p>
+                    Loading your subscriptions...
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        // =====================================================
+        // SIVA DAIRY - CUSTOMER SUBSCRIPTIONS
+        // =====================================================
+
+        const API_BASE = "";
+
+        const CURRENT_USER_KEY =
+            "sivaDairyCurrentPhoneV1";
+
+
+        // -----------------------------------------------------
+        // GET CUSTOMER PHONE
+        // -----------------------------------------------------
+
+        function getCustomerPhone() {
+
+            // First try URL:
+            // customer-subscriptions.html?phone=9652310956
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const urlPhone =
+                params.get("phone");
+
+
+            if (urlPhone) {
+
+                return urlPhone.trim();
+
+            }
+
+
+            // Then try existing Siva Dairy login storage
+
+            try {
+
+                const savedPhone =
+                    localStorage.getItem(
+                        CURRENT_USER_KEY
+                    );
+
+                if (
+                    savedPhone &&
+                    savedPhone.trim()
+                ) {
+
+                    return savedPhone.trim();
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(
+                    "LocalStorage error:",
+                    error
+                );
+
+            }
+
+
+            // Try common fallback keys
+
+            const possibleKeys = [
+
+                "currentPhone",
+                "customerPhone",
+                "userPhone",
+                "phone",
+                "sivaDairyCurrentUser"
+
+            ];
+
+
+            for (
+                const key of possibleKeys
+            ) {
+
+                try {
+
+                    const value =
+                        localStorage.getItem(key);
+
+                    if (
+                        value &&
+                        value.trim()
+                    ) {
+
+                        return value.trim();
+
+                    }
+
+                }
+                catch (error) {
+
+                    // Ignore storage errors
+                }
+
+            }
+
+
+            return "";
+
+        }
+
+
+        // -----------------------------------------------------
+        // ESCAPE HTML
+        // -----------------------------------------------------
+
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return "";
+
+            }
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // -----------------------------------------------------
+        // FORMAT DATE
+        // -----------------------------------------------------
+
+        function formatDate(dateValue) {
+
+            if (!dateValue) {
+
+                return "Not specified";
+
+            }
+
+            const date =
+                new Date(dateValue);
+
+            if (
+                isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return String(dateValue);
+
+            }
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // -----------------------------------------------------
+        // FORMAT MONEY
+        // -----------------------------------------------------
+
+        function money(value) {
+
+            const amount =
+                Number(value || 0);
+
+            return (
+                "₹" +
+                amount.toLocaleString(
+                    "en-IN",
+                    {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    }
+                )
+            );
+
+        }
+
+
+        // -----------------------------------------------------
+        // STATUS CLASS
+        // -----------------------------------------------------
+
+        function getStatusClass(status) {
+
+            switch (
+                String(status || "")
+                    .toUpperCase()
+            ) {
+
+                case "ACTIVE":
+                    return "status-active";
+
+                case "PAUSED":
+                    return "status-paused";
+
+                case "CANCELLED":
+                    return "status-cancelled";
+
+                case "COMPLETED":
+                    return "status-completed";
+
+                default:
+                    return "status-default";
+
+            }
+
+        }
+
+
+        // -----------------------------------------------------
+        // STATUS TEXT
+        // -----------------------------------------------------
+
+        function getStatusText(status) {
+
+            const value =
+                String(status || "ACTIVE")
+                    .toUpperCase();
+
+            return value.replace(
+                /_/g,
+                " "
+            );
+
+        }
+
+
+        // -----------------------------------------------------
+        // DELIVERY DAYS
+        // -----------------------------------------------------
+
+        function formatDeliveryDays(days) {
+
+            if (
+                !Array.isArray(days) ||
+                days.length === 0
+            ) {
+
+                return "Every day";
+
+            }
+
+            return days
+                .map(day => String(day))
+                .join(", ");
+
+        }
+
+
+        // -----------------------------------------------------
+        // LOAD SUBSCRIPTIONS
+        // -----------------------------------------------------
+
+        async function loadSubscriptions() {
+
+            const phone =
+                getCustomerPhone();
+
+
+            const phoneElement =
+                document.getElementById(
+                    "phoneNumber"
+                );
+
+
+            const content =
+                document.getElementById(
+                    "content"
+                );
+
+
+            if (!phone) {
+
+                phoneElement.textContent =
+                    "Not logged in";
+
+                content.innerHTML = `
+
+                    <div class="error-box">
+
+                        <div class="error-icon">
+                            🔐
+                        </div>
+
+                        <div class="error-title">
+                            Customer login required
+                        </div>
+
+                        <div class="error-message">
+                            Please login to view your subscriptions.
+                        </div>
+
+                        <a
+                            href="/customer-login.html"
+                            class="shop-btn">
+                            Login
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            phoneElement.textContent =
+                phone;
+
+
+            content.innerHTML = `
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    <p>
+                        Loading your subscriptions...
+                    </p>
+
+                </div>
+
+            `;
+
+
+            try {
+
+                const apiUrl =
+                    `${API_BASE}/api/subscriptions/customer/` +
+                    encodeURIComponent(phone);
+
+
+                console.log(
+                    "Loading subscriptions:",
+                    apiUrl
+                );
+
+
+                const response =
+                    await fetch(apiUrl);
+
+
+                if (!response.ok) {
+
+                    let errorMessage =
+                        `Server returned ${response.status}`;
+
+                    try {
+
+                        const errorData =
+                            await response.json();
+
+                        if (
+                            errorData.message
+                        ) {
+
+                            errorMessage =
+                                errorData.message;
+
+                        }
+
+                    }
+                    catch (e) {
+
+                        // Ignore JSON error
+                    }
+
+
+                    throw new Error(
+                        errorMessage
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Subscription API response:",
+                    data
+                );
+
+
+                let subscriptions = data;
+
+
+                // Support different API response formats
+
+                if (
+                    data &&
+                    Array.isArray(data.subscriptions)
+                ) {
+
+                    subscriptions =
+                        data.subscriptions;
+
+                }
+                else if (
+                    data &&
+                    Array.isArray(data.data)
+                ) {
+
+                    subscriptions =
+                        data.data;
+
+                }
+
+
+                if (
+                    !Array.isArray(
+                        subscriptions
+                    )
+                ) {
+
+                    subscriptions = [];
+
+                }
+
+
+                renderSubscriptions(
+                    subscriptions
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "SUBSCRIPTION LOAD ERROR:",
+                    error
+                );
+
+
+                content.innerHTML = `
+
+                    <div class="error-box">
+
+                        <div class="error-icon">
+                            ⚠️
+                        </div>
+
+                        <div class="error-title">
+                            Could not load subscriptions
+                        </div>
+
+                        <div class="error-message">
+                            ${escapeHTML(error.message)}
+                        </div>
+
+                        <button
+                            class="retry-btn"
+                            onclick="loadSubscriptions()">
+                            Try Again
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // -----------------------------------------------------
+        // RENDER SUBSCRIPTIONS
+        // -----------------------------------------------------
+
+        function renderSubscriptions(
+            subscriptions
+        ) {
+
+            const content =
+                document.getElementById(
+                    "content"
+                );
+
+
+            if (
+                !subscriptions ||
+                subscriptions.length === 0
+            ) {
+
+                content.innerHTML = `
+
+                    <div class="empty-box">
+
+                        <div class="empty-icon">
+                            🥛
+                        </div>
+
+                        <div class="empty-title">
+                            No active subscriptions
+                        </div>
+
+                        <div class="empty-text">
+                            You don't have any milk subscriptions yet.
+                        </div>
+
+                        <a
+                            href="/daily-milk.html"
+                            class="shop-btn">
+                            Start a Subscription
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            let html = "";
+
+
+            subscriptions.forEach(
+                subscription => {
+
+                    const status =
+                        String(
+                            subscription.status ||
+                            "ACTIVE"
+                        ).toUpperCase();
+
+
+                    const quantity =
+                        Number(
+                            subscription.quantity ||
+                            1
+                        );
+
+
+                    const unit =
+                        subscription.unit ||
+                        "Litre";
+
+
+                    const normalPrice =
+                        Number(
+                            subscription.normalPrice ||
+                            0
+                        );
+
+
+                    const pricePerUnit =
+                        Number(
+                            subscription.pricePerUnit ||
+                            0
+                        );
+
+
+                    const monthlyAmount =
+                        Number(
+                            subscription.monthlyAmount ||
+                            (
+                                quantity *
+                                pricePerUnit *
+                                30
+                            )
+                        );
+
+
+                    const deliveryDays =
+                        formatDeliveryDays(
+                            subscription.deliveryDays
+                        );
+
+
+                    const skippedDates =
+                        Array.isArray(
+                            subscription.skippedDates
+                        )
+                        ?
+                        subscription.skippedDates
+                        :
+                        [];
+
+
+                    html += `
+
+                        <div class="subscription-card">
+
+                            <div class="card-top">
+
+                                <div>
+
+                                    <div class="product-name">
+                                        🥛
+                                        ${escapeHTML(
+                                            subscription.productName ||
+                                            "Milk Subscription"
+                                        )}
+                                    </div>
+
+                                    <div class="product-quantity">
+
+                                        ${quantity}
+                                        ${escapeHTML(unit)}
+                                        per day
+
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="status ${getStatusClass(status)}">
+
+                                    ${escapeHTML(
+                                        getStatusText(status)
+                                    )}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="details">
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Customer
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.customerName ||
+                                            "Customer"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Phone
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.phone ||
+                                            ""
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Address
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.address ||
+                                            "Not provided"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                ${
+                                    subscription.landmark
+                                    ?
+                                    `
+
+                                    <div class="detail-row">
+
+                                        <span class="detail-label">
+                                            Landmark
+                                        </span>
+
+                                        <span class="detail-value">
+                                            ${escapeHTML(
+                                                subscription.landmark
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Delivery days
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            deliveryDays
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Delivery slot
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.deliverySlot ||
+                                            "Morning"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Start date
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            formatDate(
+                                                subscription.startDate
+                                            )
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="detail-row">
+
+                                    <span class="detail-label">
+                                        Payment
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.paymentMethod ||
+                                            "COD"
+                                        )}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="price-box">
+
+                                <div class="price-row">
+
+                                    <span>
+                                        Normal price
+                                    </span>
+
+                                    <strong>
+                                        ${money(
+                                            normalPrice
+                                        )}
+                                        / ${escapeHTML(unit)}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="price-row">
+
+                                    <span>
+                                        Subscription price
+                                    </span>
+
+                                    <strong>
+                                        ${money(
+                                            pricePerUnit
+                                        )}
+                                        / ${escapeHTML(unit)}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="price-row">
+
+                                    <span>
+                                        Monthly amount
+                                    </span>
+
+                                    <strong class="monthly">
+                                        ${money(
+                                            monthlyAmount
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            ${
+                                skippedDates.length > 0
+                                ?
+                                `
+
+                                <div class="skipped-box">
+
+                                    <div class="skipped-title">
+                                        ⏭️ Skipped dates
+                                    </div>
+
+                                    <div class="skipped-dates">
+
+                                        ${skippedDates
+                                            .map(
+                                                date =>
+                                                    escapeHTML(
+                                                        formatDate(date)
+                                                    )
+                                            )
+                                            .join(", ")
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                `
+                                :
+                                ""
+                            }
+
+
+                            ${
+                                subscription.notes
+                                ?
+                                `
+
+                                <div class="detail-row"
+                                     style="margin-top:10px;">
+
+                                    <span class="detail-label">
+                                        Notes
+                                    </span>
+
+                                    <span class="detail-value">
+                                        ${escapeHTML(
+                                            subscription.notes
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                <div class="refresh-area">
+
+                    <button
+                        class="refresh-btn"
+                        onclick="loadSubscriptions()">
+
+                        🔄 Refresh Subscriptions
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+            content.innerHTML =
+                html;
+
+        }
+
+
+        // -----------------------------------------------------
+        // BACK BUTTON
+        // -----------------------------------------------------
+
+        function goBack() {
+
+            if (
+                window.history.length > 1
+            ) {
+
+                window.history.back();
+
+            }
+            else {
+
+                window.location.href =
+                    "/index.html";
+
+            }
+
+        }
+
+
+        // -----------------------------------------------------
+        // START
+        // -----------------------------------------------------
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadSubscriptions();
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

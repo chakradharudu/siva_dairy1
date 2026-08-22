@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Siva Dairy - Admin Login</title>
+<style>
+body{font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;margin:0;background:#f4f7f9}
+.card{width:min(390px,90vw);background:#fff;padding:30px;border-radius:16px;box-shadow:0 8px 30px #0001}
+h1{text-align:center}label{display:block;margin:14px 0 6px}input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:8px}button{width:100%;padding:12px;margin-top:18px;border:0;border-radius:8px;cursor:pointer}.msg{text-align:center;color:#c00}
+
+.admin-logo-wrap{width:105px;height:105px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.admin-logo{width:105px;height:105px;object-fit:contain;display:block}
+.admin-logo-fallback{width:80px;height:80px;align-items:center;justify-content:center;font-size:44px}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="admin-logo-wrap">
+  <img src="./siva-dairy-logo.png" class="admin-logo" alt="Siva Dairy Logo"
+       onerror="this.style.display='none';document.getElementById('adminLogoFallback').style.display='block';">
+  <div id="adminLogoFallback" class="admin-logo-fallback" style="display:none;">🥛</div>
+</div>
+<h1>Siva Dairy</h1><h2>Admin Login</h2>
+<label>Username</label><input id="u" autocomplete="username">
+<label>PIN</label><input id="p" type="password" inputmode="numeric" autocomplete="current-password">
+<button onclick="login()">Login</button><p id="m" class="msg"></p>
+</div>
+<script>
+function login(){
+ const u=document.getElementById('u').value.trim(), p=document.getElementById('p').value.trim();
+ if(u==='siva' && p==='1234'){
+   sessionStorage.setItem('sivaAdminLoggedIn','true');
+   location.href='admin-dashboard.html';
+ } else document.getElementById('m').textContent='Invalid admin credentials.';
+}
+</script>
+</body></html>

@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Siva Dairy | My Profile</title><link rel="stylesheet" href="style.css"><style>
+.page{max-width:850px;margin:auto;padding:25px 18px}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#08783f;font-weight:800;font-size:22px}.brand img{width:58px;height:58px;object-fit:contain}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.top a{color:#08783f;text-decoration:none;font-weight:700}.card{background:#fff;border:1px solid #dce8df;border-radius:15px;padding:24px;box-shadow:0 5px 18px #113b2010}.field{margin:15px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:7px}.field input,.field textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d8e1db;border-radius:8px;font:inherit}.btn{border:0;border-radius:9px;padding:12px 18px;background:#087f42;color:#fff;font-weight:800;cursor:pointer}.muted{color:#6b7280;font-size:13px}.saved{margin-top:12px;color:#087f42;font-weight:700}
+</style></head><body><main class="page">
+<div class="top"><a class="brand" href="index.html"><img src="siva-dairy-logo.png" alt="Siva Dairy Logo">Siva Dairy</a><a href="index.html">← Home</a></div>
+<div class="card"><h1>My Profile</h1><p class="muted">Update your delivery information for faster checkout.</p>
+<div class="field"><label>Full Name</label><input id="name" placeholder="Your name"></div>
+<div class="field"><label>Mobile Number</label><input id="phone" maxlength="10" inputmode="numeric" placeholder="10-digit mobile number"></div>
+<div class="field"><label>Delivery Address</label><textarea id="address" rows="4" placeholder="House number, street, area"></textarea></div>
+<div class="field"><label>Landmark (optional)</label><input id="landmark" placeholder="Nearby landmark"></div>
+<button class="btn" onclick="saveProfile()">Save Profile</button><div id="msg"></div>
+</div></main><script>
+const KEY="sivaDairyOtpAccountsV1";
+const CURRENT_KEY="sivaDairyCurrentPhoneV1";
+
+function currentPhone(){
+  return localStorage.getItem(CURRENT_KEY) || "";
+}
+function accounts(){
+  try{
+    const a=JSON.parse(localStorage.getItem(KEY)||"[]");
+    if(Array.isArray(a) && a.length)return a;
+    const legacy=JSON.parse(localStorage.getItem("sivaCustomers")||"{}");
+    if(legacy && typeof legacy==="object" && !Array.isArray(legacy)){
+      const migrated=Object.values(legacy).filter(x=>x && x.phone).map(x=>({
+        name:x.name||"Customer",phone:String(x.phone).replace(/\D/g,"").slice(-10),
+        email:x.email||"",address:x.address||"",landmark:x.landmark||""
+      }));
+      if(migrated.length)localStorage.setItem(KEY,JSON.stringify(migrated));
+      return migrated;
+    }
+    return Array.isArray(a)?a:[];
+  }catch(e){return []}
+}
+function load(){
+  const p=currentPhone();
+  if(!/^[6-9]\d{9}$/.test(p)){
+    window.location.replace("customer-login.html");
+    return;
+  }
+  const all=accounts(), u=all.find(x=>x.phone===p);
+  if(!u){localStorage.removeItem(CURRENT_KEY);sessionStorage.clear();window.location.replace("customer-login.html");return;}
+  document.getElementById("phone").value=p;
+  document.getElementById("name").value=u.name||"";
+  document.getElementById("address").value=u.address||"";
+  document.getElementById("landmark").value=u.landmark||"";
+}
+function saveProfile(){
+  const p=currentPhone();
+  const n=document.getElementById("name").value.trim();
+  const a=document.getElementById("address").value.trim();
+  if(!p || !n || !a){alert("Please enter name and delivery address.");return;}
+  const all=accounts(), i=all.findIndex(x=>x.phone===p);
+  if(i<0){window.location.replace("customer-login.html");return;}
+  all[i]={...all[i],name:n,address:a,landmark:document.getElementById("landmark").value.trim(),updatedAt:new Date().toISOString()};
+  localStorage.setItem(KEY,JSON.stringify(all));
+  document.getElementById("msg").className="saved";
+  document.getElementById("msg").textContent="✓ Profile saved successfully.";
+  setTimeout(()=>document.getElementById("msg").textContent="",2500);
+}
+window.addEventListener("pageshow",load);
+</script><script>
+(function(){
+  const KEY="sivaDairyActiveCustomersV1", USER="sivaDairyCurrentPhoneV1", ACC="sivaDairyOtpAccountsV1";
+  function ping(){const phone=localStorage.getItem(USER);if(!phone)return;let a=[],active={};try{a=JSON.parse(localStorage.getItem(ACC)||"[]");active=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){};const u=Array.isArray(a)?a.find(x=>x.phone===phone):null;if(!u)return;active[phone]={name:u.name||"Customer",lastSeen:Date.now()};localStorage.setItem(KEY,JSON.stringify(active));}
+  ping(); setInterval(ping,20000);
+})();
+</script>
+</body></html>

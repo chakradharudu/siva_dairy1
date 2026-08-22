@@ -1,0 +1,4428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siva Dairy - Admin Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#1f2937;
+}
+
+.header{
+    background:white;
+    border-bottom:1px solid #e5e7eb;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    background:#e8f5e9;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.brand h1{
+    font-size:21px;
+}
+
+.brand p{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:3px;
+}
+
+.logout{
+    border:0;
+    background:#ef4444;
+    color:white;
+    padding:10px 17px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:25px 20px;
+}
+
+.title{
+    margin-bottom:20px;
+}
+
+.title h2{
+    font-size:28px;
+}
+
+.title p{
+    color:#6b7280;
+    margin-top:5px;
+}
+
+.tabs{
+    display:flex;
+    gap:8px;
+    background:white;
+    padding:8px;
+    border-radius:12px;
+    margin-bottom:22px;
+    overflow-x:auto;
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.tab{
+    border:0;
+    background:transparent;
+    padding:11px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.tab:hover{
+    background:#f3f4f6;
+}
+
+.tab.active{
+    background:#16a34a;
+    color:white;
+}
+
+.section{
+    display:none;
+}
+
+.section.active{
+    display:block;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.card small{
+    color:#6b7280;
+}
+
+.card strong{
+    display:block;
+    font-size:28px;
+    margin-top:8px;
+}
+
+.green{color:#16a34a}
+.blue{color:#2563eb}
+.orange{color:#ea580c}
+.red{color:#dc2626}
+.purple{color:#7c3aed}
+
+.panel{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
+
+.panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.panel-head h3{
+    font-size:20px;
+}
+
+button{
+    font-family:inherit;
+}
+
+.primary{
+    background:#16a34a;
+    color:white;
+    border:0;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.primary:hover{
+    background:#15803d;
+}
+
+.secondary{
+    background:#2563eb;
+    color:white;
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.danger{
+    background:#ef4444;
+    color:white;
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.warning{
+    background:#f59e0b;
+    color:white;
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.success{
+    background:#16a34a;
+    color:white;
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.edit-btn{
+    background:#7c3aed;
+    color:white;
+    border:0;
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.edit-btn:hover{
+    background:#6d28d9;
+}
+
+.search{
+    width:100%;
+    max-width:350px;
+    padding:11px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+}
+
+select,
+input,
+textarea{
+    width:100%;
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:7px;
+    font-family:inherit;
+}
+
+textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+input[type="file"]{
+    padding:8px;
+    background:#fff;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1050px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+th,
+td{
+    padding:13px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+    vertical-align:middle;
+}
+
+th{
+    background:#f9fafb;
+    font-size:13px;
+}
+
+.small{
+    font-size:13px;
+    color:#6b7280;
+    margin-top:4px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.active-badge{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.paused-badge{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.cancelled-badge{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.completed-badge{
+    background:#e0e7ff;
+    color:#3730a3;
+}
+
+.actions{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#6b7280;
+}
+
+.message{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    padding:14px 18px;
+    border-radius:9px;
+    color:white;
+    display:none;
+    z-index:999;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+.message.success-msg{
+    display:block;
+    background:#16a34a;
+}
+
+.message.error-msg{
+    display:block;
+    background:#dc2626;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:500;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:750px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:15px;
+    padding:25px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:#f3f4f6;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.days{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.day{
+    width:auto;
+    cursor:pointer;
+}
+
+.day input{
+    display:none;
+}
+
+.day span{
+    display:inline-block;
+    padding:7px 10px;
+    background:#f3f4f6;
+    border-radius:7px;
+    font-size:12px;
+}
+
+.day input:checked + span{
+    background:#16a34a;
+    color:white;
+}
+
+.form-actions{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.detail{
+    background:#f9fafb;
+    padding:12px;
+    border-radius:8px;
+}
+
+.detail b{
+    display:block;
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:4px;
+}
+
+.product-image{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #e5e7eb;
+    background:#f9fafb;
+}
+
+.product-image-placeholder{
+    width:60px;
+    height:60px;
+    border-radius:10px;
+    background:#e8f5e9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.image-preview{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
+    border:1px solid #d1d5db;
+    background:#f9fafb;
+}
+
+.image-preview-placeholder{
+    width:120px;
+    height:120px;
+    border-radius:12px;
+    background:#e8f5e9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:50px;
+}
+
+.current-image-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:12px;
+    background:#f9fafb;
+    border-radius:10px;
+}
+
+@media(max-width:900px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-grid,
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        padding:12px;
+    }
+
+    .container{
+        padding:18px 10px;
+    }
+
+    .brand h1{
+        font-size:18px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+
+        <div class="logo">🥛</div>
+
+        <div>
+            <h1>Siva Dairy</h1>
+            <p>Admin Dashboard</p>
+        </div>
+
+    </div>
+
+    <button class="logout" onclick="logoutAdmin()">
+        Logout
+    </button>
+
+</header>
+
+
+<main class="container">
+
+    <div class="title">
+        <h2>Admin Dashboard</h2>
+        <p>Manage products, customers, orders and daily milk subscriptions.</p>
+    </div>
+
+
+    <!-- ================= TABS ================= -->
+
+    <div class="tabs">
+
+        <button class="tab active"
+                onclick="openTab('products',this)">
+            🥛 Products
+        </button>
+
+        <button class="tab"
+                onclick="openTab('customers',this)">
+            👥 Customers
+        </button>
+
+        <button class="tab"
+                onclick="openTab('orders',this)">
+            📦 Orders
+        </button>
+
+        <button class="tab"
+                onclick="openTab('dailyMilk',this)">
+            🥛 Daily Milk
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRODUCTS
+    ====================================================== -->
+
+    <section id="products" class="section active">
+
+        <div class="stats">
+
+            <div class="card">
+                <small>Total Products</small>
+                <strong id="productCount">0</strong>
+            </div>
+
+            <div class="card">
+                <small>Available</small>
+                <strong class="green" id="availableCount">0</strong>
+            </div>
+
+            <div class="card">
+                <small>Out of Stock</small>
+                <strong class="red" id="outStockCount">0</strong>
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-head">
+
+                <h3>Products</h3>
+
+                <button class="primary"
+                        onclick="openProductModal()">
+                    + Add Product
+                </button>
+
+            </div>
+
+            <div id="productsTable">
+                Loading products...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CUSTOMERS
+    ====================================================== -->
+
+    <section id="customers" class="section">
+
+        <div class="stats">
+
+            <div class="card">
+                <small>Total Customers</small>
+
+                <strong class="blue"
+                        id="customerCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-head">
+
+                <h3>Customers</h3>
+
+                <input
+                    class="search"
+                    id="customerSearch"
+                    placeholder="Search customer..."
+                    oninput="renderCustomers()"
+                >
+
+            </div>
+
+            <div id="customersTable">
+                Loading customers...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ORDERS
+    ====================================================== -->
+
+    <section id="orders" class="section">
+
+        <div class="stats">
+
+            <div class="card">
+
+                <small>Total Orders</small>
+
+                <strong class="purple"
+                        id="orderCount">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-head">
+
+                <h3>Orders</h3>
+
+                <button class="secondary"
+                        onclick="loadOrders()">
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+            <div id="ordersTable">
+                Loading orders...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DAILY MILK
+    ====================================================== -->
+
+    <section id="dailyMilk" class="section">
+
+        <div class="stats">
+
+            <div class="card">
+                <small>Total Subscriptions</small>
+                <strong class="blue"
+                        id="subscriptionTotal">
+                    0
+                </strong>
+            </div>
+
+            <div class="card">
+                <small>Active</small>
+                <strong class="green"
+                        id="subscriptionActive">
+                    0
+                </strong>
+            </div>
+
+            <div class="card">
+                <small>Paused</small>
+                <strong class="orange"
+                        id="subscriptionPaused">
+                    0
+                </strong>
+            </div>
+
+            <div class="card">
+                <small>Cancelled</small>
+                <strong class="red"
+                        id="subscriptionCancelled">
+                    0
+                </strong>
+            </div>
+
+            <div class="card">
+                <small>Skipped Days</small>
+                <strong class="purple"
+                        id="subscriptionSkipped">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-head">
+
+                <div>
+                    <h3>🥛 Daily Milk Subscriptions</h3>
+
+                    <p class="small">
+                        Customers who have taken a milk subscription.
+                    </p>
+                </div>
+
+                <div class="actions">
+
+                    <button class="secondary"
+                            onclick="loadSubscriptions()">
+                        🔄 Refresh
+                    </button>
+
+                    <button class="primary"
+                            onclick="openSubscriptionModal()">
+                        + Add Subscription
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+
+                <input
+                    class="search"
+                    id="subscriptionSearch"
+                    placeholder="Search name or phone..."
+                    oninput="renderSubscriptions()"
+                >
+
+                <select
+                    id="subscriptionFilter"
+                    style="max-width:200px"
+                    onchange="renderSubscriptions()"
+                >
+
+                    <option value="ALL">
+                        All Status
+                    </option>
+
+                    <option value="ACTIVE">
+                        Active
+                    </option>
+
+                    <option value="PAUSED">
+                        Paused
+                    </option>
+
+                    <option value="CANCELLED">
+                        Cancelled
+                    </option>
+
+                    <option value="COMPLETED">
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div id="subscriptionsTable">
+                Loading subscriptions...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<div id="message" class="message"></div>
+
+
+<!-- =====================================================
+     SUBSCRIPTION MODAL
+====================================================== -->
+
+<div id="subscriptionModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3 id="subscriptionModalTitle">
+                Add Milk Subscription
+            </h3>
+
+            <button class="close"
+                    onclick="closeSubscriptionModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="subscriptionForm"
+              onsubmit="saveSubscription(event)">
+
+            <input type="hidden"
+                   id="subscriptionId">
+
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>Customer</label>
+
+                    <select id="subCustomer"
+                            onchange="fillCustomerDetails()"
+                            required>
+
+                        <option value="">
+                            Select Customer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Phone Number</label>
+
+                    <input id="subPhone"
+                           readonly
+                           required>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Delivery Address</label>
+
+                    <input id="subAddress"
+                           readonly
+                           required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Landmark</label>
+
+                    <input id="subLandmark"
+                           readonly>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Milk Product</label>
+
+                    <select id="subProduct"
+                            onchange="calculateSubscriptionPrice()"
+                            required>
+
+                        <option value="">
+                            Select Milk
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Quantity</label>
+
+                    <select id="subQuantity"
+                            onchange="calculateSubscriptionPrice()">
+
+                        <option value="0.5">
+                            500 ml
+                        </option>
+
+                        <option value="1" selected>
+                            1 Litre
+                        </option>
+
+                        <option value="2">
+                            2 Litres
+                        </option>
+
+                        <option value="5">
+                            5 Litres
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Start Date</label>
+
+                    <input type="date"
+                           id="subStartDate"
+                           required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Delivery Slot</label>
+
+                    <select id="subSlot">
+
+                        <option>Morning</option>
+                        <option>Evening</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Payment Method</label>
+
+                    <select id="subPayment">
+
+                        <option value="COD">
+                            Cash on Delivery
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="ONLINE">
+                            Online Payment
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Subscription Price</label>
+
+                    <input id="subPrice"
+                           readonly>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Delivery Days</label>
+
+                    <div class="days">
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Monday"
+                                   checked>
+                            <span>Mon</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Tuesday"
+                                   checked>
+                            <span>Tue</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Wednesday"
+                                   checked>
+                            <span>Wed</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Thursday"
+                                   checked>
+                            <span>Thu</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Friday"
+                                   checked>
+                            <span>Fri</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Saturday"
+                                   checked>
+                            <span>Sat</span>
+                        </label>
+
+                        <label class="day">
+                            <input type="checkbox"
+                                   name="deliveryDay"
+                                   value="Sunday"
+                                   checked>
+                            <span>Sun</span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Notes</label>
+
+                    <textarea id="subNotes"
+                              placeholder="Optional notes"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div id="pricePreview"
+                 style="
+                    margin-top:15px;
+                    padding:15px;
+                    background:#f0fdf4;
+                    border-radius:9px;
+                 ">
+                Select milk to calculate price.
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="button"
+                        class="danger"
+                        onclick="closeSubscriptionModal()">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="primary">
+                    Save Subscription
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIEW DETAILS MODAL
+====================================================== -->
+
+<div id="detailsModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3>🥛 Subscription Details</h3>
+
+            <button class="close"
+                    onclick="closeDetailsModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="subscriptionDetails"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PRODUCT MODAL
+====================================================== -->
+
+<div id="productModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3 id="productModalTitle">
+                Add Product
+            </h3>
+
+            <button class="close"
+                    onclick="closeProductModal()">
+                ×
+            </button>
+
+        </div>
+
+        <form id="productForm"
+              onsubmit="saveProduct(event)">
+
+            <input type="hidden"
+                   id="productId">
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>Product Name</label>
+
+                    <input id="productName"
+                           required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Price</label>
+
+                    <input id="productPrice"
+                           type="number"
+                           min="0"
+                           required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Unit</label>
+
+                    <input id="productUnit"
+                           value="Litre"
+                           required>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Icon</label>
+
+                    <input id="productIcon"
+                           value="🥛">
+
+                </div>
+
+
+                <div class="field full">
+
+                    <label>Specifications</label>
+
+                    <input id="productSpecs">
+
+                </div>
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <div class="field full">
+
+                    <label>Product Image</label>
+
+                    <input
+                        id="productImage"
+                        type="file"
+                        accept="image/*"
+                        onchange="previewProductImage(event)"
+                    >
+
+                    <div id="currentProductImage"
+                         style="margin-top:10px;">
+
+                    </div>
+
+                    <div class="small">
+                        Select a new image only if you want to change the
+                        existing product image.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="button"
+                        class="danger"
+                        onclick="closeProductModal()">
+                    Cancel
+                </button>
+
+                <button class="primary"
+                        type="submit"
+                        id="productSaveButton">
+                    Add Product
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API = "";
+
+const PRODUCT_API = API + "/api/products";
+const CUSTOMER_API = API + "/api/customers";
+const ORDER_API = API + "/api/orders";
+const SUBSCRIPTION_API = API + "/api/subscriptions";
+
+
+let products = [];
+let customers = [];
+let orders = [];
+let subscriptions = [];
+
+let editingProductId = null;
+
+
+/* =====================================================
+   TAB
+===================================================== */
+
+function openTab(id, button){
+
+    document.querySelectorAll(".section")
+        .forEach(section =>
+            section.classList.remove("active")
+        );
+
+    document.querySelectorAll(".tab")
+        .forEach(tab =>
+            tab.classList.remove("active")
+        );
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    button.classList.add("active");
+
+    if(id === "products"){
+        loadProducts();
+    }
+
+    if(id === "customers"){
+        loadCustomers();
+    }
+
+    if(id === "orders"){
+        loadOrders();
+    }
+
+    if(id === "dailyMilk"){
+        loadSubscriptions();
+        loadCustomersForSubscription();
+        loadMilkProducts();
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text, success=true){
+
+    const box =
+        document.getElementById("message");
+
+    box.textContent = text;
+
+    box.className =
+        success
+        ? "message success-msg"
+        : "message error-msg";
+
+    setTimeout(() => {
+        box.className = "message";
+    },3500);
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/[&<>"']/g, character => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        })[character]);
+
+}
+
+
+/* =====================================================
+   PRODUCTS
+===================================================== */
+
+async function loadProducts(){
+
+    try{
+
+        const response =
+            await fetch(PRODUCT_API);
+
+        if(!response.ok)
+            throw new Error("Failed to load products.");
+
+        products =
+            await response.json();
+
+        renderProducts();
+
+        document.getElementById("productCount")
+            .textContent = products.length;
+
+        document.getElementById("availableCount")
+            .textContent =
+            products.filter(p => p.available !== false).length;
+
+        document.getElementById("outStockCount")
+            .textContent =
+            products.filter(p => p.available === false).length;
+
+    }
+    catch(error){
+
+        document.getElementById("productsTable")
+            .innerHTML =
+            `<div class="empty">❌ ${escapeHtml(error.message)}</div>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS
+===================================================== */
+
+function renderProducts(){
+
+    const box =
+        document.getElementById("productsTable");
+
+    if(!products.length){
+
+        box.innerHTML =
+            `<div class="empty">No products found.</div>`;
+
+        return;
+    }
+
+    box.innerHTML = `
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Unit</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${products.map(product => `
+
+                    <tr>
+
+                        <td>
+
+                            ${
+                                product.image
+                                ?
+                                `<img
+                                    src="${escapeHtml(product.image)}"
+                                    class="product-image"
+                                    alt="${escapeHtml(product.name)}"
+                                    onerror="this.style.display='none'"
+                                >`
+                                :
+                                `<div class="product-image-placeholder">
+                                    ${escapeHtml(product.icon || "🥛")}
+                                </div>`
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(product.name)}
+                            </strong>
+
+                            <div class="small">
+                                ${escapeHtml(product.specs || "")}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ₹${Number(product.price || 0).toFixed(2)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(product.unit || "")}
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                class="${product.available !== false
+                                    ? "success"
+                                    : "danger"}"
+
+                                onclick="changeStock(
+                                    '${product._id}',
+                                    ${product.available === false}
+                                )">
+
+                                ${
+                                    product.available !== false
+                                    ? "Available"
+                                    : "Out of Stock"
+                                }
+
+                            </button>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="edit-btn"
+                                    onclick="editProduct(
+                                        '${product._id}'
+                                    )"
+                                >
+                                    ✏️ Edit
+                                </button>
+
+                            </div>
+                            <button
+    class="danger"
+    onclick="deleteProduct('${product._id}')"
+>
+    🗑️ Remove
+</button>
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+    `;
+
+}
+
+
+/* =====================================================
+   CHANGE STOCK
+===================================================== */
+
+async function changeStock(id, available){
+
+    try{
+
+        const response =
+            await fetch(
+                `${PRODUCT_API}/${id}/stock`,
+                {
+                    method:"PATCH",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({available})
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok)
+            throw new Error(
+                data.message ||
+                "Failed to update stock."
+            );
+
+        showMessage(data.message || "Stock updated.");
+
+        await loadProducts();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+async function deleteProduct(id){
+
+    const product = products.find(
+        p => String(p._id) === String(id)
+    );
+
+    if(!product){
+        showMessage("Product not found.", false);
+        return;
+    }
+
+    if(!confirm(`Remove "${product.name}"?`)){
+        return;
+    }
+
+    try{
+
+        const response = await fetch(
+            `${PRODUCT_API}/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const data = await response.json();
+
+        if(!response.ok){
+            throw new Error(
+                data.message || "Failed to remove product."
+            );
+        }
+
+        showMessage(
+            data.message || "Product removed successfully."
+        );
+
+        await loadProducts();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            error.message || "Failed to remove product.",
+            false
+        );
+
+    }
+
+}
+
+/* =====================================================
+   PRODUCT MODAL - ADD
+===================================================== */
+
+function openProductModal(){
+
+    editingProductId = null;
+
+    document.getElementById("productModalTitle")
+        .textContent = "Add Product";
+
+    document.getElementById("productSaveButton")
+        .textContent = "Add Product";
+
+    document.getElementById("productForm")
+        .reset();
+
+    document.getElementById("productId")
+        .value = "";
+
+    document.getElementById("productUnit")
+        .value = "Litre";
+
+    document.getElementById("productIcon")
+        .value = "🥛";
+
+    document.getElementById("currentProductImage")
+        .innerHTML = "";
+
+    document.getElementById("productModal")
+        .classList.add("show");
+
+}
+
+
+/* =====================================================
+   PRODUCT MODAL - EDIT
+===================================================== */
+
+function editProduct(id){
+
+    const product =
+        products.find(
+            p => String(p._id) === String(id)
+        );
+
+    if(!product){
+
+        showMessage(
+            "Product not found.",
+            false
+        );
+
+        return;
+    }
+
+    editingProductId =
+        product._id;
+
+
+    document.getElementById("productModalTitle")
+        .textContent = "Edit Product";
+
+
+    document.getElementById("productSaveButton")
+        .textContent = "Save Changes";
+
+
+    document.getElementById("productId")
+        .value = product._id;
+
+
+    document.getElementById("productName")
+        .value = product.name || "";
+
+
+    document.getElementById("productPrice")
+        .value = product.price ?? "";
+
+
+    document.getElementById("productUnit")
+        .value = product.unit || "";
+
+
+    document.getElementById("productIcon")
+        .value = product.icon || "🥛";
+
+
+    document.getElementById("productSpecs")
+        .value = product.specs || "";
+
+
+    document.getElementById("productImage")
+        .value = "";
+
+
+    const imageBox =
+        document.getElementById(
+            "currentProductImage"
+        );
+
+
+    if(product.image){
+
+        imageBox.innerHTML = `
+
+            <div class="current-image-box">
+
+                <img
+                    src="${escapeHtml(product.image)}"
+                    class="image-preview"
+                    alt="${escapeHtml(product.name)}"
+                    onerror="this.style.display='none'"
+                >
+
+                <div>
+
+                    <strong>
+                        Current Product Image
+                    </strong>
+
+                    <div class="small">
+                        Choose another image above
+                        to replace it.
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        imageBox.innerHTML = `
+
+            <div class="current-image-box">
+
+                <div class="image-preview-placeholder">
+                    ${escapeHtml(product.icon || "🥛")}
+                </div>
+
+                <div>
+
+                    <strong>
+                        No product image
+                    </strong>
+
+                    <div class="small">
+                        Select an image above to add one.
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    document.getElementById("productModal")
+        .classList.add("show");
+
+}
+
+
+/* =====================================================
+   PRODUCT IMAGE PREVIEW
+===================================================== */
+
+function previewProductImage(event){
+
+    const file =
+        event.target.files &&
+        event.target.files[0];
+
+    if(!file)
+        return;
+
+
+    if(!file.type.startsWith("image/")){
+
+        showMessage(
+            "Please select an image file.",
+            false
+        );
+
+        event.target.value = "";
+
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(){
+
+        document.getElementById(
+            "currentProductImage"
+        ).innerHTML = `
+
+            <div class="current-image-box">
+
+                <img
+                    src="${reader.result}"
+                    class="image-preview"
+                    alt="New product image"
+                >
+
+                <div>
+
+                    <strong>
+                        New Image Selected
+                    </strong>
+
+                    <div class="small">
+                        This image will be uploaded
+                        when you save the product.
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =====================================================
+   CLOSE PRODUCT MODAL
+===================================================== */
+
+function closeProductModal(){
+
+    document.getElementById("productModal")
+        .classList.remove("show");
+
+    editingProductId = null;
+
+}
+
+
+/* =====================================================
+   SAVE PRODUCT
+===================================================== */
+
+async function saveProduct(event){
+
+    event.preventDefault();
+
+
+    const id =
+        document.getElementById(
+            "productId"
+        ).value;
+
+
+    const imageInput =
+        document.getElementById(
+            "productImage"
+        );
+
+
+    const imageFile =
+        imageInput.files &&
+        imageInput.files[0];
+
+
+    /*
+       IMPORTANT:
+
+       Existing product details are taken
+       directly from the form.
+
+       Nothing is replaced with default
+       product data.
+    */
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "name",
+        document.getElementById(
+            "productName"
+        ).value.trim()
+    );
+
+
+    formData.append(
+        "price",
+        document.getElementById(
+            "productPrice"
+        ).value
+    );
+
+
+    formData.append(
+        "unit",
+        document.getElementById(
+            "productUnit"
+        ).value.trim()
+    );
+
+
+    formData.append(
+        "icon",
+        document.getElementById(
+            "productIcon"
+        ).value.trim()
+    );
+
+
+    formData.append(
+        "specs",
+        document.getElementById(
+            "productSpecs"
+        ).value.trim()
+    );
+
+
+    if(imageFile){
+
+        formData.append(
+            "image",
+            imageFile
+        );
+
+    }
+
+
+    try{
+
+        let response;
+
+
+        /*
+           EDIT EXISTING PRODUCT
+        */
+
+        if(id){
+
+            response =
+                await fetch(
+                    `${PRODUCT_API}/${id}`,
+                    {
+                        method:"PUT",
+                        body:formData
+                    }
+                );
+
+        }
+
+        /*
+           ADD NEW PRODUCT
+        */
+
+        else{
+
+            response =
+                await fetch(
+                    PRODUCT_API,
+                    {
+                        method:"POST",
+                        body:formData
+                    }
+                );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                result.message ||
+                "Failed to save product."
+            );
+
+        }
+
+
+        showMessage(
+            id
+            ? "Product updated successfully."
+            : "Product added successfully."
+        );
+
+
+        closeProductModal();
+
+
+        await loadProducts();
+
+    }
+    catch(error){
+
+        console.error(
+            "Product save error:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Failed to save product.",
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CUSTOMERS
+===================================================== */
+
+async function loadCustomers(){
+
+    try{
+
+        const response =
+            await fetch(CUSTOMER_API);
+
+        if(!response.ok)
+            throw new Error(
+                "Failed to load customers."
+            );
+
+        customers =
+            await response.json();
+
+        document.getElementById("customerCount")
+            .textContent = customers.length;
+
+        renderCustomers();
+
+    }
+    catch(error){
+
+        document.getElementById("customersTable")
+            .innerHTML =
+            `<div class="empty">
+                ❌ ${escapeHtml(error.message)}
+             </div>`;
+
+    }
+
+}
+
+
+function renderCustomers(){
+
+    const box =
+        document.getElementById(
+            "customersTable"
+        );
+
+    const search =
+        (
+            document.getElementById(
+                "customerSearch"
+            ).value || ""
+        ).toLowerCase();
+
+
+    const filtered =
+        customers.filter(customer =>
+
+            String(customer.name || "")
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            String(customer.phone || "")
+                .includes(search)
+
+        );
+
+
+    if(!filtered.length){
+
+        box.innerHTML =
+            `<div class="empty">
+                No customers found.
+             </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Registered</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${filtered.map(customer => `
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                ${escapeHtml(customer.name)}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHtml(customer.phone)}
+                        </td>
+
+                        <td>
+
+                            ${escapeHtml(
+                                customer.address || "-"
+                            )}
+
+                            ${
+                                customer.landmark
+                                ?
+                                `<div class="small">
+                                    ${escapeHtml(
+                                        customer.landmark
+                                    )}
+                                </div>`
+                                :
+                                ""
+                            }
+
+                        </td>
+
+                        <td>
+                            ${formatDate(
+                                customer.createdAt
+                            )}
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ORDERS
+===================================================== */
+
+async function loadOrders(){
+
+    try{
+
+        const response =
+            await fetch(ORDER_API);
+
+        if(!response.ok)
+            throw new Error(
+                "Failed to load orders."
+            );
+
+        orders =
+            await response.json();
+
+        document.getElementById("orderCount")
+            .textContent = orders.length;
+
+        renderOrders();
+
+    }
+    catch(error){
+
+        document.getElementById("ordersTable")
+            .innerHTML =
+            `<div class="empty">
+                ❌ ${escapeHtml(error.message)}
+             </div>`;
+
+    }
+
+}
+
+
+function renderOrders(){
+
+    const box =
+        document.getElementById(
+            "ordersTable"
+        );
+
+
+    if(!orders.length){
+
+        box.innerHTML =
+            `<div class="empty">
+                No orders found.
+             </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${orders.map(order => `
+
+                    <tr>
+
+                        <td>
+                            ${formatDate(
+                                order.createdAt
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(
+                                    order.customerName
+                                )}
+                            </strong>
+
+                            <div class="small">
+                                📱 ${escapeHtml(
+                                    order.phone
+                                )}
+                            </div>
+
+                            <div class="small">
+                                📍 ${escapeHtml(
+                                    order.address
+                                )}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                Array.isArray(
+                                    order.items
+                                )
+
+                                ?
+
+                                order.items
+                                    .map(item =>
+                                        `${escapeHtml(
+                                            item.name
+                                        )}
+                                        ×
+                                        ${escapeHtml(
+                                            item.qty
+                                        )}`
+                                    )
+                                    .join("<br>")
+
+                                :
+
+                                "-"
+                            }
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(
+                                order.payment || "COD"
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ₹${Number(
+                                    order.total || 0
+                                ).toFixed(2)}
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <select
+                                onchange="
+                                    updateOrderStatus(
+                                        '${order._id}',
+                                        this.value
+                                    )
+                                "
+                            >
+
+                                ${orderStatuses(
+                                    order.status
+                                )}
+
+                            </select>
+
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+}
+
+
+function orderStatuses(current){
+
+    const statuses = [
+
+        "PAYMENT_PENDING",
+        "CONFIRMED",
+        "PREPARING",
+        "OUT_FOR_DELIVERY",
+        "DELIVERED",
+        "CANCELLED"
+
+    ];
+
+
+    return statuses.map(status => `
+
+        <option
+            value="${status}"
+            ${status === current ? "selected":""}
+        >
+
+            ${status.replaceAll("_"," ")}
+
+        </option>
+
+    `).join("");
+
+}
+
+
+async function updateOrderStatus(id,status){
+
+    try{
+
+        const response =
+            await fetch(
+                `${ORDER_API}/${id}`,
+                {
+                    method:"PUT",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:JSON.stringify({
+                        status
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok)
+            throw new Error(
+                data.message ||
+                "Failed to update order."
+            );
+
+
+        showMessage(
+            "Order status updated."
+        );
+
+
+        loadOrders();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DAILY MILK - LOAD
+===================================================== */
+
+async function loadSubscriptions(){
+
+    try{
+
+        const response =
+            await fetch(
+                SUBSCRIPTION_API
+            );
+
+
+        if(!response.ok)
+            throw new Error(
+                "Failed to load milk subscriptions."
+            );
+
+
+        subscriptions =
+            await response.json();
+
+
+        renderSubscriptions();
+
+        loadSubscriptionStats();
+
+    }
+    catch(error){
+
+        document.getElementById(
+            "subscriptionsTable"
+        ).innerHTML =
+            `<div class="empty">
+                ❌ ${escapeHtml(
+                    error.message
+                )}
+             </div>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   DAILY MILK - STATS
+===================================================== */
+
+async function loadSubscriptionStats(){
+
+    try{
+
+        const response =
+            await fetch(
+                `${SUBSCRIPTION_API}/stats/summary`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            "subscriptionTotal"
+        ).textContent =
+            data.total || 0;
+
+
+        document.getElementById(
+            "subscriptionActive"
+        ).textContent =
+            data.active || 0;
+
+
+        document.getElementById(
+            "subscriptionPaused"
+        ).textContent =
+            data.paused || 0;
+
+
+        document.getElementById(
+            "subscriptionCancelled"
+        ).textContent =
+            data.cancelled || 0;
+
+
+        document.getElementById(
+            "subscriptionSkipped"
+        ).textContent =
+            data.skippedDays || 0;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   DAILY MILK - RENDER
+===================================================== */
+
+function renderSubscriptions(){
+
+    const box =
+        document.getElementById(
+            "subscriptionsTable"
+        );
+
+
+    const search =
+        (
+            document.getElementById(
+                "subscriptionSearch"
+            ).value || ""
+        ).toLowerCase();
+
+
+    const filter =
+        document.getElementById(
+            "subscriptionFilter"
+        ).value;
+
+
+    let list =
+        subscriptions.filter(subscription => {
+
+            const matchesSearch =
+
+                String(
+                    subscription.customerName || ""
+                )
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                String(
+                    subscription.phone || ""
+                )
+                .toLowerCase()
+                .includes(search);
+
+
+            const matchesStatus =
+                filter === "ALL"
+                ||
+                subscription.status === filter;
+
+
+            return matchesSearch &&
+                   matchesStatus;
+
+        });
+
+
+    if(!list.length){
+
+        box.innerHTML = `
+
+            <div class="empty">
+
+                🥛 No milk subscriptions found.
+
+                <br><br>
+
+                Click
+                <strong>
+                    + Add Subscription
+                </strong>
+                to create one.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML = `
+
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Customer</th>
+                    <th>Milk</th>
+                    <th>Quantity</th>
+                    <th>Delivery</th>
+                    <th>Start Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                ${list.map(subscription => `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(
+                                    subscription.customerName
+                                )}
+                            </strong>
+
+                            <div class="small">
+                                📱 ${escapeHtml(
+                                    subscription.phone
+                                )}
+                            </div>
+
+                            <div class="small">
+                                📍 ${escapeHtml(
+                                    subscription.address
+                                )}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            🥛
+                            ${escapeHtml(
+                                subscription.productName
+                            )}
+
+                            <div class="small">
+
+                                ₹${Number(
+                                    subscription.pricePerUnit || 0
+                                ).toFixed(2)}
+
+                                /
+                                ${escapeHtml(
+                                    subscription.unit ||
+                                    "Litre"
+                                )}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(
+                                    subscription.quantity
+                                )}
+                            </strong>
+
+                            ${escapeHtml(
+                                subscription.unit ||
+                                "Litre"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(
+                                    subscription.deliverySlot ||
+                                    "Morning"
+                                )}
+                            </strong>
+
+                            <div class="small">
+
+                                ${
+                                    Array.isArray(
+                                        subscription.deliveryDays
+                                    )
+
+                                    ?
+
+                                    subscription.deliveryDays
+                                        .map(day =>
+                                            day.substring(0,3)
+                                        )
+                                        .join(", ")
+
+                                    :
+
+                                    "Daily"
+                                }
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${formatDateOnly(
+                                subscription.startDate
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                ₹${Number(
+                                    subscription.monthlyAmount || 0
+                                ).toFixed(2)}
+                            </strong>
+
+                            <div class="small">
+                                / 30 days
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${statusBadge(
+                                subscription.status
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="secondary"
+                                    onclick="
+                                        viewSubscription(
+                                            '${subscription._id}'
+                                        )
+                                    "
+                                >
+                                    View
+                                </button>
+
+
+                                ${
+                                    subscription.status === "ACTIVE"
+
+                                    ?
+
+                                    `<button
+                                        class="warning"
+                                        onclick="
+                                            updateSubscriptionStatus(
+                                                '${subscription._id}',
+                                                'PAUSED'
+                                            )
+                                        "
+                                    >
+                                        Pause
+                                    </button>`
+
+                                    :
+
+                                    subscription.status === "PAUSED"
+
+                                    ?
+
+                                    `<button
+                                        class="success"
+                                        onclick="
+                                            updateSubscriptionStatus(
+                                                '${subscription._id}',
+                                                'ACTIVE'
+                                            )
+                                        "
+                                    >
+                                        Resume
+                                    </button>`
+
+                                    :
+
+                                    ""
+                                }
+
+
+                                ${
+                                    subscription.status !== "CANCELLED"
+
+                                    ?
+
+                                    `<button
+                                        class="danger"
+                                        onclick="
+                                            updateSubscriptionStatus(
+                                                '${subscription._id}',
+                                                'CANCELLED'
+                                            )
+                                        "
+                                    >
+                                        Cancel
+                                    </button>`
+
+                                    :
+
+                                    ""
+                                }
+
+
+                                <button
+                                    class="danger"
+                                    onclick="
+                                        deleteSubscription(
+                                            '${subscription._id}'
+                                        )
+                                    "
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   STATUS BADGE
+===================================================== */
+
+function statusBadge(status){
+
+    if(status === "ACTIVE"){
+
+        return `
+            <span class="badge active-badge">
+                🟢 ACTIVE
+            </span>
+        `;
+
+    }
+
+
+    if(status === "PAUSED"){
+
+        return `
+            <span class="badge paused-badge">
+                🟡 PAUSED
+            </span>
+        `;
+
+    }
+
+
+    if(status === "CANCELLED"){
+
+        return `
+            <span class="badge cancelled-badge">
+                🔴 CANCELLED
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span class="badge completed-badge">
+            ${escapeHtml(status)}
+        </span>
+    `;
+
+}
+
+
+/* =====================================================
+   LOAD CUSTOMERS FOR SUBSCRIPTION
+===================================================== */
+
+async function loadCustomersForSubscription(){
+
+    try{
+
+        const response =
+            await fetch(
+                CUSTOMER_API
+            );
+
+
+        if(!response.ok)
+            throw new Error(
+                "Failed to load customers."
+            );
+
+
+        customers =
+            await response.json();
+
+
+        const select =
+            document.getElementById(
+                "subCustomer"
+            );
+
+
+        select.innerHTML = `
+
+            <option value="">
+                Select Customer
+            </option>
+
+        `;
+
+
+        customers.forEach(customer => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                customer.phone;
+
+
+            option.textContent =
+                `${customer.name} - ${customer.phone}`;
+
+
+            select.appendChild(option);
+
+        });
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD MILK PRODUCTS
+===================================================== */
+
+async function loadMilkProducts(){
+
+    try{
+
+        const response =
+            await fetch(
+                PRODUCT_API
+            );
+
+
+        if(!response.ok)
+            throw new Error(
+                "Failed to load milk products."
+            );
+
+
+        products =
+            await response.json();
+
+
+        const select =
+            document.getElementById(
+                "subProduct"
+            );
+
+
+        select.innerHTML = `
+
+            <option value="">
+                Select Milk Product
+            </option>
+
+        `;
+
+
+        products
+            .filter(
+                product =>
+                    product.available !== false
+            )
+            .forEach(product => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    product._id;
+
+
+                option.textContent =
+                    `${product.name} - ₹${product.price}/${product.unit}`;
+
+
+                select.appendChild(option);
+
+            });
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   FILL CUSTOMER DETAILS
+===================================================== */
+
+function fillCustomerDetails(){
+
+    const phone =
+        document.getElementById(
+            "subCustomer"
+        ).value;
+
+
+    const customer =
+        customers.find(
+            c =>
+                String(c.phone) ===
+                String(phone)
+        );
+
+
+    if(!customer){
+
+        document.getElementById(
+            "subPhone"
+        ).value = "";
+
+        document.getElementById(
+            "subAddress"
+        ).value = "";
+
+        document.getElementById(
+            "subLandmark"
+        ).value = "";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "subPhone"
+    ).value =
+        customer.phone || "";
+
+
+    document.getElementById(
+        "subAddress"
+    ).value =
+        customer.address || "";
+
+
+    document.getElementById(
+        "subLandmark"
+    ).value =
+        customer.landmark || "";
+
+}
+
+
+/* =====================================================
+   PRICE CALCULATION
+===================================================== */
+
+function calculateSubscriptionPrice(){
+
+    const productId =
+        document.getElementById(
+            "subProduct"
+        ).value;
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "subQuantity"
+            ).value
+        );
+
+
+    const product =
+        products.find(
+            p =>
+                String(p._id) ===
+                String(productId)
+        );
+
+
+    if(!product){
+
+        document.getElementById(
+            "subPrice"
+        ).value = "";
+
+
+        document.getElementById(
+            "pricePreview"
+        ).textContent =
+            "Select milk to calculate price.";
+
+        return;
+
+    }
+
+
+    const normalPrice =
+        Number(
+            product.price || 0
+        );
+
+
+    /*
+       KEEPING YOUR EXISTING
+       SUBSCRIPTION CALCULATION
+    */
+
+    const discount = 5;
+
+
+    const subscriptionPrice =
+        Math.max(
+            0,
+            normalPrice - discount
+        );
+
+
+    const dailyAmount =
+        quantity *
+        subscriptionPrice;
+
+
+    const monthlyAmount =
+        dailyAmount *
+        30;
+
+
+    document.getElementById(
+        "subPrice"
+    ).value =
+        `₹${subscriptionPrice.toFixed(2)} / ${product.unit}`;
+
+
+    document.getElementById(
+        "pricePreview"
+    ).innerHTML = `
+
+        <strong>
+            Subscription Calculation
+        </strong>
+
+        <br><br>
+
+        Normal Rate:
+        ₹${normalPrice.toFixed(2)}
+
+        <br>
+
+        Subscription Discount:
+        ₹${discount.toFixed(2)}
+
+        <br>
+
+        Subscription Rate:
+
+        <strong>
+            ₹${subscriptionPrice.toFixed(2)}
+        </strong>
+
+        <br>
+
+        Daily Amount:
+
+        <strong>
+            ₹${dailyAmount.toFixed(2)}
+        </strong>
+
+        <br>
+
+        30-Day Amount:
+
+        <strong>
+            ₹${monthlyAmount.toFixed(2)}
+        </strong>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OPEN SUBSCRIPTION MODAL
+===================================================== */
+
+function openSubscriptionModal(
+    subscription=null
+){
+
+    document.getElementById(
+        "subscriptionModal"
+    ).classList.add("show");
+
+
+    document.getElementById(
+        "subscriptionModalTitle"
+    ).textContent =
+        subscription
+        ? "Edit Milk Subscription"
+        : "Add Milk Subscription";
+
+
+    document.getElementById(
+        "subscriptionId"
+    ).value =
+        subscription
+        ? subscription._id
+        : "";
+
+
+    if(!subscription){
+
+        document.getElementById(
+            "subscriptionForm"
+        ).reset();
+
+
+        document.querySelectorAll(
+            'input[name="deliveryDay"]'
+        ).forEach(input => {
+
+            input.checked = true;
+
+        });
+
+
+        const today =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        document.getElementById(
+            "subStartDate"
+        ).value = today;
+
+
+        document.getElementById(
+            "subPrice"
+        ).value = "";
+
+
+        document.getElementById(
+            "pricePreview"
+        ).textContent =
+            "Select milk to calculate price.";
+
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "subCustomer"
+    ).value =
+        subscription.phone || "";
+
+
+    fillCustomerDetails();
+
+
+    document.getElementById(
+        "subProduct"
+    ).value =
+        subscription.productId || "";
+
+
+    document.getElementById(
+        "subQuantity"
+    ).value =
+        subscription.quantity || 1;
+
+
+    document.getElementById(
+        "subStartDate"
+    ).value =
+        subscription.startDate
+        ?
+        new Date(
+            subscription.startDate
+        )
+        .toISOString()
+        .split("T")[0]
+        :
+        "";
+
+
+    document.getElementById(
+        "subSlot"
+    ).value =
+        subscription.deliverySlot ||
+        "Morning";
+
+
+    document.getElementById(
+        "subPayment"
+    ).value =
+        subscription.paymentMethod ||
+        "COD";
+
+
+    document.getElementById(
+        "subNotes"
+    ).value =
+        subscription.notes || "";
+
+
+    document.querySelectorAll(
+        'input[name="deliveryDay"]'
+    ).forEach(input => {
+
+        input.checked =
+            Array.isArray(
+                subscription.deliveryDays
+            )
+            &&
+            subscription.deliveryDays.includes(
+                input.value
+            );
+
+    });
+
+
+    calculateSubscriptionPrice();
+
+}
+
+
+/* =====================================================
+   CLOSE SUBSCRIPTION MODAL
+===================================================== */
+
+function closeSubscriptionModal(){
+
+    document.getElementById(
+        "subscriptionModal"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   SAVE SUBSCRIPTION
+===================================================== */
+
+async function saveSubscription(event){
+
+    event.preventDefault();
+
+
+    const id =
+        document.getElementById(
+            "subscriptionId"
+        ).value;
+
+
+    const phone =
+        document.getElementById(
+            "subPhone"
+        ).value;
+
+
+    const customer =
+        customers.find(
+            c =>
+                String(c.phone) ===
+                String(phone)
+        );
+
+
+    if(!customer){
+
+        showMessage(
+            "Please select a customer.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    const productId =
+        document.getElementById(
+            "subProduct"
+        ).value;
+
+
+    const product =
+        products.find(
+            p =>
+                String(p._id) ===
+                String(productId)
+        );
+
+
+    if(!product){
+
+        showMessage(
+            "Please select a milk product.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    const deliveryDays =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="deliveryDay"]:checked'
+            )
+        )
+        .map(
+            input => input.value
+        );
+
+
+    if(!deliveryDays.length){
+
+        showMessage(
+            "Select at least one delivery day.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "subQuantity"
+            ).value
+        );
+
+
+    const body = {
+
+        customerName:
+            customer.name,
+
+        phone:
+            customer.phone,
+
+        address:
+            customer.address,
+
+        landmark:
+            customer.landmark || "",
+
+        productName:
+            product.name,
+
+        productId:
+            product._id,
+
+        quantity,
+
+        unit:
+            product.unit || "Litre",
+
+        pricePerUnit:
+            Number(
+                product.price || 0
+            ),
+
+        deliveryDays,
+
+        startDate:
+            document.getElementById(
+                "subStartDate"
+            ).value,
+
+        deliverySlot:
+            document.getElementById(
+                "subSlot"
+            ).value,
+
+        paymentMethod:
+            document.getElementById(
+                "subPayment"
+            ).value,
+
+        notes:
+            document.getElementById(
+                "subNotes"
+            ).value
+
+    };
+
+
+    try{
+
+        let response;
+
+
+        if(id){
+
+            response =
+                await fetch(
+                    `${SUBSCRIPTION_API}/${id}`,
+                    {
+                        method:"PUT",
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:
+                            JSON.stringify(body)
+                    }
+                );
+
+        }
+        else{
+
+            response =
+                await fetch(
+                    SUBSCRIPTION_API,
+                    {
+                        method:"POST",
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:
+                            JSON.stringify(body)
+                    }
+                );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to save subscription."
+            );
+
+        }
+
+
+        showMessage(
+            id
+            ?
+            "Subscription updated successfully."
+            :
+            "Daily milk subscription created successfully."
+        );
+
+
+        closeSubscriptionModal();
+
+
+        await loadSubscriptions();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   VIEW SUBSCRIPTION
+===================================================== */
+
+function viewSubscription(id){
+
+    const subscription =
+        subscriptions.find(
+            s =>
+                String(s._id) ===
+                String(id)
+        );
+
+
+    if(!subscription)
+        return;
+
+
+    document.getElementById(
+        "subscriptionDetails"
+    ).innerHTML = `
+
+        <div class="detail-grid">
+
+            <div class="detail">
+                <b>Customer Name</b>
+                ${escapeHtml(
+                    subscription.customerName
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Phone Number</b>
+                📱 ${escapeHtml(
+                    subscription.phone
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Address</b>
+                📍 ${escapeHtml(
+                    subscription.address
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Landmark</b>
+                ${escapeHtml(
+                    subscription.landmark || "-"
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Milk</b>
+                🥛 ${escapeHtml(
+                    subscription.productName
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Quantity</b>
+                ${escapeHtml(
+                    subscription.quantity
+                )}
+                ${escapeHtml(
+                    subscription.unit ||
+                    "Litre"
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Normal Rate</b>
+                ₹${Number(
+                    subscription.normalPrice || 0
+                ).toFixed(2)}
+            </div>
+
+            <div class="detail">
+                <b>Subscription Rate</b>
+                ₹${Number(
+                    subscription.pricePerUnit || 0
+                ).toFixed(2)}
+            </div>
+
+            <div class="detail">
+                <b>Daily Amount</b>
+                ₹${(
+                    Number(
+                        subscription.quantity || 0
+                    )
+                    *
+                    Number(
+                        subscription.pricePerUnit || 0
+                    )
+                ).toFixed(2)}
+            </div>
+
+            <div class="detail">
+                <b>30-Day Amount</b>
+                ₹${Number(
+                    subscription.monthlyAmount || 0
+                ).toFixed(2)}
+            </div>
+
+            <div class="detail">
+                <b>Start Date</b>
+                ${formatDateOnly(
+                    subscription.startDate
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Delivery Slot</b>
+                ${escapeHtml(
+                    subscription.deliverySlot ||
+                    "Morning"
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Delivery Days</b>
+
+                ${
+                    Array.isArray(
+                        subscription.deliveryDays
+                    )
+                    ?
+                    subscription.deliveryDays
+                        .map(escapeHtml)
+                        .join(", ")
+                    :
+                    "-"
+                }
+
+            </div>
+
+            <div class="detail">
+                <b>Payment Method</b>
+                ${escapeHtml(
+                    subscription.paymentMethod ||
+                    "COD"
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Status</b>
+                ${statusBadge(
+                    subscription.status
+                )}
+            </div>
+
+            <div class="detail">
+                <b>Skipped Dates</b>
+
+                ${
+                    Array.isArray(
+                        subscription.skippedDates
+                    )
+                    &&
+                    subscription.skippedDates.length
+
+                    ?
+
+                    subscription.skippedDates
+                        .map(escapeHtml)
+                        .join(", ")
+
+                    :
+
+                    "None"
+                }
+
+            </div>
+
+        </div>
+
+
+        ${
+            subscription.notes
+
+            ?
+
+            `
+            <div style="
+                margin-top:15px;
+                background:#f9fafb;
+                padding:15px;
+                border-radius:8px;
+            ">
+
+                <b>Notes</b>
+
+                <p style="margin-top:6px">
+                    ${escapeHtml(
+                        subscription.notes
+                    )}
+                </p>
+
+            </div>
+            `
+
+            :
+
+            ""
+        }
+
+
+        <div style="
+            margin-top:20px;
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        ">
+
+            <button
+                class="secondary"
+                onclick="
+                    closeDetailsModal();
+                    openSubscriptionModal(
+                        subscriptions.find(
+                            s => s._id === '${subscription._id}'
+                        )
+                    );
+                "
+            >
+                ✏️ Edit
+            </button>
+
+
+            ${
+                subscription.status === "ACTIVE"
+
+                ?
+
+                `<button
+                    class="warning"
+                    onclick="
+                        updateSubscriptionStatus(
+                            '${subscription._id}',
+                            'PAUSED'
+                        );
+                        closeDetailsModal();
+                    "
+                >
+                    ⏸️ Pause
+                </button>`
+
+                :
+
+                subscription.status === "PAUSED"
+
+                ?
+
+                `<button
+                    class="success"
+                    onclick="
+                        updateSubscriptionStatus(
+                            '${subscription._id}',
+                            'ACTIVE'
+                        );
+                        closeDetailsModal();
+                    "
+                >
+                    ▶️ Resume
+                </button>`
+
+                :
+
+                ""
+            }
+
+
+            <button
+                class="danger"
+                onclick="
+                    skipMilkToday(
+                        '${subscription._id}'
+                    )
+                "
+            >
+                ⏭️ Skip Today
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "detailsModal"
+    ).classList.add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE DETAILS
+===================================================== */
+
+function closeDetailsModal(){
+
+    document.getElementById(
+        "detailsModal"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   UPDATE SUBSCRIPTION STATUS
+===================================================== */
+
+async function updateSubscriptionStatus(
+    id,
+    status
+){
+
+    const text =
+        status === "PAUSED"
+
+        ?
+        "Pause this milk subscription?"
+
+        :
+
+        status === "CANCELLED"
+
+        ?
+        "Cancel this milk subscription?"
+
+        :
+
+        "Activate this milk subscription?";
+
+
+    if(!confirm(text))
+        return;
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${SUBSCRIPTION_API}/${id}/status`,
+                {
+                    method:"PATCH",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            status
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok)
+            throw new Error(
+                data.message ||
+                "Failed to update subscription."
+            );
+
+
+        showMessage(
+            "Subscription status updated."
+        );
+
+
+        loadSubscriptions();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE SUBSCRIPTION
+===================================================== */
+
+async function deleteSubscription(id){
+
+    if(!confirm(
+        "Delete this milk subscription permanently?"
+    )){
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${SUBSCRIPTION_API}/${id}`,
+                {
+                    method:"DELETE"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok)
+            throw new Error(
+                data.message ||
+                "Failed to delete subscription."
+            );
+
+
+        showMessage(
+            "Subscription deleted."
+        );
+
+
+        loadSubscriptions();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SKIP TODAY
+===================================================== */
+
+async function skipMilkToday(id){
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    if(!confirm(
+        `Skip milk delivery for ${today}?`
+    )){
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${SUBSCRIPTION_API}/${id}/skip`,
+                {
+                    method:"PATCH",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            date:today
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok)
+            throw new Error(
+                data.message ||
+                "Failed to skip milk."
+            );
+
+
+        showMessage(
+            `Milk skipped for ${today}.`
+        );
+
+
+        closeDetailsModal();
+
+
+        loadSubscriptions();
+
+    }
+    catch(error){
+
+        showMessage(
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DATE FUNCTIONS
+===================================================== */
+
+function formatDateOnly(value){
+
+    if(!value)
+        return "-";
+
+
+    try{
+
+        return new Date(value)
+            .toLocaleDateString(
+                "en-IN",
+                {
+                    day:"2-digit",
+                    month:"short",
+                    year:"numeric"
+                }
+            );
+
+    }
+    catch{
+
+        return "-";
+
+    }
+
+}
+
+
+function formatDate(value){
+
+    if(!value)
+        return "-";
+
+
+    try{
+
+        return new Date(value)
+            .toLocaleString(
+                "en-IN",
+                {
+                    dateStyle:"medium",
+                    timeStyle:"short"
+                }
+            );
+
+    }
+    catch{
+
+        return "-";
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutAdmin(){
+
+    localStorage.removeItem(
+        "sivaDairyAdminSessionV1"
+    );
+
+
+    window.location.href =
+        "/admin-login.html";
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadProducts();
+
+        loadCustomers();
+
+        loadOrders();
+
+        loadSubscriptions();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

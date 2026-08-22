@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Siva Dairy | Subscriptions</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7f9;
+    color:#1f2937;
+}
+
+.siva-brand-header{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:14px 18px;
+    background:#fff;
+    border-bottom:1px solid #dce8df;
+}
+
+.siva-brand-header a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#08783f;
+    font-weight:800;
+    font-size:21px;
+}
+
+.siva-brand-header img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+}
+
+.top{
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
+    padding:16px 24px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:15px;
+}
+
+.brand{
+    font-size:22px;
+    font-weight:700;
+}
+
+.sub{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:4px;
+}
+
+.wrap{
+    max-width:1500px;
+    margin:28px auto;
+    padding:0 18px;
+}
+
+.panel{
+    background:#fff;
+    border-radius:14px;
+    padding:22px;
+
+    box-shadow:
+        0 3px 16px #0000000d;
+}
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(6,1fr);
+
+    gap:12px;
+    margin:20px 0;
+}
+
+.summary-card{
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:16px;
+    background:#fff;
+}
+
+.summary-title{
+    font-size:12px;
+    color:#6b7280;
+}
+
+.summary-value{
+    font-size:25px;
+    font-weight:800;
+    margin-top:5px;
+}
+
+.green{
+    color:#15803d;
+}
+
+.orange{
+    color:#b7791f;
+}
+
+.red{
+    color:#b91c1c;
+}
+
+.blue{
+    color:#2563eb;
+}
+
+.yellow{
+    color:#d97706;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:9px 13px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.refresh{
+    background:#1677ff;
+    color:#fff;
+}
+
+.back{
+    background:#eef5fb;
+    color:#1677ff;
+}
+
+.pause{
+    background:#fff3cd;
+    color:#8a5a00;
+}
+
+.resume{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.cancel{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.delete{
+    background:#111827;
+    color:#fff;
+}
+
+.skip-admin{
+    background:#fff7ed;
+    color:#c2410c;
+}
+
+.restore-admin{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    margin-top:20px;
+}
+
+table{
+    width:100%;
+    min-width:1500px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f8fafc;
+}
+
+th{
+    text-align:left;
+    padding:13px 10px;
+    font-size:11px;
+    color:#6b7280;
+    text-transform:uppercase;
+    border-bottom:1px solid #e5e7eb;
+}
+
+td{
+    padding:14px 10px;
+    border-bottom:1px solid #eef0f2;
+    vertical-align:top;
+    font-size:13px;
+}
+
+tr:hover{
+    background:#fafafa;
+}
+
+.customer-name{
+    font-weight:800;
+    color:#111827;
+}
+
+.small{
+    display:block;
+    color:#6b7280;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.price{
+    font-weight:800;
+    color:#08783f;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+}
+
+.status-ACTIVE{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status-PAUSED{
+    background:#fff3cd;
+    color:#b7791f;
+}
+
+.status-CANCELLED{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.status-COMPLETED{
+    background:#dbeafe;
+    color:#2563eb;
+}
+
+.days{
+    font-size:11px;
+    color:#4b5563;
+    line-height:1.5;
+}
+
+.skipped-box{
+    margin-top:8px;
+    padding:8px;
+
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-radius:8px;
+}
+
+.skipped-date{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:5px;
+
+    font-size:11px;
+    margin-top:6px;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+}
+
+.actions button{
+    font-size:11px;
+    padding:7px 9px;
+}
+
+.loading{
+    padding:35px;
+    text-align:center;
+    color:#6b7280;
+}
+
+.error{
+    padding:20px;
+    background:#fee2e2;
+    color:#991b1b;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.empty{
+    padding:40px;
+    text-align:center;
+    color:#6b7280;
+}
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:18px;
+}
+
+.search{
+    flex:1;
+    min-width:250px;
+    padding:10px 12px;
+
+    border:1px solid #d1d5db;
+    border-radius:8px;
+
+    font-size:14px;
+}
+
+.search:focus{
+    outline:none;
+    border-color:#1677ff;
+    box-shadow:
+        0 0 0 3px #1677ff1a;
+}
+
+.message{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+
+    background:#111827;
+    color:#fff;
+
+    padding:13px 17px;
+    border-radius:10px;
+
+    display:none;
+
+    z-index:9999;
+
+    box-shadow:
+        0 5px 20px #00000025;
+}
+
+.message.show{
+    display:block;
+}
+
+.message.success{
+    background:#15803d;
+}
+
+.message.error-message{
+    background:#b91c1c;
+}
+
+@media(max-width:1100px){
+
+    .summary-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .top{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .wrap{
+        padding:0 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     BRAND HEADER
+===================================================== -->
+
+<div class="siva-brand-header">
+
+    <a href="index.html">
+
+        <img
+            src="siva-dairy-logo.png"
+            alt="Siva Dairy Logo"
+        >
+
+        <span>
+            Siva Dairy
+        </span>
+
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     TOP HEADER
+===================================================== -->
+
+<header class="top">
+
+    <div>
+
+        <div class="brand">
+            🥛 Siva Dairy
+        </div>
+
+        <div class="sub">
+            Milk Subscription Management
+        </div>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="location.href='admin-dashboard.html'"
+    >
+
+        ← Admin Dashboard
+
+    </button>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="wrap">
+
+<section class="panel">
+
+<h2>
+    Daily Milk Subscriptions
+</h2>
+
+<p style="color:#6b7280">
+
+    All subscriptions are loaded directly
+    from your MongoDB database.
+
+</p>
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<div class="summary-grid">
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Total
+        </div>
+
+        <div
+            id="totalCount"
+            class="summary-value"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Active
+        </div>
+
+        <div
+            id="activeCount"
+            class="summary-value green"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Paused
+        </div>
+
+        <div
+            id="pausedCount"
+            class="summary-value orange"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Cancelled
+        </div>
+
+        <div
+            id="cancelledCount"
+            class="summary-value red"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Completed
+        </div>
+
+        <div
+            id="completedCount"
+            class="summary-value blue"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            Skipped Days
+        </div>
+
+        <div
+            id="skippedCount"
+            class="summary-value yellow"
+        >
+            0
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOOLBAR
+===================================================== -->
+
+<div class="toolbar">
+
+    <input
+        id="searchBox"
+        class="search"
+        type="text"
+        placeholder="Search customer, phone, product or status..."
+    >
+
+
+    <button
+        class="refresh"
+        id="refreshButton"
+    >
+
+        🔄 Refresh
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     TABLE
+===================================================== -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+    Customer
+</th>
+
+<th>
+    Product
+</th>
+
+<th>
+    Quantity
+</th>
+
+<th>
+    Price
+</th>
+
+<th>
+    Monthly
+</th>
+
+<th>
+    Delivery
+</th>
+
+<th>
+    Start Date
+</th>
+
+<th>
+    Skipped
+</th>
+
+<th>
+    Status
+</th>
+
+<th>
+    Actions
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="subscriptionTable">
+
+<tr>
+
+<td
+    colspan="10"
+    class="loading"
+>
+
+    Loading subscriptions...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+<div
+    id="messageBox"
+    class="message"
+></div>
+
+
+<script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let allSubscriptions = [];
+
+let isLoading = false;
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /[&<>"']/g,
+        function(match){
+
+            return {
+
+                "&":
+                    "&amp;",
+
+                "<":
+                    "&lt;",
+
+                ">":
+                    "&gt;",
+
+                '"':
+                    "&quot;",
+
+                "'":
+                    "&#039;"
+
+            }[match];
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE JAVASCRIPT STRING
+===================================================== */
+
+function js(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    )
+    .replace(
+        /\r/g,
+        "\\r"
+    )
+    .replace(
+        /\n/g,
+        "\\n"
+    );
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function money(value){
+
+    const number =
+        Number(value || 0);
+
+
+    return "₹" +
+        number.toLocaleString(
+            "en-IN",
+            {
+                minimumFractionDigits:
+                    2,
+
+                maximumFractionDigits:
+                    2
+            }
+        );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const text =
+        String(value);
+
+
+    if(
+        /^\d{4}-\d{2}-\d{2}$/
+            .test(text)
+    ){
+
+        const [
+            year,
+            month,
+            day
+        ] =
+            text.split("-");
+
+
+        return (
+            day +
+            "-" +
+            month +
+            "-" +
+            year
+        );
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return text;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TOAST MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type = "success"
+){
+
+    const box =
+        document.getElementById(
+            "messageBox"
+        );
+
+
+    box.textContent =
+        text;
+
+
+    box.className =
+        "message show " +
+        (
+            type === "error"
+                ? "error-message"
+                : "success"
+        );
+
+
+    setTimeout(
+        function(){
+
+            box.className =
+                "message";
+
+        },
+        3000
+    );
+
+}
+
+
+/* =====================================================
+   LOAD SUBSCRIPTIONS
+===================================================== */
+
+async function loadSubscriptions(){
+
+    if(isLoading){
+
+        return;
+
+    }
+
+
+    isLoading = true;
+
+
+    const table =
+        document.getElementById(
+            "subscriptionTable"
+        );
+
+
+    table.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="10"
+                class="loading"
+            >
+
+                🔄 Loading subscriptions from MongoDB...
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/subscriptions",
+                {
+                    method:
+                        "GET",
+
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to load subscriptions."
+            );
+
+        }
+
+
+        if(
+            !Array.isArray(data)
+        ){
+
+            throw new Error(
+                "Invalid subscription data received from server."
+            );
+
+        }
+
+
+        allSubscriptions =
+            data;
+
+
+        updateSummary(
+            allSubscriptions
+        );
+
+
+        filterSubscriptions();
+
+
+    }catch(error){
+
+        console.error(
+            "Load subscriptions error:",
+            error
+        );
+
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="10">
+
+                    <div class="error">
+
+                        ❌ Failed to load subscriptions.
+
+                        <br><br>
+
+                        ${esc(
+                            error.message
+                        )}
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }finally{
+
+        isLoading =
+            false;
+
+    }
+
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+function updateSummary(
+    subscriptions
+){
+
+    const total =
+        subscriptions.length;
+
+
+    const active =
+        subscriptions.filter(
+            s =>
+                String(
+                    s.status ||
+                    "ACTIVE"
+                )
+                .toUpperCase()
+                ===
+                "ACTIVE"
+        ).length;
+
+
+    const paused =
+        subscriptions.filter(
+            s =>
+                String(
+                    s.status || ""
+                )
+                .toUpperCase()
+                ===
+                "PAUSED"
+        ).length;
+
+
+    const cancelled =
+        subscriptions.filter(
+            s =>
+                String(
+                    s.status || ""
+                )
+                .toUpperCase()
+                ===
+                "CANCELLED"
+        ).length;
+
+
+    const completed =
+        subscriptions.filter(
+            s =>
+                String(
+                    s.status || ""
+                )
+                .toUpperCase()
+                ===
+                "COMPLETED"
+        ).length;
+
+
+    const skipped =
+        subscriptions.reduce(
+            function(total, subscription){
+
+                return (
+                    total +
+                    (
+                        Array.isArray(
+                            subscription.skippedDates
+                        )
+                            ?
+                            subscription
+                                .skippedDates
+                                .length
+
+                            :
+                            0
+                    )
+                );
+
+            },
+            0
+        );
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeCount"
+    ).textContent =
+        active;
+
+
+    document.getElementById(
+        "pausedCount"
+    ).textContent =
+        paused;
+
+
+    document.getElementById(
+        "cancelledCount"
+    ).textContent =
+        cancelled;
+
+
+    document.getElementById(
+        "completedCount"
+    ).textContent =
+        completed;
+
+
+    document.getElementById(
+        "skippedCount"
+    ).textContent =
+        skipped;
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderSubscriptions(
+    subscriptions
+){
+
+    const table =
+        document.getElementById(
+            "subscriptionTable"
+        );
+
+
+    if(
+        !subscriptions.length
+    ){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="10"
+                    class="empty"
+                >
+
+                    🥛 No subscriptions found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        subscriptions
+            .map(
+                function(s){
+
+                    const status =
+                        String(
+                            s.status ||
+                            "ACTIVE"
+                        )
+                        .toUpperCase();
+
+
+                    const productName =
+                        s.productName ||
+                        s.milkName ||
+                        "-";
+
+
+                    const unit =
+                        s.unit ||
+                        "Litre";
+
+
+                    const quantity =
+                        Number(
+                            s.quantity || 0
+                        );
+
+
+                    const price =
+                        Number(
+                            s.pricePerUnit ??
+                            s.pricePerLitre ??
+                            0
+                        );
+
+
+                    const monthly =
+                        Number(
+                            s.monthlyAmount ??
+                            (
+                                quantity *
+                                price *
+                                30
+                            )
+                        );
+
+
+                    const customerName =
+                        s.customerName ||
+                        "Customer";
+
+
+                    const phone =
+                        s.phone ||
+                        "";
+
+
+                    const address =
+                        s.address ||
+                        "";
+
+
+                    const landmark =
+                        s.landmark ||
+                        "";
+
+
+                    const payment =
+                        s.paymentMethod ||
+                        "COD";
+
+
+                    const slot =
+                        s.deliverySlot ||
+                        "Morning";
+
+
+                    const id =
+                        s._id ||
+                        s.id ||
+                        "";
+
+
+                    const deliveryDays =
+                        Array.isArray(
+                            s.deliveryDays
+                        )
+                            ?
+                            s.deliveryDays.join(
+                                ", "
+                            )
+                            :
+                            "Every day";
+
+
+                    const skippedDates =
+                        Array.isArray(
+                            s.skippedDates
+                        )
+                            ?
+                            s.skippedDates
+                            :
+                            [];
+
+
+                    return `
+
+<tr>
+
+<!-- CUSTOMER -->
+
+<td>
+
+    <div class="customer-name">
+
+        ${esc(
+            customerName
+        )}
+
+    </div>
+
+    <span class="small">
+
+        📱 ${esc(
+            phone
+        )}
+
+    </span>
+
+    <span class="small">
+
+        📍 ${esc(
+            address
+        )}
+
+    </span>
+
+    ${
+        landmark
+            ?
+            `
+            <span class="small">
+
+                Landmark:
+                ${esc(
+                    landmark
+                )}
+
+            </span>
+            `
+            :
+            ""
+    }
+
+</td>
+
+
+<!-- PRODUCT -->
+
+<td>
+
+    <strong>
+
+        🥛 ${esc(
+            productName
+        )}
+
+    </strong>
+
+    <span class="small">
+
+        ${esc(
+            unit
+        )}
+
+    </span>
+
+</td>
+
+
+<!-- QUANTITY -->
+
+<td>
+
+    <strong>
+
+        ${esc(
+            quantity
+        )}
+
+    </strong>
+
+    <span class="small">
+
+        ${esc(
+            unit
+        )}
+        / day
+
+    </span>
+
+</td>
+
+
+<!-- PRICE -->
+
+<td>
+
+    <span class="price">
+
+        ${money(
+            price
+        )}
+
+    </span>
+
+    <span class="small">
+
+        per ${esc(
+            unit
+        )}
+
+    </span>
+
+    ${
+        s.normalPrice !==
+        undefined
+            ?
+            `
+            <span class="small">
+
+                Normal:
+                ${money(
+                    s.normalPrice
+                )}
+
+            </span>
+
+            <span class="small">
+
+                Discount:
+                ${money(
+                    s.subscriptionDiscount ||
+                    0
+                )}
+
+            </span>
+            `
+            :
+            ""
+    }
+
+</td>
+
+
+<!-- MONTHLY -->
+
+<td>
+
+    <span class="price">
+
+        ${money(
+            monthly
+        )}
+
+    </span>
+
+    <span class="small">
+
+        Approx. 30 days
+
+    </span>
+
+</td>
+
+
+<!-- DELIVERY -->
+
+<td>
+
+    <div class="days">
+
+        ${esc(
+            deliveryDays
+        )}
+
+    </div>
+
+    <span class="small">
+
+        🕐 ${esc(
+            slot
+        )}
+
+    </span>
+
+    <span class="small">
+
+        💳 ${esc(
+            payment
+        )}
+
+    </span>
+
+</td>
+
+
+<!-- START DATE -->
+
+<td>
+
+    ${formatDate(
+        s.startDate
+    )}
+
+    ${
+        s.createdAt
+            ?
+            `
+            <span class="small">
+
+                Created:
+                ${formatDate(
+                    s.createdAt
+                )}
+
+            </span>
+            `
+            :
+            ""
+    }
+
+</td>
+
+
+<!-- SKIPPED -->
+
+<td>
+
+${
+    skippedDates.length
+        ?
+        `
+        <div class="skipped-box">
+
+            <strong>
+
+                ⏭️
+                ${skippedDates.length}
+                day(s)
+
+            </strong>
+
+            ${
+                skippedDates
+                    .slice()
+                    .sort()
+                    .map(
+                        function(date){
+
+                            return `
+
+                            <div
+                                class="skipped-date"
+                            >
+
+                                <span>
+
+                                    ${formatDate(
+                                        date
+                                    )}
+
+                                </span>
+
+                                <button
+                                    class="restore-admin"
+                                    onclick="
+                                        restoreSkip(
+                                            '${js(id)}',
+                                            '${js(date)}'
+                                        )
+                                    "
+                                >
+
+                                    ↩️ Restore
+
+                                </button>
+
+                            </div>
+
+                            `;
+
+                        }
+                    )
+                    .join("")
+            }
+
+        </div>
+        `
+        :
+        `
+        <span class="small">
+
+            No skipped days
+
+        </span>
+        `
+}
+
+</td>
+
+
+<!-- STATUS -->
+
+<td>
+
+    <span
+        class="
+            status
+            status-${esc(
+                status
+            )}
+        "
+    >
+
+        ${esc(
+            status
+        )}
+
+    </span>
+
+</td>
+
+
+<!-- ACTIONS -->
+
+<td>
+
+<div class="actions">
+
+
+${
+    status ===
+    "ACTIVE"
+        ?
+        `
+        <button
+            class="pause"
+            onclick="
+                changeStatus(
+                    '${js(id)}',
+                    'PAUSED'
+                )
+            "
+        >
+
+            ⏸ Pause
+
+        </button>
+        `
+        :
+        ""
+}
+
+
+${
+    status ===
+    "PAUSED"
+        ?
+        `
+        <button
+            class="resume"
+            onclick="
+                changeStatus(
+                    '${js(id)}',
+                    'ACTIVE'
+                )
+            "
+        >
+
+            ▶ Resume
+
+        </button>
+        `
+        :
+        ""
+}
+
+
+${
+    status !==
+    "CANCELLED"
+        &&
+    status !==
+    "COMPLETED"
+        ?
+        `
+        <button
+            class="cancel"
+            onclick="
+                changeStatus(
+                    '${js(id)}',
+                    'CANCELLED'
+                )
+            "
+        >
+
+            ❌ Cancel
+
+        </button>
+        `
+        :
+        ""
+}
+
+
+${
+    status ===
+    "ACTIVE"
+        ?
+        `
+        <button
+            class="skip-admin"
+            onclick="
+                adminSkipTomorrow(
+                    '${js(id)}'
+                )
+            "
+        >
+
+            ⏭️ Skip Tomorrow
+
+        </button>
+        `
+        :
+        ""
+}
+
+
+<button
+    class="delete"
+    onclick="
+        deleteSubscription(
+            '${js(id)}'
+        )
+    "
+>
+
+    🗑 Delete
+
+</button>
+
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =====================================================
+   GET TOMORROW
+===================================================== */
+
+function getTomorrow(){
+
+    const date =
+        new Date();
+
+
+    date.setDate(
+        date.getDate() + 1
+    );
+
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+/* =====================================================
+   ADMIN SKIP TOMORROW
+===================================================== */
+
+async function adminSkipTomorrow(
+    id
+){
+
+    if(!id){
+
+        showMessage(
+            "Subscription ID is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const tomorrow =
+        getTomorrow();
+
+
+    if(
+        !confirm(
+            "Skip milk delivery for tomorrow (" +
+            formatDate(
+                tomorrow
+            ) +
+            ")?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                "/api/subscriptions/" +
+                encodeURIComponent(
+                    id
+                ) +
+                "/skip",
+
+                {
+
+                    method:
+                        "PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            date:
+                                tomorrow
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                data.message ||
+                "Failed to skip delivery."
+            );
+
+        }
+
+
+        showMessage(
+            "Milk delivery skipped for " +
+            formatDate(
+                tomorrow
+            )
+        );
+
+
+        await loadSubscriptions();
+
+
+    }catch(error){
+
+        console.error(
+            "Skip error:",
+            error
+        );
+
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RESTORE SKIP
+===================================================== */
+
+async function restoreSkip(
+    id,
+    date
+){
+
+    if(
+        !id ||
+        !date
+    ){
+
+        showMessage(
+            "Subscription ID or date is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Restore milk delivery for " +
+            formatDate(
+                date
+            ) +
+            "?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                "/api/subscriptions/" +
+                encodeURIComponent(
+                    id
+                ) +
+                "/unskip",
+
+                {
+
+                    method:
+                        "PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            date:
+                                date
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                data.message ||
+                "Failed to restore delivery."
+            );
+
+        }
+
+
+        showMessage(
+            "Milk delivery restored for " +
+            formatDate(
+                date
+            )
+        );
+
+
+        await loadSubscriptions();
+
+
+    }catch(error){
+
+        console.error(
+            "Restore error:",
+            error
+        );
+
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CHANGE STATUS
+===================================================== */
+
+async function changeStatus(
+    id,
+    status
+){
+
+    if(!id){
+
+        showMessage(
+            "Subscription ID is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Change subscription status to " +
+            status +
+            "?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                "/api/subscriptions/" +
+                encodeURIComponent(
+                    id
+                ) +
+                "/status",
+
+                {
+
+                    method:
+                        "PATCH",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status:
+                                status
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                data.message ||
+                "Failed to update subscription."
+            );
+
+        }
+
+
+        showMessage(
+            "Subscription status updated successfully."
+        );
+
+
+        await loadSubscriptions();
+
+
+    }catch(error){
+
+        console.error(
+            "Status error:",
+            error
+        );
+
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE SUBSCRIPTION
+===================================================== */
+
+async function deleteSubscription(
+    id
+){
+
+    if(!id){
+
+        showMessage(
+            "Subscription ID is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Are you sure you want to permanently delete this subscription?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+
+                "/api/subscriptions/" +
+                encodeURIComponent(
+                    id
+                ),
+
+                {
+
+                    method:
+                        "DELETE",
+
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                data.message ||
+                "Failed to delete subscription."
+            );
+
+        }
+
+
+        showMessage(
+            "Subscription deleted successfully."
+        );
+
+
+        await loadSubscriptions();
+
+
+    }catch(error){
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function filterSubscriptions(){
+
+    const search =
+        document.getElementById(
+            "searchBox"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    if(!search){
+
+        renderSubscriptions(
+            allSubscriptions
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        allSubscriptions.filter(
+            function(s){
+
+                const text = [
+
+                    s.customerName,
+
+                    s.phone,
+
+                    s.address,
+
+                    s.landmark,
+
+                    s.productName,
+
+                    s.milkName,
+
+                    s.status,
+
+                    s.paymentMethod,
+
+                    s.deliverySlot
+
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+                return text.includes(
+                    search
+                );
+
+            }
+        );
+
+
+    renderSubscriptions(
+        filtered
+    );
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document
+    .getElementById(
+        "searchBox"
+    )
+    .addEventListener(
+        "input",
+        filterSubscriptions
+    );
+
+
+document
+    .getElementById(
+        "refreshButton"
+    )
+    .addEventListener(
+        "click",
+        loadSubscriptions
+    );
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadSubscriptions();
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    function(){
+
+        loadSubscriptions();
+
+    },
+    30000
+);
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Siva Dairy | Cart & Checkout</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.checkout-page{
+  min-height:100vh;
+  background:#fbfdfb;
+  padding:25px 18px 60px;
+}
+
+.checkout-wrap{
+  max-width:1100px;
+  margin:auto;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+  padding:10px 0;
+}
+
+.brand-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:var(--green);
+  font-weight:800;
+}
+
+.brand-link img{
+  width:52px;
+  height:52px;
+  object-fit:contain;
+}
+
+.continue{
+  color:var(--green);
+  font-weight:700;
+  text-decoration:none;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.4fr .8fr;
+  gap:20px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px;
+  box-shadow:0 5px 18px #113b2010;
+}
+
+h1,h2{
+  color:var(--dark);
+}
+
+h1{
+  font-family:"Playfair Display",serif;
+  font-size:36px;
+  margin-bottom:20px;
+}
+
+h2{
+  font-family:"Playfair Display",serif;
+  font-size:25px;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* CART */
+
+.cart-item{
+  display:grid;
+  grid-template-columns:58px 1fr auto auto;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid #edf1ee;
+  padding:14px 0;
+}
+
+.cart-icon{
+  font-size:32px;
+}
+.cart-product-image{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid #dce8df;
+  background:#fff;
+  display:block;
+}
+
+.cart-image-fallback{
+  width:58px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  border-radius:10px;
+  background:#f1f7f3;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.qty button{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:7px;
+  padding:5px 10px;
+  cursor:pointer;
+  font-size:17px;
+}
+
+.remove{
+  border:0;
+  background:none;
+  color:#b91c1c;
+  cursor:pointer;
+}
+
+/* FORM */
+
+.field{
+  margin:14px 0;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  box-sizing:border-box;
+  padding:11px;
+  border:1px solid #d8e1db;
+  border-radius:8px;
+  font:inherit;
+}
+
+/* OFFERS */
+
+.offers-box{
+  margin-top:22px;
+  padding:17px;
+  border:1px solid #cfe5d3;
+  border-radius:12px;
+  background:#f5fbf6;
+}
+
+.offers-title{
+  font-size:18px;
+  font-weight:800;
+  color:var(--green);
+  margin-bottom:12px;
+}
+
+.offer{
+  padding:11px;
+  margin:8px 0;
+  border-radius:9px;
+  background:#fff;
+  border:1px solid #e1ebe3;
+}
+
+.offer.active{
+  border:2px solid var(--green);
+  background:#f1faf3;
+}
+
+.offer-icon{
+  font-size:20px;
+  margin-right:6px;
+}
+
+.offer-title{
+  font-weight:800;
+}
+
+.offer-sub{
+  margin-top:3px;
+  font-size:12px;
+  color:#666;
+}
+
+/* MILK CHOICE */
+
+.milk-choice{
+  display:none;
+  margin-top:14px;
+  padding:14px;
+  background:#fff;
+  border:1px solid #dce8df;
+  border-radius:10px;
+}
+
+.milk-choice.show{
+  display:block;
+}
+
+.milk-choice-title{
+  font-weight:800;
+  margin-bottom:10px;
+  color:var(--dark);
+}
+
+.milk-options{
+  display:grid;
+  gap:8px;
+}
+
+.milk-option{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:10px;
+  border:1px solid #dce8df;
+  border-radius:8px;
+  cursor:pointer;
+  background:#fff;
+}
+
+.milk-option:hover{
+  border-color:var(--green);
+}
+
+.milk-option input{
+  width:17px;
+  height:17px;
+  accent-color:var(--green);
+}
+
+/* PAYMENT */
+
+.payment-grid{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.payment{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:1.5px solid #dce8df;
+  padding:13px;
+  border-radius:10px;
+  cursor:pointer;
+  background:#fff;
+}
+
+.payment:hover{
+  border-color:var(--green);
+}
+
+.payment:has(input:checked){
+  border:2px solid var(--green);
+  background:#f1faf3;
+}
+
+.payment input{
+  width:18px;
+  height:18px;
+  accent-color:var(--green);
+  margin:0;
+}
+
+.pay-icon{
+  width:42px;
+  height:34px;
+  border-radius:7px;
+  display:grid;
+  place-items:center;
+  background:#f0f5f2;
+  font-size:21px;
+}
+
+.pay-title{
+  font-weight:800;
+}
+
+.pay-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* UPI */
+
+.upi-box{
+  display:none;
+  margin-top:15px;
+  padding:16px;
+  border:1px solid #cfe5d3;
+  border-radius:12px;
+  background:#f5fbf6;
+  text-align:center;
+}
+
+.upi-box.show{
+  display:block;
+}
+
+.upi-box img{
+  width:220px;
+  max-width:100%;
+  height:auto;
+  border-radius:10px;
+  background:#fff;
+  padding:8px;
+  box-sizing:border-box;
+}
+
+.upi-id{
+  margin-top:12px;
+  font-size:18px;
+  font-weight:800;
+  color:var(--green);
+  word-break:break-all;
+}
+
+.upi-copy{
+  display:inline-block;
+  margin-top:10px;
+  border:0;
+  border-radius:8px;
+  padding:9px 14px;
+  background:var(--green);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.upi-note{
+  margin-top:10px;
+  font-size:12px;
+  color:#555;
+  line-height:1.5;
+}
+
+/* COD */
+
+.cod-box{
+  display:none;
+  margin-top:15px;
+  padding:13px;
+  border-radius:10px;
+  background:#fff8e8;
+  color:#765500;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.cod-box.show{
+  display:block;
+}
+
+/* SUMMARY */
+
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  margin:11px 0;
+}
+
+.total{
+  font-size:20px;
+  font-weight:800;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+}
+
+.free-delivery{
+  color:#15803d;
+  font-weight:800;
+}
+
+/* BUTTON */
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:9px;
+  padding:13px;
+  background:var(--green);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.empty{
+  text-align:center;
+  padding:45px;
+  color:var(--muted);
+}
+
+.empty a{
+  color:var(--green);
+  font-weight:700;
+}
+
+.success{
+  text-align:center;
+  padding:35px;
+}
+
+.order-no{
+  font-size:22px;
+  font-weight:800;
+  color:var(--green);
+}
+
+.order-offer{
+  margin:15px 0;
+  padding:13px;
+  border-radius:10px;
+  background:#f1faf3;
+  color:#166534;
+  font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:760px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .cart-item{
+    grid-template-columns:50px 1fr;
+  }
+
+  .cart-item>div:nth-child(3),
+  .cart-item>div:nth-child(4){
+    grid-column:2;
+  }
+
+  .topbar{
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="checkout-page">
+
+<div class="checkout-wrap">
+
+<div class="topbar">
+
+<a class="continue" href="index.html">
+← Continue Shopping
+</a>
+
+<a class="brand-link" href="index.html">
+<img src="./siva-dairy-logo.png" alt="Siva Dairy Logo">
+<span>Siva Dairy</span>
+</a>
+
+</div>
+
+
+<div id="main">
+
+<h1>Cart & Checkout</h1>
+
+<div class="grid">
+
+
+<!-- LEFT SIDE -->
+
+<section class="card">
+
+<h2>Your Cart</h2>
+
+<div id="cart"></div>
+
+
+<!-- OFFERS -->
+
+<div class="offers-box">
+
+<div class="offers-title">
+🎁 Siva Dairy Special Offers
+</div>
+
+<div id="offer199" class="offer">
+
+<div class="offer-title">
+🛵 ₹199+ Shopping
+</div>
+
+<div class="offer-sub">
+Get FREE delivery on your order.
+</div>
+
+</div>
+
+
+<div id="offer299" class="offer">
+
+<div class="offer-title">
+🥛 ₹299+ Shopping
+</div>
+
+<div class="offer-sub">
+Get FREE 500 ml Cow Milk or Buffalo Milk.
+</div>
+
+</div>
+
+
+<div id="offer499" class="offer">
+
+<div class="offer-title">
+🥛 ₹499+ Shopping
+</div>
+
+<div class="offer-sub">
+Get FREE 1 Litre Cow Milk or Buffalo Milk.
+</div>
+
+</div>
+
+
+<!-- MILK CHOICE -->
+
+<div id="milkChoice" class="milk-choice">
+
+<div class="milk-choice-title" id="milkChoiceTitle">
+Choose your free milk:
+</div>
+
+<div class="milk-options">
+
+<label class="milk-option">
+
+<input
+type="radio"
+name="freeMilk"
+value="Cow Milk"
+checked
+onchange="updateOfferDisplay()"
+>
+
+<span>
+🐄 <strong>Cow Milk</strong>
+</span>
+
+</label>
+
+
+<label class="milk-option">
+
+<input
+type="radio"
+name="freeMilk"
+value="Buffalo Milk"
+onchange="updateOfferDisplay()"
+>
+
+<span>
+🐃 <strong>Buffalo Milk</strong>
+</span>
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+
+<h2 style="margin-top:25px">
+Delivery Details
+</h2>
+
+
+<div class="field">
+
+<label>Customer Name</label>
+
+<input
+id="name"
+placeholder="Your name"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Mobile Number</label>
+
+<input
+id="phone"
+maxlength="10"
+inputmode="numeric"
+placeholder="10-digit mobile number"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Delivery Address</label>
+
+<textarea
+id="address"
+rows="3"
+placeholder="House number, street, area"
+></textarea>
+
+</div>
+
+
+<div class="field">
+
+<label>Delivery Slot</label>
+
+<select id="slot">
+
+<option>
+Morning 6:00 AM - 8:00 AM
+</option>
+
+<option>
+Morning 8:00 AM - 10:00 AM
+</option>
+
+<option>
+Evening 5:00 PM - 7:00 PM
+</option>
+
+</select>
+
+</div>
+
+</section>
+
+
+<!-- RIGHT SIDE -->
+
+<aside class="card">
+
+<h2>
+Choose Payment Method
+</h2>
+
+
+<div class="payment-grid">
+
+
+<!-- UPI -->
+
+<label class="payment">
+
+<input
+type="radio"
+name="pay"
+value="UPI"
+checked
+onchange="showPaymentDetails()"
+>
+
+<span class="pay-icon">
+📱
+</span>
+
+<span>
+
+<div class="pay-title">
+UPI
+</div>
+
+<div class="pay-sub">
+Google Pay • PhonePe • Paytm
+</div>
+
+</span>
+
+</label>
+
+
+<!-- COD -->
+
+<label class="payment">
+
+<input
+type="radio"
+name="pay"
+value="COD"
+onchange="showPaymentDetails()"
+>
+
+<span class="pay-icon">
+💵
+</span>
+
+<span>
+
+<div class="pay-title">
+Cash on Delivery
+</div>
+
+<div class="pay-sub">
+Pay when your order arrives
+</div>
+
+</span>
+
+</label>
+
+</div>
+
+
+<!-- UPI PAYMENT BOX -->
+
+<div
+id="upiBox"
+class="upi-box show"
+>
+
+<h3>
+📱 Pay using UPI
+</h3>
+
+<p>
+Scan the QR code using Google Pay,
+PhonePe, Paytm or another UPI app.
+</p>
+
+<img
+src="siva-dairy-upi-qr.png"
+alt="Siva Dairy UPI QR Code"
+>
+
+<div class="upi-id">
+UPI ID:<br>
+9652310956@ibl
+</div>
+
+<button
+type="button"
+class="upi-copy"
+onclick="copyUPI()"
+>
+📋 Copy UPI ID
+</button>
+
+<div class="upi-note">
+
+After making the payment, click
+<strong>Place Order</strong> below.
+
+<br>
+
+Your order will initially show
+<strong>PAYMENT_PENDING</strong>
+until Cashfree/payment gateway verification is connected.
+
+</div>
+
+</div>
+
+
+<!-- COD BOX -->
+
+<div
+id="codBox"
+class="cod-box"
+>
+
+💵 <strong>Cash on Delivery selected.</strong>
+
+<br>
+
+You can pay the delivery person when
+your order arrives.
+
+</div>
+
+
+<!-- TOTAL -->
+
+<div style="margin-top:22px">
+
+<div class="summary-line">
+
+<span>
+Subtotal
+</span>
+
+<strong id="subtotal">
+₹0.00
+</strong>
+
+</div>
+
+
+<div class="summary-line">
+
+<span>
+Delivery
+</span>
+
+<strong id="delivery">
+₹0.00
+</strong>
+
+</div>
+
+
+<div class="summary-line total">
+
+<span>
+Total
+</span>
+
+<strong id="total">
+₹0.00
+</strong>
+
+</div>
+
+</div>
+
+
+<button
+class="btn"
+onclick="placeOrder()"
+>
+Place Order
+</button>
+
+
+</aside>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const CART = "sivaDairyCartV1";
+
+
+/* ESCAPE HTML */
+
+function esc(v){
+
+return String(v ?? "").replace(
+/[&<>"']/g,
+m => ({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m])
+);
+
+}
+
+
+/* GET CART */
+
+function getCart(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem(CART) || "[]"
+);
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+
+/* SAVE CART */
+
+function saveCart(x){
+
+localStorage.setItem(
+CART,
+JSON.stringify(x)
+);
+
+}
+
+
+/* NORMALIZE CART ITEM */
+
+function normalizeItem(x){
+
+    return {
+
+        name: x.name || x.product || "Product",
+
+        qty: Number(
+            x.qty ||
+            x.quantity ||
+            1
+        ),
+
+        price: Number(
+            x.price || 0
+        ),
+
+        icon: x.icon || "🥛",
+
+        unit: x.unit || "item",
+
+        // IMPORTANT: keep product image
+        imageUrl:
+            x.imageUrl ||
+            x.image ||
+            ""
+
+    };
+
+}
+
+
+/* RENDER CART */
+
+function render(){
+
+const c =
+getCart().map(normalizeItem);
+
+const box =
+document.getElementById("cart");
+
+
+if(!c.length){
+
+box.innerHTML = `
+
+<div class="empty">
+
+🛒
+
+<strong
+style="display:block;margin:8px"
+>
+Your cart is empty.
+</strong>
+
+<a href="index.html">
+Browse products
+</a>
+
+</div>
+
+`;
+
+updateTotals();
+
+return;
+
+}
+
+
+box.innerHTML = c.map(
+(x,i) => `
+
+<div class="cart-item">
+
+<div class="cart-icon">
+
+${
+    x.imageUrl
+    ?
+    `
+    <img
+        src="${esc(x.imageUrl)}"
+        alt="${esc(x.name)}"
+        class="cart-product-image"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    >
+
+    <span
+        class="cart-image-fallback"
+        style="display:none;"
+    >
+        ${esc(x.icon)}
+    </span>
+    `
+    :
+    `
+    <span class="cart-image-fallback">
+        ${esc(x.icon)}
+    </span>
+    `
+}
+
+</div>
+
+<div>
+
+<strong>
+${esc(x.name)}
+</strong>
+
+<div class="muted">
+₹${x.price.toFixed(2)}
+/
+${esc(x.unit)}
+</div>
+
+</div>
+
+
+<div class="qty">
+
+<button
+onclick="changeQty(${i},-1)"
+>
+−
+</button>
+
+<strong>
+${x.qty}
+</strong>
+
+<button
+onclick="changeQty(${i},1)"
+>
++
+</button>
+
+</div>
+
+
+<div>
+
+<strong>
+₹${(
+x.price * x.qty
+).toFixed(2)}
+</strong>
+
+<br>
+
+<button
+class="remove"
+onclick="removeItem(${i})"
+>
+Remove
+</button>
+
+</div>
+
+</div>
+
+`
+).join("");
+
+
+updateTotals();
+
+}
+
+
+/* CHANGE QUANTITY */
+
+function changeQty(i,d){
+
+let c = getCart();
+
+if(!c[i]) return;
+
+c[i].qty =
+Number(
+c[i].qty ||
+c[i].quantity ||
+1
+) + d;
+
+
+if(c[i].qty < 1){
+
+c[i].qty = 1;
+
+}
+
+
+if("quantity" in c[i]){
+
+c[i].quantity =
+c[i].qty;
+
+}
+
+
+saveCart(c);
+
+render();
+
+}
+
+
+/* REMOVE ITEM */
+
+function removeItem(i){
+
+let c = getCart();
+
+c.splice(i,1);
+
+saveCart(c);
+
+render();
+
+}
+
+
+/* GET SUBTOTAL */
+
+function getSubtotal(){
+
+const c =
+getCart().map(normalizeItem);
+
+return c.reduce(
+(s,x) =>
+s + x.price * x.qty,
+0
+);
+
+}
+
+
+/* UPDATE OFFERS */
+
+function updateOfferDisplay(){
+
+const sub = getSubtotal();
+
+const offer199 =
+document.getElementById("offer199");
+
+const offer299 =
+document.getElementById("offer299");
+
+const offer499 =
+document.getElementById("offer499");
+
+const milkChoice =
+document.getElementById("milkChoice");
+
+const milkChoiceTitle =
+document.getElementById("milkChoiceTitle");
+
+
+/* Reset */
+
+offer199.classList.remove("active");
+offer299.classList.remove("active");
+offer499.classList.remove("active");
+
+milkChoice.classList.remove("show");
+
+
+/* ₹499+ */
+
+if(sub >= 499){
+
+offer199.classList.add("active");
+offer499.classList.add("active");
+
+milkChoice.classList.add("show");
+
+milkChoiceTitle.textContent =
+"🎉 You unlocked FREE 1 Litre Milk! Choose one:";
+
+return;
+
+}
+
+
+/* ₹299+ */
+
+if(sub >= 299){
+
+offer199.classList.add("active");
+offer299.classList.add("active");
+
+milkChoice.classList.add("show");
+
+milkChoiceTitle.textContent =
+"🎉 You unlocked FREE 500 ml Milk! Choose one:";
+
+return;
+
+}
+
+
+/* ₹199+ */
+
+if(sub >= 199){
+
+offer199.classList.add("active");
+
+return;
+
+}
+
+}
+
+
+/* GET FREE OFFER */
+
+function getFreeOffer(){
+
+const sub = getSubtotal();
+
+let freeMilk = "";
+
+let freeMilkQuantity = "";
+
+let offer = "";
+
+
+/* ₹499+ */
+
+if(sub >= 499){
+
+const selected =
+document.querySelector(
+'input[name="freeMilk"]:checked'
+);
+
+freeMilk =
+selected
+? selected.value
+: "Cow Milk";
+
+freeMilkQuantity =
+"1 Litre";
+
+offer =
+"FREE 1 Litre " + freeMilk;
+
+return {
+
+offer:offer,
+
+freeMilk:freeMilk,
+
+freeMilkQuantity:freeMilkQuantity,
+
+freeDelivery:true
+
+};
+
+}
+
+
+/* ₹299+ */
+
+if(sub >= 299){
+
+const selected =
+document.querySelector(
+'input[name="freeMilk"]:checked'
+);
+
+freeMilk =
+selected
+? selected.value
+: "Cow Milk";
+
+freeMilkQuantity =
+"500 ml";
+
+offer =
+"FREE 500 ml " + freeMilk;
+
+return {
+
+offer:offer,
+
+freeMilk:freeMilk,
+
+freeMilkQuantity:freeMilkQuantity,
+
+freeDelivery:true
+
+};
+
+}
+
+
+/* ₹199+ */
+
+if(sub >= 199){
+
+return {
+
+offer:"FREE DELIVERY",
+
+freeMilk:"",
+
+freeMilkQuantity:"",
+
+freeDelivery:true
+
+};
+
+}
+
+
+/* No offer */
+
+return {
+
+offer:"",
+
+freeMilk:"",
+
+freeMilkQuantity:"",
+
+freeDelivery:false
+
+};
+
+}
+
+
+/* UPDATE TOTALS */
+
+function updateTotals(){
+
+const sub = getSubtotal();
+
+const freeOffer =
+getFreeOffer();
+
+
+/*
+₹199+ gets free delivery.
+Below ₹199 delivery = ₹30.
+*/
+
+const del =
+sub >= 199
+? 0
+: (sub ? 30 : 0);
+
+
+document.getElementById(
+"subtotal"
+).textContent =
+"₹" + sub.toFixed(2);
+
+
+const deliveryElement =
+document.getElementById("delivery");
+
+
+if(sub >= 199){
+
+deliveryElement.innerHTML =
+'<span class="free-delivery">FREE</span>';
+
+}else{
+
+deliveryElement.textContent =
+"₹" + del.toFixed(2);
+
+}
+
+
+document.getElementById(
+"total"
+).textContent =
+"₹" + (sub + del).toFixed(2);
+
+
+/* Update offer display */
+
+updateOfferDisplay();
+
+}
+
+
+/* LOAD USER */
+
+function loadUser(){
+
+const phone =
+localStorage.getItem(
+"sivaDairyCurrentPhoneV1"
+) || "";
+
+
+try{
+
+const customers =
+JSON.parse(
+localStorage.getItem(
+"sivaDairyOtpAccountsV1"
+) || "[]"
+);
+
+
+const u =
+customers.find(
+x => x.phone === phone
+);
+
+
+if(!u){
+
+window.location.replace(
+"customer-login.html"
+);
+
+return;
+
+}
+
+
+document.getElementById(
+"name"
+).value =
+u.name || "";
+
+
+document.getElementById(
+"phone"
+).value =
+phone;
+
+
+document.getElementById(
+"address"
+).value =
+u.address || "";
+
+
+}catch(e){
+
+window.location.replace(
+"customer-login.html"
+);
+
+}
+
+}
+
+
+/* PAYMENT DISPLAY */
+
+function showPaymentDetails(){
+
+const selected =
+document.querySelector(
+'input[name="pay"]:checked'
+);
+
+if(!selected) return;
+
+const payment =
+selected.value;
+
+
+const upiBox =
+document.getElementById(
+"upiBox"
+);
+
+const codBox =
+document.getElementById(
+"codBox"
+);
+
+
+if(payment === "UPI"){
+
+upiBox.classList.add("show");
+
+codBox.classList.remove("show");
+
+}else{
+
+upiBox.classList.remove("show");
+
+codBox.classList.add("show");
+
+}
+
+}
+
+
+/* COPY UPI */
+
+async function copyUPI(){
+
+const upi =
+"9652310956@ibl";
+
+
+try{
+
+await navigator.clipboard.writeText(
+upi
+);
+
+alert(
+"✅ UPI ID copied: " + upi
+);
+
+}catch(e){
+
+alert(
+"UPI ID: " + upi
+);
+
+}
+
+}
+
+
+/* PLACE ORDER */
+
+async function placeOrder(){
+
+const loggedPhone =
+localStorage.getItem(
+"sivaDairyCurrentPhoneV1"
+) || "";
+
+
+if(
+!/^[6-9]\d{9}$/.test(
+loggedPhone
+)
+){
+
+window.location.replace(
+"customer-login.html"
+);
+
+return;
+
+}
+
+
+const c =
+getCart().map(normalizeItem);
+
+
+if(!c.length){
+
+alert(
+"Your cart is empty. Please add a product first."
+);
+
+return;
+
+}
+
+
+const n =
+document.getElementById(
+"name"
+).value.trim();
+
+
+const p =
+document.getElementById(
+"phone"
+).value.trim();
+
+
+const a =
+document.getElementById(
+"address"
+).value.trim();
+
+
+if(
+!n ||
+!/^[0-9]{10}$/.test(p) ||
+!a
+){
+
+alert(
+"Please enter your name, valid mobile number and delivery address."
+);
+
+return;
+
+}
+
+
+const payment =
+document.querySelector(
+'input[name="pay"]:checked'
+).value;
+
+
+const sub =
+c.reduce(
+(s,x) =>
+s + x.price * x.qty,
+0
+);
+
+
+/*
+DELIVERY OFFER
+
+₹199+ = FREE DELIVERY
+Below ₹199 = ₹30
+*/
+
+const del =
+sub >= 199
+? 0
+: (sub ? 30 : 0);
+
+
+const total =
+sub + del;
+
+
+/*
+GET OFFER DETAILS
+*/
+
+const freeOffer =
+getFreeOffer();
+
+
+/*
+SAFETY CHECK
+
+If customer qualifies for milk,
+make sure one milk option is selected.
+*/
+
+if(
+sub >= 299 &&
+!document.querySelector(
+'input[name="freeMilk"]:checked'
+)
+){
+
+alert(
+"Please choose your free Cow Milk or Buffalo Milk."
+);
+
+return;
+
+}
+
+
+/*
+CREATE ORDER
+*/
+
+const order = {
+
+customerName:n,
+
+phone:loggedPhone,
+
+address:a,
+
+slot:
+document.getElementById(
+"slot"
+).value,
+
+payment:payment,
+
+upiId:
+payment === "UPI"
+? "9652310956@ibl"
+: "",
+
+status:
+payment === "COD"
+? "CONFIRMED"
+: "PAYMENT_PENDING",
+
+items:c,
+
+subtotal:sub,
+
+delivery:del,
+
+total:total,
+
+
+/*
+OFFER INFORMATION
+
+This will tell the backend/admin
+what free item the customer received.
+*/
+
+offer:freeOffer.offer,
+
+freeDelivery:
+freeOffer.freeDelivery,
+
+freeMilk:
+freeOffer.freeMilk,
+
+freeMilkQuantity:
+freeOffer.freeMilkQuantity
+
+};
+
+
+try{
+
+const response =
+await fetch(
+"http://localhost:5000/api/orders",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify(order)
+
+}
+);
+
+
+const data =
+await response.json();
+
+
+if(!response.ok){
+
+throw new Error(
+data.message ||
+"Failed to place order"
+);
+
+}
+
+
+/*
+IMPORTANT:
+Only clear cart after MongoDB
+successfully saves the order.
+*/
+
+saveCart([]);
+
+
+/*
+SUCCESS PAGE
+*/
+
+let offerHTML = "";
+
+if(freeOffer.offer){
+
+offerHTML = `
+
+<div class="order-offer">
+
+🎁 ${esc(freeOffer.offer)}
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"main"
+).innerHTML = `
+
+<div class="card success">
+
+<div style="font-size:55px">
+✅
+</div>
+
+
+<h1>
+Order Placed!
+</h1>
+
+
+<p>
+Your Siva Dairy order has been
+successfully saved.
+</p>
+
+
+<div class="order-no">
+
+${esc(
+data.order?.orderId ||
+data.order?._id ||
+"ORDER"
+)}
+
+</div>
+
+
+${offerHTML}
+
+
+<p class="muted">
+
+Payment:
+${esc(payment)}
+
+•
+
+${esc(order.slot)}
+
+</p>
+
+
+<p>
+
+Subtotal:
+
+<strong>
+₹${sub.toFixed(2)}
+</strong>
+
+</p>
+
+
+<p>
+
+Delivery:
+
+<strong>
+${del === 0 ? "FREE" : "₹" + del.toFixed(2)}
+</strong>
+
+</p>
+
+
+<p>
+
+Total:
+
+<strong>
+₹${total.toFixed(2)}
+</strong>
+
+</p>
+
+
+${
+payment === "UPI"
+
+? `
+
+<p style="
+background:#fff8e8;
+padding:12px;
+border-radius:9px;
+color:#765500;
+">
+
+📱 UPI payment status:
+
+<strong>
+PAYMENT PENDING
+</strong>
+
+<br>
+
+UPI ID:
+<strong>
+9652310956@ibl
+</strong>
+
+<br><br>
+
+Please complete the payment using
+the QR code or UPI ID.
+
+</p>
+
+`
+
+: `
+
+<p style="
+background:#dcfce7;
+padding:12px;
+border-radius:9px;
+color:#166534;
+">
+
+💵 Cash on Delivery selected.
+
+</p>
+
+`
+
+}
+
+
+<a
+class="btn"
+style="
+display:block;
+text-decoration:none;
+"
+href="my-orders.html"
+>
+
+📦 View My Orders
+
+</a>
+
+
+</div>
+
+`;
+
+}catch(error){
+
+console.error(
+"Order error:",
+error
+);
+
+
+alert(
+"Could not place the order.\n\n" +
+error.message
+);
+
+}
+
+}
+
+
+/*
+INITIALIZE
+*/
+
+render();
+
+loadUser();
+
+showPaymentDetails();
+
+</script>
+
+
+<!-- ACTIVE CUSTOMER TRACKING -->
+
+<script>
+
+(function(){
+
+const KEY =
+"sivaDairyActiveCustomersV1";
+
+const USER =
+"sivaDairyCurrentPhoneV1";
+
+const ACC =
+"sivaDairyOtpAccountsV1";
+
+
+function ping(){
+
+const phone =
+localStorage.getItem(USER);
+
+
+if(!phone) return;
+
+
+let a = [];
+
+let active = {};
+
+
+try{
+
+a = JSON.parse(
+localStorage.getItem(
+ACC
+) || "[]"
+);
+
+
+active = JSON.parse(
+localStorage.getItem(
+KEY
+) || "{}"
+);
+
+}catch(e){}
+
+
+const u =
+Array.isArray(a)
+? a.find(
+x => x.phone === phone
+)
+: null;
+
+
+if(!u) return;
+
+
+active[phone] = {
+
+name:
+u.name || "Customer",
+
+lastSeen:
+Date.now()
+
+};
+
+
+localStorage.setItem(
+KEY,
+JSON.stringify(active)
+);
+
+}
+
+
+ping();
+
+setInterval(
+ping,
+20000
+);
+
+})();
+
+</script>
+
+
+</body>
+</html>
