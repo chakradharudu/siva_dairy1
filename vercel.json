@@ -3,15 +3,8 @@
   "functions": {
     "api/index.js": {
       "includeFiles": [
-        "public/**",
-        "uploads/**"
+        "public/**"
       ]
     }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/index.js"
-    }
-  ]
+  }
 }
