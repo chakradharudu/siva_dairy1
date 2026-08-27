@@ -119,49 +119,64 @@ const MONGO_URI =
     process.env.MONGO_URI ||
     process.env.MONGODB_URI;
 
+const isVercel = process.env.VERCEL === "1";
 
-if (!MONGO_URI) {
+async function connectDatabase() {
 
-    console.error(
-        "❌ MONGO_URI is missing in .env"
-    );
+    if (!MONGO_URI) {
+        throw new Error("MONGO_URI is missing.");
+    }
 
-    process.exit(1);
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(MONGO_URI);
+        console.log("MongoDB Atlas connected successfully!");
+    }
+
 }
 
 
-mongoose
-    .connect(MONGO_URI)
-    .then(() => {
+if (isVercel) {
 
-        console.log(
-            "MongoDB Atlas connected successfully!"
-        );
+    app.use(async (req, res, next) => {
 
-        app.listen(PORT, () => {
+        try {
+            await connectDatabase();
+            next();
+        }
+        catch (error) {
+            next(error);
+        }
 
-            console.log(
-                `Siva Dairy server running on http://localhost:${PORT}`
-            );
+    });
 
-            console.log(
-                `Product image folder: ${uploadsDir}`
-            );
+}
+else {
+
+    connectDatabase()
+        .then(() => {
+
+            app.listen(PORT, () => {
+
+                console.log(
+                    `Siva Dairy server running on http://localhost:${PORT}`
+                );
+
+                console.log(
+                    `Product image folder: ${uploadsDir}`
+                );
+
+            });
+
+        })
+        .catch(error => {
+
+            console.error("MongoDB connection failed:");
+            console.error(error);
+            process.exit(1);
 
         });
 
-    })
-    .catch(error => {
-
-        console.error(
-            "❌ MongoDB connection failed:"
-        );
-
-        console.error(error);
-
-        process.exit(1);
-
-    });
+}
 
 
 // ============================================================
@@ -2765,3 +2780,6 @@ app.use(
 
     }
 );
+
+
+module.exports = app;
