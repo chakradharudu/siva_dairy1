@@ -139,40 +139,30 @@ function getProductImage(product) {
     const productId =
         product.id || product._id;
 
-    // If backend already gives a complete image URL
-    if (
-        product.image &&
-        String(product.image).trim() !== ""
-    ) {
-        const image = String(product.image).trim();
+    const storedImage =
+        product.imageUrl ||
+        product.image;
+
+    if (storedImage && String(storedImage).trim() !== "") {
+
+        const image = String(storedImage).trim();
+        const uploadMarker = "/uploads/";
+        const uploadIndex = image.indexOf(uploadMarker);
+
+        if (uploadIndex >= 0) {
+            return image.substring(uploadIndex);
+        }
+
+        if (image.startsWith("/")) {
+            return image;
+        }
 
         if (
             image.startsWith("http://") ||
-            image.startsWith("https://") ||
-            image.startsWith("/")
+            image.startsWith("https://")
         ) {
             return image;
         }
-    }
-
-    if (
-        product.imageUrl &&
-        String(product.imageUrl).trim() !== ""
-    ) {
-        const image = String(product.imageUrl).trim();
-
-        if (
-            image.startsWith("http://") ||
-            image.startsWith("https://") ||
-            image.startsWith("/")
-        ) {
-            return image;
-        }
-    }
-
-    // Use MongoDB product image endpoint
-    if (productId) {
-        return `/api/products/${encodeURIComponent(productId)}/image`;
     }
 
     return null;
