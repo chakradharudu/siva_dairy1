@@ -107,6 +107,13 @@ app.use(
     express.static(uploadsDir)
 );
 
+if (isVercel) {
+    app.use(
+        "/uploads",
+        express.static(path.join(__dirname, "uploads"))
+    );
+}
+
 app.use(
     express.static(
         path.join(__dirname, "public")
