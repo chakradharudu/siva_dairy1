@@ -18,6 +18,7 @@ const fs = require("fs");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+const isVercel = process.env.VERCEL === "1";
 
 app.use(cors());
 
@@ -29,7 +30,9 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 // UPLOAD DIRECTORY
 // ============================================================
 
-const uploadsDir = path.join(__dirname, "uploads");
+const uploadsDir = isVercel
+    ? path.join("/tmp", "uploads")
+    : path.join(__dirname, "uploads");
 
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
@@ -119,7 +122,6 @@ const MONGO_URI =
     process.env.MONGO_URI ||
     process.env.MONGODB_URI;
 
-const isVercel = process.env.VERCEL === "1";
 let databaseConnection;
 
 async function connectDatabase() {
