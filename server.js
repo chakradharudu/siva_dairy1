@@ -151,22 +151,7 @@ async function connectDatabase() {
 }
 
 
-if (isVercel) {
-
-    app.use(async (req, res, next) => {
-
-        try {
-            await connectDatabase();
-            next();
-        }
-        catch (error) {
-            next(error);
-        }
-
-    });
-
-}
-else {
+if (!isVercel) {
 
     connectDatabase()
         .then(() => {
@@ -594,6 +579,23 @@ app.get("/api/health", (req, res) => {
     });
 
 });
+
+
+if (isVercel) {
+
+    app.use("/api", async (req, res, next) => {
+
+        try {
+            await connectDatabase();
+            next();
+        }
+        catch (error) {
+            next(error);
+        }
+
+    });
+
+}
 
 
 // ============================================================
