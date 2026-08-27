@@ -120,6 +120,7 @@ const MONGO_URI =
     process.env.MONGODB_URI;
 
 const isVercel = process.env.VERCEL === "1";
+let databaseConnection;
 
 async function connectDatabase() {
 
@@ -127,9 +128,24 @@ async function connectDatabase() {
         throw new Error("MONGO_URI is missing.");
     }
 
-    if (mongoose.connection.readyState === 0) {
-        await mongoose.connect(MONGO_URI);
+    if (mongoose.connection.readyState === 1) {
+        return;
+    }
+
+    if (!databaseConnection) {
+        databaseConnection = mongoose.connect(MONGO_URI, {
+            serverSelectionTimeoutMS: 5000,
+            connectTimeoutMS: 5000
+        });
+    }
+
+    try {
+        await databaseConnection;
         console.log("MongoDB Atlas connected successfully!");
+    }
+    catch (error) {
+        databaseConnection = undefined;
+        throw error;
     }
 
 }
