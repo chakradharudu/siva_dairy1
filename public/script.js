@@ -149,8 +149,8 @@ function getProductImage(product) {
         const uploadMarker = "/uploads/";
         const uploadIndex = image.indexOf(uploadMarker);
 
-        if (uploadIndex >= 0) {
-            return image.substring(uploadIndex);
+        if (uploadIndex >= 0 && productId) {
+            return `/api/products/${encodeURIComponent(productId)}/image`;
         }
 
         if (image.startsWith("/")) {

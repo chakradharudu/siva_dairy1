@@ -612,6 +612,41 @@ if (isVercel) {
 // ============================================================
 
 
+app.get(
+    "/api/products/:id/image",
+    async (req, res) => {
+
+        try {
+
+            const product =
+                await Product.findById(req.params.id).lean();
+
+            if (!product || typeof product.image !== "string") {
+                return res.status(404).send("Product image not found.");
+            }
+
+            const imagePath =
+                path.join(__dirname, "public", "uploads", path.basename(product.image));
+
+            if (!fs.existsSync(imagePath)) {
+                return res.status(404).send("Product image not found.");
+            }
+
+            return res.sendFile(imagePath);
+
+        }
+        catch (error) {
+            console.error("GET PRODUCT IMAGE ERROR:", error);
+            return res.status(500).json({
+                message: "Failed to load product image.",
+                error: error.message
+            });
+        }
+
+    }
+);
+
+
 // ------------------------------------------------------------
 // GET ALL PRODUCTS
 // GET /api/products
